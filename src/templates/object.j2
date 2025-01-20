@@ -20,9 +20,30 @@
     <div class="border container pt-2">
         <img onerror="this.src='https://gams.uni-graz.at/templates/img/gams_solo_weiss.png'" alt="Image missing"class="border bg-dark rounded" style="max-width: 20%; max-height:8em;" src="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/1.jpg/content' }}"/>
         <img onerror="this.src='https://gams.uni-graz.at/templates/img/gams_solo_weiss.png'" alt="Image missing"class="border bg-dark rounded" style="max-width: 20%; max-height:8em;" src="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/2.jpg/content' }}"/>
-        <p>{{ object.props.entityTags }}</p>
-        <p>{{ object.dc.date[0] }}</p>
-        <p>{{ object.dc.description[0] }}</p>
+        <table class="table mt-4 mb-5">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Todesdatum</th>
+                    <th scope="col">Typ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ object.db.baseMetadata.title }}</td>
+                    <td>{{ object.dc.date[0][0:10] }}</td>
+                    <td>{{ object.dc.type[0]}}</td>
+                </tr>
+            </tbody>
+        </table>
+        
+
+        <h2 class="h4 fw-light">Beschreibung</h1>
+        <p>{{ object.db.baseMetadata.description }}</p>
+
+        <br/>
+        
+        
 
         <p>Rendered by saxonjs:</p>
         <div id="saxonjs_container"></div>
