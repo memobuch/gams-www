@@ -8,7 +8,7 @@
             <li class="list-group-item p-3">
                 <div>
                     <p><a href="{{ object.db.id }}">{{ object.db.baseMetadata.title }}</a></p>
-                    <img class="d-block mb-5 border" style="max-width: 15%;" src="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/1.jpg/content' }}"/>
+                    <img onerror="this.src='https://gams.uni-graz.at/templates/img/gams_solo_weiss.png'" alt="Image missing"class="d-block mb-5 border bg-dark rounded" style="max-width: 15%;" src="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/1.jpg/content' }}"/>
                     <p>{{ object.db.baseMetadata.description }}</p>
                     <p>{{ object.dc.date[0] }}</p>
                 </div>
