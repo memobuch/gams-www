@@ -18,8 +18,8 @@
     <h1 class="h3 fw-light">{{ object.db.baseMetadata.title }}</h1>
     <p>Information zu einer einzelnen Person erfasst im MEMO Projekt.</p>
     <div class="border container pt-2">
-        <img onerror="this.src='https://gams.uni-graz.at/templates/img/gams_solo_weiss.png'" alt="Image missing"class="border bg-dark rounded" style="max-width: 20%; max-height:15em;" src="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/1.jpg/content' }}"/>
-        <img onerror="this.src='https://gams.uni-graz.at/templates/img/gams_solo_weiss.png'" alt="Image missing"class="border bg-dark rounded" style="max-width: 20%; max-height:15em;" src="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/2.jpg/content' }}"/>
+        <img onerror="this.src='https://gams.uni-graz.at/templates/img/gams_solo_weiss.png'" alt="Image missing"class="border bg-dark rounded" style="max-width: 20%; max-height:8em;" src="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/1.jpg/content' }}"/>
+        <img onerror="this.src='https://gams.uni-graz.at/templates/img/gams_solo_weiss.png'" alt="Image missing"class="border bg-dark rounded" style="max-width: 20%; max-height:8em;" src="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/2.jpg/content' }}"/>
         <p>{{ object.props.entityTags }}</p>
         <p>{{ object.dc.date[0] }}</p>
         <p>{{ object.dc.description[0] }}</p>
