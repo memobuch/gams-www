@@ -4,7 +4,7 @@
     <p>Personen erfassst im MEMO Projekt. Wohnhafte oder ansässige Personen in Graz ermordert durch das NS-Regime.</p>
 
     <ul class="list-group list-group-flush border">
-        {% for object in objects %}
+        {% for object in objects|sort(attribute="db.baseMetadata.title") %}
             <li class="list-group-item p-3">
                 <div>
                     <p><a href="{{ object.db.id }}">{{ object.db.baseMetadata.title }}</a></p>
