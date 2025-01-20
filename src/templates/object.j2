@@ -45,8 +45,15 @@
         <p>{{ object.db.baseMetadata.description }}</p>
 
         <br/>
+        <h2 class="h4 fw-light">Materialien</h1>
+        <ul class="list-group list-group-flush">
+            {% for dsid in object.db.datastreams|sort(dsid) %}
+                <li class="list-group-item"><a target="_blank" href="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/' + dsid + '/content' }}">{{dsid}}</a></li>
+            {% endfor %}
+        </ul>
         
-        
+        <br/>
+        <br/>
 
         <p>Rendered by saxonjs:</p>
         <div id="saxonjs_container"></div>
