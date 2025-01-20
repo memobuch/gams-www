@@ -15,15 +15,24 @@
              }
         }
      </script>
-    <h1>{{ object.db.baseMetadata.title }}</h1>
-    <p>{{ object.props.entityTags }}</p>
-    <p>{{ object.dc.date[0] }}</p>
-    <p>{{ object.dc.description[0] }}</p>
-    <div id="saxonjs_container"></div>
+    <h1 class="h3 fw-light">{{ object.db.baseMetadata.title }}</h1>
+    <p>Information zu einer einzelnen Person erfasst im MEMO Projekt.</p>
+    <div class="border container">
+        <p>{{ object.props.entityTags }}</p>
+        <p>{{ object.dc.date[0] }}</p>
+        <p>{{ object.dc.description[0] }}</p>
 
-    {# Demo for using the auto-mapped xml via web-components #}
-    {{ object.component_map.rdf }}
-    {{ object.component_map.dc }}
+        <p>Rendered by saxonjs:</p>
+        <div id="saxonjs_container"></div>
+
+        {# Demo for using the auto-mapped xml via web-components #}
+        {{ object.component_map.rdf }}
+        {{ object.component_map.dc }}
+    </div>
+    
+    
+
+    
 
     {% if 'material' in object.db.id %}
             {% include "custom/material.j2" %}
