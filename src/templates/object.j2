@@ -17,7 +17,11 @@
      </script>
     <h1 class="h3 fw-light">{{ object.db.baseMetadata.title }}</h1>
     <p>Information zu einer einzelnen Person erfasst im MEMO Projekt.</p>
-    <div class="border container pt-2">
+    <div>
+            <a target="_blank" href="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/RDF.xml/content' }}"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/RDF_icon.png" title="RDF"></a>
+            <a target="_blank" href="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/' + 'DC.xml'  + '/content' }}"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/gams_solo.png" title="RDF"></a>
+        </div>
+    <div class="border container mt-2 pt-2">
         <h2 class="h4 fw-light">Assoziierte Bilder</h1>
         <img onerror="this.src='https://gams.uni-graz.at/templates/img/gams_solo_weiss.png'" alt="Image missing"class="border bg-dark rounded" style="max-width: 20%; max-height:8em;" src="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/1.jpg/content' }}"/>
         <img onerror="this.src='https://gams.uni-graz.at/templates/img/gams_solo_weiss.png'" alt="Image missing"class="border bg-dark rounded" style="max-width: 20%; max-height:8em;" src="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/2.jpg/content' }}"/>
