@@ -1,0 +1,64 @@
+{% extends "parents/base.j2" %}
+{% block content %}
+    <h1 class="h3 fw-light">IndexedDB Playground</h1>
+    <p>Playing around with IndexedDB and dexie.js to implement a client side only search</p>
+
+    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+
+
+    <script>
+
+        var db = new Dexie("{{project.projectAbbr}}_db");
+
+        // DB with single table "digital_objects" with primary key "id" and
+        // indexes on properties "name" and "age"
+        db.version(1).stores({
+        digital_objects: `
+            db.id
+        `,
+        });
+
+        fetch("/memo/object_index.json").then(response => response.json()).then(data => {
+            console.log("loaded data", data);
+            //db.friends.bulkPut(data);
+
+
+            
+             // Now add some values.
+            db.digital_objects.bulkPut(data).then(() => {
+
+                return db.digital_objects.where("db.id").startsWith("memo.person.1").toArray();
+
+            }).then(digital_objects => {
+
+            alert("Found digital via string search_object: " +
+                digital_objects.map(digital_object => digital_object.db.id));
+
+            //return db.friends
+                //.orderBy("age")
+                //.reverse()
+                //.toArray();
+
+            }).then(friends => {
+
+            
+
+            }).then(friendNames => {
+
+           
+
+            }).catch(err => {
+
+           
+
+            });
+
+
+
+        });
+
+       
+
+    </script>
+    
+{% endblock %}
