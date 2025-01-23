@@ -1,87 +1,16 @@
 {% extends "parents/base.j2" %}
 {% block content %}
+
+{# Needs to be done by the type workflow in the future? #}
+{% if 'person' in object.db.id %}
+    {% include "include_pages/person.j2" %}
+{% elif 'imprint' in object.db.id %}
+    {% include "include_pages/imprint.j2" %}
+{% elif 'about' in object.db.id %}
+    {% include "include_pages/about.j2" %}
+{% else %}
+    {% include "include_pages/default.j2" %}
+{% endif %}
     
-    <h1 class="h3 fw-light">{{ object.db.baseMetadata.title }}</h1>
-    <p class="pb-0 mb-1">Information zu einer einzelnen Person erfasst im MEMO Projekt.</p>
-    <div class="mb-4">
-        <a target="_blank" href="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/RDF.xml/content' }}"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/RDF_icon.png" title="RDF"></a>
-        <a target="_blank" href="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/' + 'DC.xml'  + '/content' }}"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a>
-        <a target="_blank" href="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id}}"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/gams_solo.png" title="Object metadata in the CMS system"></a>
-    </div>
-    <div class="border container mt-2 pt-2">
-        <h2 class="h4 fw-light">Assoziierte Bilder</h1>
-        <img onerror="this.src='https://gams.uni-graz.at/templates/img/gams_solo_weiss.png'" alt="Image missing"class="border bg-dark rounded" style="max-width: 20%; max-height:8em;" src="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/1.jpg/content' }}"/>
-        <img onerror="this.src='https://gams.uni-graz.at/templates/img/gams_solo_weiss.png'" alt="Image missing"class="border bg-dark rounded" style="max-width: 20%; max-height:8em;" src="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/2.jpg/content' }}"/>
-        <br/>
-        <br/>
-        <h2 class="h4 fw-light">Basisdaten</h1>
-        <table class="table table-light">
-            <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Todesdatum</th>
-                    <th scope="col">Typ</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{{ object.db.baseMetadata.title }}</td>
-                    <td>{{ object.dc.date[0][0:10] }}</td>
-                    <td>{{ object.dc.type[0]}}</td>
-                </tr>
-            </tbody>
-        </table>
-        <br/>
-        <h2 class="h4 fw-light">Beschreibung</h1>
-        <p>{{ object.db.baseMetadata.description }}</p>
-
-        <br/>
-        <h2 class="h4 fw-light">Materialien</h1>
-        <ul class="list-group list-group-flush">
-            {% for dsid in object.db.datastreams|sort(dsid) %}
-                <li class="list-group-item"><a target="_blank" href="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/' + dsid + '/content' }}">{{dsid}}</a></li>
-            {% endfor %}
-        </ul>
-        
-        <br/>
-        <br/>
-
-        <h2 class="h4 fw-light">Ereignisse (SAXONJS)</h2>
-        <p>Rendering data from RDF.xml via SAXONJS with a compiled XSLT stylesheet</p>
-        <div id="saxonjs_container"></div>
-        <script>
-            if (window.location.href.includes("memo.person.")){
-                let matches = window.location.pathname.match(/(\d+)/);
-                window.onload = function () {
-                    console.log(SaxonJS.getProcessorInfo().productName + " " +
-                    SaxonJS.getProcessorInfo().productVersion + " " + SaxonJS.getProcessorInfo().releaseDate);
-                    SaxonJS.transform({
-                    stylesheetLocation: "/memo/static/xsl/object-rdf.sef.json",
-                    sourceLocation: `http://localhost:18085/api/v1/projects/memo/objects/memo.person.${matches[0]}/datastreams/RDF.xml/content`,
-                    logLevel: 2
-                    },
-                    "async");
-                }
-            }
-        </script>
-
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-
-        <p>Beispiel für workflow via automatisch generierte web-componenten des pollin-tools:</p>
-        {# Demo for using the auto-mapped xml via web-components #}
-        {{ object.component_map.rdf }}
-        {{ object.component_map.dc }}
-    </div>
-    
-    
-
-    
-
-    {% if 'material' in object.db.id %}
-            {% include "custom/material.j2" %}
-    {% endif %}
 
 {% endblock %}
