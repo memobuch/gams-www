@@ -1,20 +1,6 @@
 {% extends "parents/base.j2" %}
 {% block content %}
-    <script>
-        if (window.location.href.includes("memo.person.")){
-            let matches = window.location.pathname.match(/(\d+)/);
-            window.onload = function () {
-                console.log(SaxonJS.getProcessorInfo().productName + " " +
-                SaxonJS.getProcessorInfo().productVersion + " " + SaxonJS.getProcessorInfo().releaseDate);
-                SaxonJS.transform({
-                   stylesheetLocation: "/xsl/object-rdf.sef.json",
-                   sourceLocation: `http://localhost:18085/api/v1/projects/memo/objects/memo.person.${matches[0]}/datastreams/RDF.xml/content`,
-                   logLevel: 2
-                },
-                "async");
-             }
-        }
-     </script>
+    
     <h1 class="h3 fw-light">{{ object.db.baseMetadata.title }}</h1>
     <p class="pb-0 mb-1">Information zu einer einzelnen Person erfasst im MEMO Projekt.</p>
     <div class="mb-4">
@@ -60,10 +46,31 @@
         <br/>
         <br/>
 
-        <p>Rendered by saxonjs:</p>
+        <h2 class="h4 fw-light">Ereignisse (SAXONJS)</h2>
+        <p>Rendering data from RDF.xml via SAXONJS with a compiled XSLT stylesheet</p>
         <div id="saxonjs_container"></div>
+        <script>
+            if (window.location.href.includes("memo.person.")){
+                let matches = window.location.pathname.match(/(\d+)/);
+                window.onload = function () {
+                    console.log(SaxonJS.getProcessorInfo().productName + " " +
+                    SaxonJS.getProcessorInfo().productVersion + " " + SaxonJS.getProcessorInfo().releaseDate);
+                    SaxonJS.transform({
+                    stylesheetLocation: "/memo/static/xsl/object-rdf.sef.json",
+                    sourceLocation: `http://localhost:18085/api/v1/projects/memo/objects/memo.person.${matches[0]}/datastreams/RDF.xml/content`,
+                    logLevel: 2
+                    },
+                    "async");
+                }
+            }
+        </script>
 
-        <p>Automatisch gemappede web-componenten:</p>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+
+        <p>Beispiel für workflow via automatisch generierte web-componenten des pollin-tools:</p>
         {# Demo for using the auto-mapped xml via web-components #}
         {{ object.component_map.rdf }}
         {{ object.component_map.dc }}
