@@ -1,10 +1,27 @@
 {% extends "parents/base.j2" %}
 {% block content %}
     <h1 class="h3 fw-light">IndexedDB Playground</h1>
-    <p>Playing around with IndexedDB and dexie.js to implement a client side only search</p>
+    <p>Playing around with IndexedDB and dexie.js to implement a client side only full-text search</p>
 
     <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
 
+    <script src="/memo/static/js/projectDB.js"></script>
+
+    <script>
+        // TODO else read out project abbreviation from url?
+        window.gams.projectDB.init("{{project.projectAbbr}}");
+    
+        window.gams.projectDB.populateDB()
+
+        //let result = window.gams.projectDB.fulltextSearch("Karl")
+
+        //document.querySelector("body").innerHTML = JSON.stringify(result, null, 2)
+
+        // console.log("result", result)
+
+    </script>
+
+    {# 
 
     <script>
 
@@ -14,7 +31,8 @@
         // indexes on properties "name" and "age"
         db.version(1).stores({
         digital_objects: `
-            db.id
+            db.id,
+            *db.baseMetadata.title
         `,
         });
 
@@ -27,11 +45,13 @@
              // Now add some values.
             db.digital_objects.bulkPut(data).then(() => {
 
-                return db.digital_objects.where("db.id").startsWith("memo.person.1").toArray();
+                return db.digital_objects.where("db.baseMetadata.title").startsWithIgnoreCase("Hannelore Oestrovsky").toArray();
+                
+                //return db.digital_objects.where("db.id").startsWith("memo.person.1").toArray();
 
             }).then(digital_objects => {
 
-            alert("Found digital via string search_object: " +
+            alert("Found digital object via string search_object: " +
                 digital_objects.map(digital_object => digital_object.db.id));
 
             //return db.friends
@@ -60,5 +80,7 @@
        
 
     </script>
+
+    #}
     
 {% endblock %}
