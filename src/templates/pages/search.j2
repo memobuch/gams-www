@@ -13,11 +13,21 @@
     
         window.gams.projectDB.populateDB()
 
+        document.addEventListener("projectDB_populated", function(event) {
+            console.log("Finished populating the project database", event)
+        });
+
         //let result = window.gams.projectDB.fulltextSearch("Karl")
 
         //document.querySelector("body").innerHTML = JSON.stringify(result, null, 2)
 
         // console.log("result", result)
+
+
+        document.addEventListener("projectDB_fulltext_hit", function(event) {
+            console.log("projectDB_fulltext_hit", event)
+        });
+
 
     </script>
 

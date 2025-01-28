@@ -66,8 +66,13 @@ window.gams.projectDB = ((() => {
             const data = await fetch( projectJsonLocation).then(response => response.json());
             await getDB().digital_objects.bulkPut(data);
 
-            console.log("Populated database with data from: ", data);
-            return data;
+            //console.log("Populated database with data from: ", data);
+            //return data;
+
+            // Emit custom event
+            const event = new CustomEvent("projectDB_populated");
+            document.dispatchEvent(event);
+
         })();
     };
 
@@ -89,7 +94,7 @@ window.gams.projectDB = ((() => {
      * 
      * @param {string} searchString 
      */
-    const fulltextSearch = (searchString) => {
+    const fulltextSearch = (searchString, callback = null) => {
 
         (async () => {
             resultObjects = await getDB().digital_objects
@@ -97,10 +102,16 @@ window.gams.projectDB = ((() => {
                 .startsWithIgnoreCase(searchString)
                 .toArray();    
 
-            console.log("Found objects for query:", searchString, resultObjects);
+            // console.log("Found objects for query:", searchString, resultObjects);
 
-            // TODO emit custom event?
+            // Emit custom event
+            const event = new CustomEvent("projectDB_fulltext_hit", { detail: resultObjects });
+            document.dispatchEvent(event);
 
+            // if provided, call the callback function
+            if(callback)
+                callback(resultObjects);
+            
         })();
 
         // TODO emit custom event?
