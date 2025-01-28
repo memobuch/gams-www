@@ -15,82 +15,24 @@
 
         document.addEventListener("projectDB_populated", function(event) {
             console.log("Finished populating the project database", event)
+            window.gams.projectDB.fulltextSearch("Karl")
         });
-
-        //let result = window.gams.projectDB.fulltextSearch("Karl")
-
-        //document.querySelector("body").innerHTML = JSON.stringify(result, null, 2)
-
-        // console.log("result", result)
 
 
         document.addEventListener("projectDB_fulltext_hit", function(event) {
             console.log("projectDB_fulltext_hit", event)
+            let digitalObjects = event.detail
+            let html = `<ul>${digitalObjects.map(digitalObject => `<li><a href='/memo/objects/${digitalObject.db.id}'>${digitalObject.db.id}</a></li>`).join('')}</ul>`
+            document.getElementById("result").innerHTML = html
         });
 
 
     </script>
 
-    {# 
-
-    <script>
-
-        var db = new Dexie("{{project.projectAbbr}}_db");
-
-        // DB with single table "digital_objects" with primary key "id" and
-        // indexes on properties "name" and "age"
-        db.version(1).stores({
-        digital_objects: `
-            db.id,
-            *db.baseMetadata.title
-        `,
-        });
-
-        fetch("/memo/object_index.json").then(response => response.json()).then(data => {
-            console.log("loaded data", data);
-            //db.friends.bulkPut(data);
-
-
+    <div id="result">
+        <div class="spinner-border" role="status">
             
-             // Now add some values.
-            db.digital_objects.bulkPut(data).then(() => {
-
-                return db.digital_objects.where("db.baseMetadata.title").startsWithIgnoreCase("Hannelore Oestrovsky").toArray();
-                
-                //return db.digital_objects.where("db.id").startsWith("memo.person.1").toArray();
-
-            }).then(digital_objects => {
-
-            alert("Found digital object via string search_object: " +
-                digital_objects.map(digital_object => digital_object.db.id));
-
-            //return db.friends
-                //.orderBy("age")
-                //.reverse()
-                //.toArray();
-
-            }).then(friends => {
-
-            
-
-            }).then(friendNames => {
-
-           
-
-            }).catch(err => {
-
-           
-
-            });
-
-
-
-        });
-
-       
-
-    </script>
-
-    #}
+        </div>
+    </div>
     
 {% endblock %}
