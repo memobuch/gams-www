@@ -22,9 +22,16 @@
           </ul>
         </li>
       </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Suche..." aria-label="Suche...">
-        <button class="btn btn-light" type="submit">Suchen</button>
+      <form class="d-flex" role="search" onsubmit="event.preventDefault(); 
+        const newSearch = this.querySelector('input[type=search]').value;
+        const newUrl = '/memo/search.html#/' + newSearch;
+        window.location.href = newUrl;
+        if (window.location.pathname === '/memo/search.html') {
+          window.location.reload(); // Force reload if we're already on search page
+        }
+        ">
+        <input class="form-control me-2" type="search" placeholder="Volltext" aria-label="Suchen">
+        <button class="btn btn-light" type="submit">Suche</button>
       </form>
     </div>
   </div>
