@@ -76,19 +76,6 @@ window.gams.projectDB = ((() => {
         })();
     };
 
-    
-    
-
-    function getAllWords(text) {
-        /// <param name="text" type="String"></param>
-        var allWordsIncludingDups = text.split(' ');
-        var wordSet = allWordsIncludingDups.reduce(function (prev, current) {
-            prev[current] = true;
-            return prev;
-        }, {});
-        return Object.keys(wordSet);
-    }
-
 
     /**
      * 
