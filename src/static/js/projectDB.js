@@ -76,10 +76,18 @@ window.gams.projectDB = ((() => {
      */
     const fulltextSearch = (searchString, callback = null) => {
 
+        // TODO error if under 3 characters?
+        if (searchString.length < 3) {
+            let msg = "Search string must be at least 3 characters long";
+            console.error(msg);
+            throw new RangeError(msg);
+        } 
+
         (async () => {
             resultObjects = await getDB().digital_objects
                 .where("props.fulltext")
-                .startsWithIgnoreCase(searchString)
+                //.startsWithIgnoreCase(searchString)
+                .anyOfIgnoreCase(searchString)
                 .toArray();    
 
             // console.log("Found objects for query:", searchString, resultObjects);
