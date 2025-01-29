@@ -15,53 +15,46 @@ window.gams.projectDB = ((() => {
 
 
     /**
-     * TODO add database versioning 
-     * @param {string} projectAbbr
-     */ 
-    const init = (projectAbbr) => {
-        // somehow doesn't work with template string
-        let dexieDb = new Dexie(projectAbbr + "_db");
-        dexieDb.version(1).stores({
-            digital_objects: `
-                    db.id,
-                    *props.fulltext,
-                    *db.baseMetadata.title,
-                    *db.baseMetadata.description
-                `,
-        });
-        setDB(dexieDb);
-
-        PROJECT_ABBR = projectAbbr;
-        console.log("Initiating dexie database for project:  ", PROJECT_ABBR);
-
-
-        //////////////////////////////
-        ////
-        // TRYING TO ADD A FULTEXT INDEX at client side
-
-        // Add hooks that will index "message" for full-text search:
-        // db.digital_objects.hook("creating", function (primKey, obj, trans) {
-        //     console.log("Creating hook for", obj);
-        //     if (typeof obj.message == 'string') {
-        //         console.log("Creating hook for", obj);
-        //         obj.fulltextWords = getAllWords(obj.db.baseMetadata.description);
-        //     }
-        // });
-
-        // Add hooks that will index "message" for full-text search:
-        // getDB().digital_objects.hook("updating", function (mods, primKey, obj, trans) {
-        //     return { fulltextWords: getAllWords(obj.db.baseMetadata.description) };
-        // });
-    };
-
-    /**
      * 
      */
-    const populateDB = () => {
-        (async () => {
+    const initDB = (projectAbbr) => {
 
+        PROJECT_ABBR = projectAbbr;
+
+        (async () => {
+            
+            //PROJECT_ABBR = projectAbbr;
+
+            console.log("Creating database for project: ", projectAbbr);
+
+            // Create or connect to the database
+            let dexieDb = new Dexie(projectAbbr + "_db");
+            setDB(dexieDb);
+            dexieDb.version(1).stores({
+                digital_objects: `
+                        ++id,
+                        db.id,
+                        *props.fulltext,
+                        *db.baseMetadata.title,
+                        *db.baseMetadata.description
+                    `,
+            });
+
+            // surround with try/catch
+            let digitalObjectsCount = await getDB().digital_objects.count();
+
+            if (digitalObjectsCount > 0) {
+                console.log("Database already populated with data");
+                // Emit custom event
+                const event = new CustomEvent("projectDB_populated");
+                document.dispatchEvent(event);
+                return;
+            }
+
+            
             let projectJsonLocation = `/${PROJECT_ABBR}/object_index.json`;
 
+            console.log("Populating database with data from: ", projectJsonLocation);
             // TODO surrond with try catch
             const data = await fetch( projectJsonLocation).then(response => response.json());
             await getDB().digital_objects.bulkPut(data);
@@ -101,8 +94,6 @@ window.gams.projectDB = ((() => {
             
         })();
 
-        // TODO emit custom event?
-
     }
 
     const getDB = () => {
@@ -119,8 +110,7 @@ window.gams.projectDB = ((() => {
 
 
     return {
-        init,
-        populateDB,
+        initDB,
         fulltextSearch
     };
 

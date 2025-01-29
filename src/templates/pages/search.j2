@@ -8,13 +8,11 @@
     <script src="/memo/static/js/projectDB.js"></script>
 
     <script>
-        // TODO else read out project abbreviation from url?
-        window.gams.projectDB.init("{{project.projectAbbr}}");
     
-        window.gams.projectDB.populateDB()
+        window.gams.projectDB.initDB("{{project.projectAbbr}}")
 
         document.addEventListener("projectDB_populated", function(event) {
-            console.log("Finished populating the project database", event)
+            //console.log("DB ready", event)
             let searchString = new URL(window.location.href).hash.replace("#/", "")
             window.gams.projectDB.fulltextSearch(searchString)
         });
@@ -23,8 +21,8 @@
         document.addEventListener("projectDB_fulltext_hit", function(event) {
             console.log("projectDB_fulltext_hit", event)
             let digitalObjects = event.detail
-            let html = `<ul>${digitalObjects.map(digitalObject => `<li><a href='/memo/objects/${digitalObject.db.id}'>${digitalObject.db.baseMetadata.title}</a></li>`).join('')}</ul>`
-            document.getElementById("result").innerHTML = html
+            //let html = `<ul>${digitalObjects.map(digitalObject => `<li><a href='/memo/objects/${digitalObject.db.id}'>${digitalObject.db.baseMetadata.title}</a></li>`).join('')}</ul>`
+            //document.getElementById("result").innerHTML = html
         });
 
 
