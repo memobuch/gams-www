@@ -71,7 +71,7 @@ window.gams.projectDB = ((() => {
 
 
     /**
-     * 
+     * TODO jsdoc
      * @param {string} searchString 
      */
     const fulltextSearch = (searchString, callback = null) => {
@@ -104,6 +104,40 @@ window.gams.projectDB = ((() => {
 
     }
 
+    /**
+     * Returns the object(s) with the provided id
+     * @param {string} id id of object to be found
+     * @param {function} callback function to be called with the result object(s)
+     * @returns {Array<Object>} object(s) with the provided id
+     */
+    const idSearch = (id, callback = null) => {
+        (async () => {
+            resultObjects = await getDB().digital_objects
+                .where("db.id")
+                .anyOfIgnoreCase(id)
+                .toArray();    
+
+            // Emit custom event
+            const event = new CustomEvent("projectDB_idsearch_hit", { detail: resultObjects });
+            document.dispatchEvent(event);
+
+            // if provided, call the callback function
+            if(callback)
+                callback(resultObjects);
+            
+        })();
+    }
+
+    /** 
+     * 
+    */
+    const advancedSearch = (searchString, callback = null) => {
+
+
+
+    }
+
+
     const getDB = () => {
         return _DB;
     }
@@ -119,6 +153,7 @@ window.gams.projectDB = ((() => {
 
     return {
         initDB,
+        idSearch,
         fulltextSearch
     };
 
