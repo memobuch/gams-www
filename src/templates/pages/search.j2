@@ -21,8 +21,8 @@
         document.addEventListener("projectDB_fulltext_hit", function(event) {
             console.log("projectDB_fulltext_hit", event)
             let digitalObjects = event.detail
-            //let html = `<ul>${digitalObjects.map(digitalObject => `<li><a href='/memo/objects/${digitalObject.db.id}'>${digitalObject.db.baseMetadata.title}</a></li>`).join('')}</ul>`
-            //document.getElementById("result").innerHTML = html
+            let html = `<ul>${digitalObjects.map(digitalObject => `<li><a href='/memo/objects/${digitalObject.db.id}'>${digitalObject.db.baseMetadata.title}</a></li>`).join('')}</ul>`
+            document.getElementById("result").innerHTML = html
         });
 
 
