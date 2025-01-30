@@ -34,6 +34,7 @@ window.gams.projectDB = ((() => {
                 digital_objects: `
                         ++id,
                         db.id,
+                        *dc.type,
                         *props.fulltext,
                         *db.baseMetadata.title,
                         *db.baseMetadata.description
@@ -128,6 +129,35 @@ window.gams.projectDB = ((() => {
         })();
     }
 
+    /**
+     * Returns the object(s) with the provided id
+     * @param {Array<string>} types dc types to be found
+     * @param {function} callback function to be called with the result object(s)
+     * @returns {Array<Object>} object(s) with the provided id
+     * 
+     */
+    const dcTypeSearch = (types, callback = null) => {
+
+        (async () => {
+            resultObjects = await getDB().digital_objects
+                .where("dc.type")
+                .anyOfIgnoreCase(types)
+                .toArray();    
+
+            // Emit custom event
+            const event = new CustomEvent("projectDB_dcTypeSearch_hit", { detail: resultObjects });
+            document.dispatchEvent(event);
+
+            // if provided, call the callback function
+            if(callback)
+                callback(resultObjects);
+            
+        })();
+
+    }
+
+
+
     /** 
      * 
     */
@@ -152,6 +182,7 @@ window.gams.projectDB = ((() => {
 
 
     return {
+        dcTypeSearch,
         initDB,
         idSearch,
         fulltextSearch
