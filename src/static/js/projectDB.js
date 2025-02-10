@@ -89,6 +89,7 @@ window.gams.projectDB = ((() => {
                 .where("props.fulltext")
                 //.startsWithIgnoreCase(searchString)
                 .anyOfIgnoreCase(searchString)
+                // TODO seems like an exepnsive operation!
                 .toArray();    
 
             // console.log("Found objects for query:", searchString, resultObjects);
@@ -116,6 +117,7 @@ window.gams.projectDB = ((() => {
             resultObjects = await getDB().digital_objects
                 .where("db.id")
                 .anyOfIgnoreCase(id)
+                // TODO seems like an exepnsive operation!
                 .toArray();    
 
             // Emit custom event
@@ -136,27 +138,14 @@ window.gams.projectDB = ((() => {
      * @returns {Array<Object>} object(s) with the provided id
      * 
      */
-    const dcTypeSearch = (types, callback = null) => {
-
+    const dcTypeSearch = (types, callback) => {
         (async () => {
-            resultObjects = await getDB().digital_objects
+            getDB().digital_objects
                 .where("dc.type")
                 .anyOfIgnoreCase(types)
-                .toArray();    
-
-            // Emit custom event
-            const event = new CustomEvent("projectDB_dcTypeSearch_hit", { detail: resultObjects });
-            document.dispatchEvent(event);
-
-            // if provided, call the callback function
-            if(callback)
-                callback(resultObjects);
-            
+                .each(callback);
         })();
-
     }
-
-
 
     /** 
      * 
