@@ -72,10 +72,39 @@ window.gams.projectDB = ((() => {
 
 
     /**
-     * TODO jsdoc
+     * Quick fulltext search allowing follow up actions on each result entry via callback function.
+     * Does not wait for the complete database result -> allows dynamic ("on-found") update of display.
      * @param {string} searchString 
+     * @param {function} callback What to do with a singular result entry.
      */
-    const fulltextSearch = (searchString, callback = null) => {
+    const fulltextSearch = (searchString, callback) => {
+
+        // TODO error if under 3 characters?
+        if (searchString.length < 3) {
+            let msg = "Search string must be at least 3 characters long";
+            console.error(msg);
+            throw new RangeError(msg);
+        } 
+
+        // async function could be used to await
+        (async () => {
+            resultObjects = getDB().digital_objects
+                .where("props.fulltext")
+                //.startsWithIgnoreCase(searchString)
+                .anyOfIgnoreCase(searchString)
+                .each(callback);
+        })();
+
+    }
+
+    /**
+     * Performs a fulltext search and returns the result inside an array for follow up sorting, pagination etc.
+     * More expensive operation than just fulltextSearch. 
+     * Waits for the complete database result
+     * @param {string} searchString String to be searched
+     * @param {function} callback Function to be called with the result array
+     */
+    const fulltextSearchAwait = (searchString, callback) => {
 
         // TODO error if under 3 characters?
         if (searchString.length < 3) {
@@ -87,20 +116,12 @@ window.gams.projectDB = ((() => {
         (async () => {
             resultObjects = await getDB().digital_objects
                 .where("props.fulltext")
-                //.startsWithIgnoreCase(searchString)
                 .anyOfIgnoreCase(searchString)
-                // TODO seems like an exepnsive operation!
+                // more expensive operation
                 .toArray();    
 
-            // console.log("Found objects for query:", searchString, resultObjects);
-
-            // Emit custom event
-            const event = new CustomEvent("projectDB_fulltext_hit", { detail: resultObjects });
-            document.dispatchEvent(event);
-
             // if provided, call the callback function
-            if(callback)
-                callback(resultObjects);
+            callback(resultObjects);
             
         })();
 
