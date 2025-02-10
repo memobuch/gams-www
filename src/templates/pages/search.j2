@@ -1,7 +1,7 @@
 {% extends "parents/base.j2" %}
 {% block content %}
     <h1 class="h3 fw-light">Volltextsuche</h1>
-    <p>Personen des MEMO Projekts finden.</p>
+    <p>Personen des MEMO Projekts.</p>
 
     <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
 
@@ -12,26 +12,43 @@
         window.gams.projectDB.initDB("{{project.projectAbbr}}")
 
         document.addEventListener("projectDB_populated", function(event) {
-            //console.log("DB ready", event)
+            console.log("DB ready", event)
             let searchString = new URL(window.location.href).hash.replace("#/", "")
-            window.gams.projectDB.fulltextSearch(searchString)
-        });
+
+            let spinnerElem = document.getElementById("spinner");
+            let resultCountElem = document.getElementById("resultCount");
+            let resultCount = 0;
+
+            // fulltext search based on individual entries found
+            window.gams.projectDB.fulltextSearch(searchString, (digitalObject) => {
+                spinnerElem.style.display = "none";
+                console.log(digitalObject);
+                //let html = `<ul>${digitalObjects.map(digitalObject => `<li><a href='/memo/objects/${digitalObject.db.id}'>${digitalObject.db.baseMetadata.title}</a></li>`).join('')}</ul>`
+                let html = `<li><a href='/memo/objects/${digitalObject.db.id}'>${digitalObject.db.baseMetadata.title}</a></li>`
+                document.getElementById("result").innerHTML += html
+                resultCount++;
+                resultCountElem.innerHTML = resultCount;
+            })
 
 
-        document.addEventListener("projectDB_fulltext_hit", function(event) {
-            console.log("projectDB_fulltext_hit", event)
-            let digitalObjects = event.detail
-            let html = `<ul>${digitalObjects.map(digitalObject => `<li><a href='/memo/objects/${digitalObject.db.id}'>${digitalObject.db.baseMetadata.title}</a></li>`).join('')}</ul>`
-            document.getElementById("result").innerHTML = html
+            // dc type based search
+            console.log("Project DB is populated --> Doing now a dc type based search");
+            gams.projectDB.dcTypeSearch("person", (val) => {
+                //console.log(val);
+                sdocument.getElementById("result").innerHTML += `${val.db.id}<br/>`
+            })
+
         });
 
 
     </script>
 
+    <p>Suchergebnisse: <b id="resultCount">0</b></p>
     <div id="result">
-        <div class="spinner-border" role="status">
+        <div id="spinner" class="spinner-border" role="status">
             
         </div>
+        
     </div>
     
 {% endblock %}
