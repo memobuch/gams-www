@@ -28,13 +28,31 @@
             // per found person in the projectDB, add a marker to the map
             document.addEventListener("projectDB_populated", event => {
                 gams.projectDB.dcTypeSearch("person", (val) => {
-                    
+                    //console.log(val);
                     let latLongString = val.props.entityLongLat.replace(" ", "");
                     let latLong = latLongString.split(",");
                     let lat = parseFloat(latLong[0]);
                     let long = parseFloat(latLong[1]);
-                    L.marker([lat, long]).addTo(map)
-                    console.log(val);
+                    //L.marker([lat, long]).addTo(map);
+
+                    var circle = L.circle([lat, long], {
+                        color: 'red',
+                        fillColor: 'grey',
+                        fillOpacity: 0.5,
+                        radius: 1
+                    }).addTo(map);
+
+                    let popup = `
+                        <div>
+                            <h3>${val.db.baseMetadata.title}</h3>
+                            <img style="max-width:10em;" src="http://localhost:18085/api/v1/projects/memo/objects/${val.db.id}/datastreams/1.jpg/content"/>
+                            <p>${val.props.entityLongLat}</p>
+                            <p>${val.props.entityTags}</p>
+                        </div>
+                    
+                    `
+
+                    circle.bindPopup(popup);
 
                 })
 
