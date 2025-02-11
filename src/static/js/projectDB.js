@@ -56,10 +56,15 @@ window.gams.projectDB = ((() => {
 
             // TODO think about hardcoded location?
             let projectJsonLocation = `/${projectAbbr}/object_index.json`;
-            
-            // TODO surrond with try catch
-            const data = await fetch( projectJsonLocation).then(response => response.json());
-            
+
+            let data;
+            try {
+                data = await fetch( projectJsonLocation).then(response => response.json());
+            } catch (error) {
+                const MSG = `Could not fetch project data from ${projectJsonLocation}. Might also be a problem related to json parsing. Make sure that a valid json is available under the specified location. Got error: ${error}`;
+                console.error(MSG);
+                return;
+            }
             
             await getDB().digital_objects.bulkPut(data);
 
