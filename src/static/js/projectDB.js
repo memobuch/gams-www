@@ -5,6 +5,7 @@ window.gams.projectDB = ((() => {
 
     /**
      * Abbreviation of the project
+     * //TODO outdate this variable
      */
     let PROJECT_ABBR;
 
@@ -15,22 +16,25 @@ window.gams.projectDB = ((() => {
 
 
     /**
-     * 
+     * Initializes and (if empty) populates the database with data from the provided project.
+     * Allows to expire the database and rebuild it from scratch via defining an expiration date.
+     * @param {string} projectAbbr abbreviation of the GAMS project.
+     * @param {Date} expirationDate If lower than the current date -> rebuild the database from srcatch.
+     * @param {number} version Version number of the dexie database.
+     * TODO rename method
      */
-    const initDB = (projectAbbr) => {
+    const initDB = (projectAbbr, expirationDate = new Date("9999-01-31"), version = 1) => {
+
+        // TODO outdated assignment? careful!  needs to be available for protoype
 
         PROJECT_ABBR = projectAbbr;
 
         (async () => {
-            
-            //PROJECT_ABBR = projectAbbr;
-
-            console.log("Creating database for project: ", projectAbbr);
 
             // Create or connect to the database
             let dexieDb = new Dexie(projectAbbr + "_db");
             setDB(dexieDb);
-            dexieDb.version(1).stores({
+            dexieDb.version(version).stores({
                 digital_objects: `
                         ++id,
                         db.id,
@@ -40,13 +44,23 @@ window.gams.projectDB = ((() => {
                         *db.baseMetadata.description
                     `,
             });
+            
+            if(Date.now() > expirationDate) {
+                console.warn(`ProjectDB expired. Deleting and rebuilding database. Got expiration date: ${expirationDate.toString()}`);
+                // delete db
+                getDB().delete();
+                // then call method again (with largest possible expiration date?)
+                return initDB(projectAbbr, new Date("9999-01-31"), version);
+            }
 
             // surround with try/catch
             let digitalObjectsCount = await getDB().digital_objects.count();
 
             if (digitalObjectsCount > 0) {
+                // TODO instead return something that indicates already populated or not?
                 console.log("Database already populated with data");
                 // Emit custom event
+                // TODO refactor event handling
                 const event = new CustomEvent("projectDB_populated");
                 document.dispatchEvent(event);
                 return;
