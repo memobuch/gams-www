@@ -10,7 +10,7 @@
     
         window.gams.projectDB.initDB("{{project.projectAbbr}}")
 
-        document.addEventListener("projectDB_populated", function(event) {
+        document.addEventListener("PROJECTDB_READY", function(event) {
             console.log("DB ready", event)
             let searchString = new URL(window.location.href).hash.replace("#/", "")
 

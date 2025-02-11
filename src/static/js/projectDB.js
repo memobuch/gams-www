@@ -43,6 +43,8 @@ window.gams.projectDB = ((() => {
                 return initDB(projectAbbr, new Date("9999-01-31"), version);
             }
 
+            const DB_READY_EVENT = new CustomEvent("PROJECTDB_READY");
+
             // surround with try/catch
             let digitalObjectsCount = await getDB().digital_objects.count();
 
@@ -51,25 +53,22 @@ window.gams.projectDB = ((() => {
                 console.log("Database already populated with data");
                 // Emit custom event
                 // TODO refactor event handling
-                const event = new CustomEvent("projectDB_populated");
-                document.dispatchEvent(event);
+                document.dispatchEvent(DB_READY_EVENT);
                 return;
             }
 
-            
+            // TODO think about hardcoded location?
             let projectJsonLocation = `/${projectAbbr}/object_index.json`;
 
             console.log("Populating database with data from: ", projectJsonLocation);
             // TODO surrond with try catch
             const data = await fetch( projectJsonLocation).then(response => response.json());
+            
+            
             await getDB().digital_objects.bulkPut(data);
 
-            //console.log("Populated database with data from: ", data);
-            //return data;
-
-            // Emit custom event
-            const event = new CustomEvent("projectDB_populated");
-            document.dispatchEvent(event);
+            // Emit db ready event
+            document.dispatchEvent(DB_READY_EVENT);
 
         // passing of argument ensures that project is defined in inner scope
         })(projectAbbr);
