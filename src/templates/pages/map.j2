@@ -43,11 +43,13 @@
                     let long = parseFloat(latLong[1]);
                     //L.marker([lat, long]).addTo(map);
 
-                    var circle = L.circle([lat, long], {
-                        color: 'red',
-                        fillColor: 'grey',
-                        fillOpacity: 0.5,
-                        radius: 1
+                    // marker will stay scale per zoom level
+                    // (opposed to L.circle which will NOT scale with zoom level)
+                    var circle = L.circleMarker([lat, long], {
+                        color: 'black',
+                        fillColor: 'black',
+                        fillOpacity: 1,
+                        radius: 3
                     }).addTo(map);
 
                     let popup = `
