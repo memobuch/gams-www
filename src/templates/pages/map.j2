@@ -36,7 +36,6 @@
             // per found person in the projectDB, add a marker to the map
             document.addEventListener("projectDB_populated", event => {
                 gams.projectDB.dcTypeSearch("person", (val) => {
-                    console.log(val);
                     let latLongString = val.props.entityLongLat.replace(" ", "");
                     let latLong = latLongString.split(",");
                     let lat = parseFloat(latLong[0]);
