@@ -50,9 +50,6 @@ window.gams.projectDB = ((() => {
 
             if (digitalObjectsCount > 0) {
                 // TODO instead return something that indicates already populated or not?
-                console.log("Database already populated with data");
-                // Emit custom event
-                // TODO refactor event handling
                 document.dispatchEvent(DB_READY_EVENT);
                 return;
             }
