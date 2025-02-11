@@ -28,7 +28,7 @@
             // per found person in the projectDB, add a marker to the map
             document.addEventListener("projectDB_populated", event => {
                 gams.projectDB.dcTypeSearch("person", (val) => {
-                    //console.log(val);
+                    console.log(val);
                     let latLongString = val.props.entityLongLat.replace(" ", "");
                     let latLong = latLongString.split(",");
                     let lat = parseFloat(latLong[0]);
@@ -44,12 +44,13 @@
 
                     let popup = `
                         <div>
-                            <h3>${val.db.baseMetadata.title}</h3>
-                            <img style="max-width:10em;" src="http://localhost:18085/api/v1/projects/memo/objects/${val.db.id}/datastreams/1.jpg/content"/>
-                            <p>${val.props.entityLongLat}</p>
-                            <p>${val.props.entityTags}</p>
+                            <img alt=" (Image missing)" style="max-width:10em;" src="http://localhost:18085/api/v1/projects/memo/objects/${val.db.id}/datastreams/1.jpg/content"/>
+                            <hr/>
+                            <h3 class="h6">${val.db.baseMetadata.title}</h3>
+                            <p>Adresse: ${val.props.entityLocationLabels.join(", ")}</p>
+                            <p>Kategorie(n): ${val.props.entityTags}</p>
+                            <p><a target="_blank" href="/{{project.projectAbbr}}/objects/${val.db.id}">Zur Detailseite</a></p>
                         </div>
-                    
                     `
 
                     circle.bindPopup(popup);
