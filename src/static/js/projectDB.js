@@ -56,8 +56,7 @@ window.gams.projectDB = ((() => {
 
             // TODO think about hardcoded location?
             let projectJsonLocation = `/${projectAbbr}/object_index.json`;
-
-            console.log("Populating database with data from: ", projectJsonLocation);
+            
             // TODO surrond with try catch
             const data = await fetch( projectJsonLocation).then(response => response.json());
             
