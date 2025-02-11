@@ -4,12 +4,6 @@ window.gams = {}
 window.gams.projectDB = ((() => {
 
     /**
-     * Abbreviation of the project
-     * //TODO outdate this variable
-     */
-    let PROJECT_ABBR;
-
-    /**
      * Reference to the dexie database
      */
     let _DB;
@@ -25,11 +19,7 @@ window.gams.projectDB = ((() => {
      */
     const initDB = (projectAbbr, expirationDate = new Date("9999-01-31"), version = 1) => {
 
-        // TODO outdated assignment? careful!  needs to be available for protoype
-
-        PROJECT_ABBR = projectAbbr;
-
-        (async () => {
+        (async (projectAbbr) => {
 
             // Create or connect to the database
             let dexieDb = new Dexie(projectAbbr + "_db");
@@ -67,7 +57,7 @@ window.gams.projectDB = ((() => {
             }
 
             
-            let projectJsonLocation = `/${PROJECT_ABBR}/object_index.json`;
+            let projectJsonLocation = `/${projectAbbr}/object_index.json`;
 
             console.log("Populating database with data from: ", projectJsonLocation);
             // TODO surrond with try catch
@@ -81,7 +71,8 @@ window.gams.projectDB = ((() => {
             const event = new CustomEvent("projectDB_populated");
             document.dispatchEvent(event);
 
-        })();
+        // passing of argument ensures that project is defined in inner scope
+        })(projectAbbr);
     };
 
 
