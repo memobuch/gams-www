@@ -8,6 +8,93 @@ window.gams.projectDB = ((() => {
      */
     let _DB;
 
+    /**
+     * Schema declaration for the dexie database (digital_objects table)
+     */
+    const DEXIE_DB_SCHEME = {digital_objects: `
+        ++id,
+        db.id,
+        *dc.type,
+        *props.fulltext,
+        *db.baseMetadata.title,
+        *db.baseMetadata.description
+    `};
+
+    /**
+     * TODO 
+     * https://stackoverflow.com/questions/74997548/does-js-support-multi-threading-now
+     * @param {*} projectAbbr 
+     * @param {*} expirationDate 
+     * @param {*} version 
+     */
+    const populateDatabase = (projectAbbr, version = 1) => {
+
+        let workerArgs = {projectAbbr: projectAbbr, version: version, DEXIE_DB_SCHEME: DEXIE_DB_SCHEME};
+
+        // This function will be passed into the worker
+        // TODO rename function
+        function test(message) {
+
+            // import dexie js
+            importScripts('https://cdn.jsdelivr.net/npm/dexie@3.0.3/dist/dexie.min.js');
+
+            console.log("Worker received arguments: ", message.data);
+
+            const data = message.data;
+        
+            // ensures availability in the async functionbelow
+            let projectAbbr = message.data.projectAbbr;
+
+            (async () => {
+                // load parse and index via dexie
+                // TODO think about hardcoded location?
+                let projectJsonLocation = `http://localhost:18090//${projectAbbr}/object_index.json`;
+
+                let dbData;
+                try {
+                    dbData = await fetch( projectJsonLocation).then(response => response.json());
+                } catch (error) {
+                    const MSG = `Could not fetch project data from ${projectJsonLocation}. Might also be a problem related to json parsing. Make sure that a valid json is available under the specified location. Got error: ${error}`;
+                    console.error(MSG);
+                    return;
+                }
+
+                let dexieDb = new Dexie(projectAbbr + "_db");
+                // TODO code duplication
+                const DB_SCHEME = message.data.DEXIE_DB_SCHEME;
+                const VERSION = message.data.version;
+                // TODO apply version?
+                dexieDb.version(VERSION).stores(DB_SCHEME);
+                console.log("Worker: Inserting data into db!!");
+
+                await dexieDb.digital_objects.bulkPut(dbData);
+                console.log("Worker: Inserted data into db!!");
+                console.log("Worker: posting now to outside");
+                // Response
+                postMessage(data);
+            })();            
+        }
+
+        // Dynamic creation of a worker
+        const bytes = new TextEncoder().encode(`self.onmessage = ${test.toString()}`)
+        const blob = new Blob([bytes], {type: 'application/javascript'})
+        const url = URL.createObjectURL(blob)
+        const worker = new Worker(url)
+
+        // This message will be passed to the 
+        worker.postMessage(workerArgs)
+
+        // This function will be called when the worker finishes
+        worker.onmessage = (message) => {
+            console.log("Received worker finished: ", message);
+            // fire custom event when db is ready
+            const DB_READY_EVENT = new CustomEvent("PROJECTDB_READY");
+            document.dispatchEvent(DB_READY_EVENT);
+        }
+
+
+    }
+
 
     /**
      * Initializes and (if empty) populates the database with data from the provided project.
@@ -24,16 +111,7 @@ window.gams.projectDB = ((() => {
             // Create or connect to the database
             let dexieDb = new Dexie(projectAbbr + "_db");
             setDB(dexieDb);
-            dexieDb.version(version).stores({
-                digital_objects: `
-                        ++id,
-                        db.id,
-                        *dc.type,
-                        *props.fulltext,
-                        *db.baseMetadata.title,
-                        *db.baseMetadata.description
-                    `,
-            });
+            dexieDb.version(version).stores(DEXIE_DB_SCHEME);
             
             if(Date.now() > expirationDate) {
                 console.warn(`ProjectDB expired. Deleting and rebuilding database. Got expiration date: ${expirationDate.toString()}`);
@@ -43,33 +121,37 @@ window.gams.projectDB = ((() => {
                 return initDB(projectAbbr, new Date("9999-01-31"), version);
             }
 
-            const DB_READY_EVENT = new CustomEvent("PROJECTDB_READY");
-
-            // surround with try/catch
+            
             let digitalObjectsCount = await getDB().digital_objects.count();
-
             if (digitalObjectsCount > 0) {
                 // TODO instead return something that indicates already populated or not?
+                const DB_READY_EVENT = new CustomEvent("PROJECTDB_READY");
                 document.dispatchEvent(DB_READY_EVENT);
                 return;
             }
 
-            // TODO think about hardcoded location?
-            let projectJsonLocation = `/${projectAbbr}/object_index.json`;
 
-            let data;
-            try {
-                data = await fetch( projectJsonLocation).then(response => response.json());
-            } catch (error) {
-                const MSG = `Could not fetch project data from ${projectJsonLocation}. Might also be a problem related to json parsing. Make sure that a valid json is available under the specified location. Got error: ${error}`;
-                console.error(MSG);
-                return;
-            }
+            populateDatabase(projectAbbr, version);
+
+
+            // outdated blocking filling of database
+
+            // 
+            // let projectJsonLocation = `/${projectAbbr}/object_index.json`;
+
+            // let data;
+            // try {
+            //     data = await fetch( projectJsonLocation).then(response => response.json());
+            // } catch (error) {
+            //     const MSG = `Could not fetch project data from ${projectJsonLocation}. Might also be a problem related to json parsing. Make sure that a valid json is available under the specified location. Got error: ${error}`;
+            //     console.error(MSG);
+            //     return;
+            // }
             
-            await getDB().digital_objects.bulkPut(data);
+            // await getDB().digital_objects.bulkPut(data);
 
-            // Emit db ready event
-            document.dispatchEvent(DB_READY_EVENT);
+            // // Emit db ready event
+            // document.dispatchEvent(DB_READY_EVENT);
 
         // passing of argument ensures that project is defined in inner scope
         })(projectAbbr);
