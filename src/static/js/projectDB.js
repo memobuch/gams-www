@@ -21,7 +21,9 @@ window.gams.projectDB = ((() => {
         *dc.type,
         *props.fulltext,
         *db.baseMetadata.title,
-        *db.baseMetadata.description
+        *db.baseMetadata.description,
+        *props.entityTypes,
+        *props.entityTags
     `};
 
     /**
@@ -260,10 +262,51 @@ window.gams.projectDB = ((() => {
     }
 
     /** 
-     * 
+     * TODO jsdoc!
+     * @param {Object} searchObject 
     */
-    const advancedSearch = (searchString, callback = null) => {
+    const advancedSearch = (searchObject, callback = null) => {
 
+
+        // example searchObject
+        // let demo = {
+        //     startDate: "1020-01-01",
+        //     endDate: "2021-01-01",
+        //     entityTags: ["1"],
+        //     entityTypes: ["person"],
+        // };
+
+
+        const filterFunc = (digitalObject) => {
+            // filter by entityTags
+            const tagFound = digitalObject.props.entityTags.some(tag => {
+                // TODO use searchObject instead!
+                return searchObject.entityTags.includes(tag.toLowerCase());
+            });
+
+            if (tagFound){
+                return;
+            }
+
+            // filter by startDate and endDate
+            let startDate = new Date(digitalObject.props.entityStartDate);
+            let endDate = new Date(digitalObject.props.entityEndDate);
+            let searchStartDate = new Date(searchObject.startDate);
+            let searchEndDate = new Date(searchObject.endDate);
+            if (startDate < searchStartDate || endDate > searchEndDate) {
+                return;
+            }
+
+            // last call of the callback function
+            callback(digitalObject);
+        }
+
+        (async () => {
+            getDB().digital_objects
+                .where("props.entityTypes")
+                .anyOfIgnoreCase(searchObject.entityTypes)
+                .each(filterFunc)
+        })();
 
 
     }
@@ -286,7 +329,8 @@ window.gams.projectDB = ((() => {
         dcTypeSearch,
         initDB,
         idSearch,
-        fulltextSearch
+        fulltextSearch,
+        advancedSearch,
     };
 
 }))();
