@@ -138,6 +138,12 @@
                 let long = parseFloat(latLong[1]);
                 //L.marker([lat, long]).addTo(map);
 
+                // TODO remove demo randomization of lat long values
+                //console.warn("RANDOMIZING LAT LONG FOR DEMO PURPOSES");
+                // generate random lat value
+                //lat = lat + (Math.random() - 0.5) * 10;
+                //long = long + (Math.random() - 0.5) * 10;
+
                 // marker will stay scale per zoom level
                 // (opposed to L.circle which will NOT scale with zoom level)
                 var circle = L.circleMarker([lat, long], {
