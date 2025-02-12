@@ -4,7 +4,7 @@
     <p>Karte der Opfer erfasst von MEMO</p>
 
     <!-- ProjectDB files -->
-    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dexie@3.0.3/dist/dexie.min.js"></script>
     <script src="/memo/static/js/projectDB.js"></script>
 
     <section>
@@ -25,13 +25,12 @@
                 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             }).addTo(map);
 
-
             // clustering 
             // https://stackoverflow.com/questions/43015854/large-dataset-of-markers-or-dots-in-leaflet
             // cluster lib: https://github.com/mapbox/supercluster
 
             // init projectDB -> TODO might be done on every page (base.j2)? 
-            window.gams.projectDB.initDB("{{project.projectAbbr}}");
+            window.gams.projectDB.initDB("{{project.projectAbbr}}", new Date("2999"));
 
             // per found person in the projectDB, add a marker to the map
             document.addEventListener("PROJECTDB_READY", event => {
