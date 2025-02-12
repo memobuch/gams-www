@@ -34,8 +34,6 @@ window.gams.projectDB = ((() => {
      */
     const populateDatabase = (projectAbbr, version = 1) => {
 
-        let workerArgs = {projectAbbr: projectAbbr, version: version, DEXIE_DB_SCHEME: DEXIE_DB_SCHEME};
-
         // This function will be passed into the worker
         function fillDatabase(message) {
 
@@ -46,11 +44,11 @@ window.gams.projectDB = ((() => {
         
             // ensures availability in the async functionbelow
             let projectAbbr = message.data.projectAbbr;
+            const ORIGIN = message.data.origin;
 
             (async () => {
                 // load parse and index via dexie
-                // TODO think about hardcoded location?
-                let projectJsonLocation = `http://localhost:18090//${projectAbbr}/object_index.json`;
+                let projectJsonLocation = `${ORIGIN}/${projectAbbr}/object_index.json`;
 
                 let dbData;
                 try {
@@ -77,6 +75,15 @@ window.gams.projectDB = ((() => {
         const blob = new Blob([bytes], {type: 'application/javascript'})
         const url = URL.createObjectURL(blob)
         const worker = new Worker(url)
+
+        // arguments to be passed to the worker
+        // (web workers do not have access to the window object)
+        let workerArgs = {
+            projectAbbr: projectAbbr, 
+            version: version, 
+            DEXIE_DB_SCHEME: DEXIE_DB_SCHEME, 
+            origin: window.location.origin
+        };
 
         // This message will be passed to the 
         worker.postMessage(workerArgs)
