@@ -26,11 +26,11 @@ window.gams.projectDB = ((() => {
     `};
 
     /**
-     * TODO 
+     * Setup the project database. Returns an event when the database is ready (and populated with data).
      * https://stackoverflow.com/questions/74997548/does-js-support-multi-threading-now
-     * @param {*} projectAbbr 
-     * @param {*} expirationDate 
-     * @param {*} version 
+     * @param {string} projectAbbr Project abbreviation for GAMS5
+     * @param {string} expirationDate Decides if the database should be repopulated (if lower than current date)
+     * @param {number} version Allows to set a database version (defaults to 1)
      */
     const populateDatabase = (projectAbbr, version = 1) => {
 
