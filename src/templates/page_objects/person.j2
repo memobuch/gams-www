@@ -47,19 +47,23 @@
 
     <h2 class="h4 fw-light">Ereignisse (SAXONJS)</h2>
     <p>Rendering data from RDF.xml via SAXONJS with a compiled XSLT stylesheet</p>
-    <div id="saxonjs_container"></div>
+    <div id="saxonjs_container">
+        <div id="spinner" class="spinner-border" role="status"></div>
+    </div>
     <script>
         if (window.location.href.includes("memo.person.")){
             let matches = window.location.pathname.match(/(\d+)/);
             window.onload = function () {
-                console.log(SaxonJS.getProcessorInfo().productName + " " +
-                SaxonJS.getProcessorInfo().productVersion + " " + SaxonJS.getProcessorInfo().releaseDate);
-                SaxonJS.transform({
-                stylesheetLocation: "/memo/static/xsl/object-rdf.sef.json",
-                sourceLocation: `http://localhost:18085/api/v1/projects/memo/objects/memo.person.${matches[0]}/datastreams/RDF.xml/content`,
-                logLevel: 2
+                    console.log(SaxonJS.getProcessorInfo().productName + " " +
+                    SaxonJS.getProcessorInfo().productVersion + " " + SaxonJS.getProcessorInfo().releaseDate);
+                    SaxonJS.transform({
+                    stylesheetLocation: "/memo/static/xsl/object-rdf.sef.json",
+                    sourceLocation: `http://localhost:18085/api/v1/projects/memo/objects/memo.person.${matches[0]}/datastreams/RDF.xml/content`,
+                    logLevel: 2
                 },
-                "async");
+                "async").then(result => {
+                    document.getElementById("spinner").style = "display: none";
+                });
             }
         }
     </script>
