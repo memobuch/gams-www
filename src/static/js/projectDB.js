@@ -62,7 +62,6 @@ window.gams.projectDB = ((() => {
                 }
 
                 let dexieDb = new Dexie(projectAbbr + "_db");
-                // TODO code duplication
                 const DB_SCHEME = message.data.DEXIE_DB_SCHEME;
                 const VERSION = message.data.version;
                 dexieDb.version(VERSION).stores(DB_SCHEME);
