@@ -43,6 +43,7 @@ window.gams.projectDB = ((() => {
             // import dexie js
             importScripts('https://cdn.jsdelivr.net/npm/dexie@3.0.3/dist/dexie.min.js');
 
+            // TODO remove console logs
             console.log("Worker received arguments: ", message.data);
 
             const data = message.data;
