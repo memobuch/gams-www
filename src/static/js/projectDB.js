@@ -37,8 +37,7 @@ window.gams.projectDB = ((() => {
         let workerArgs = {projectAbbr: projectAbbr, version: version, DEXIE_DB_SCHEME: DEXIE_DB_SCHEME};
 
         // This function will be passed into the worker
-        // TODO rename function
-        function test(message) {
+        function fillDatabase(message) {
 
             // import dexie js
             importScripts('https://cdn.jsdelivr.net/npm/dexie@3.0.3/dist/dexie.min.js');
@@ -82,7 +81,7 @@ window.gams.projectDB = ((() => {
         }
 
         // Dynamic creation of a worker
-        const bytes = new TextEncoder().encode(`self.onmessage = ${test.toString()}`)
+        const bytes = new TextEncoder().encode(`self.onmessage = ${fillDatabase.toString()}`)
         const blob = new Blob([bytes], {type: 'application/javascript'})
         const url = URL.createObjectURL(blob)
         const worker = new Worker(url)
