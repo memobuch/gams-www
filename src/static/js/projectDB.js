@@ -105,7 +105,6 @@ window.gams.projectDB = ((() => {
      * @param {string} projectAbbr abbreviation of the GAMS project.
      * @param {Date} expirationDate If lower than the current date -> rebuild the database from srcatch.
      * @param {number} version Version number of the dexie database.
-     * TODO rename method
      */
     const initDB = (projectAbbr, expirationDate = new Date("9999-01-31"), version = 1) => {
 
@@ -133,28 +132,8 @@ window.gams.projectDB = ((() => {
                 return;
             }
 
-
+            // populate the database with data
             populateDatabase(projectAbbr, version);
-
-
-            // outdated blocking filling of database
-
-            // 
-            // let projectJsonLocation = `/${projectAbbr}/object_index.json`;
-
-            // let data;
-            // try {
-            //     data = await fetch( projectJsonLocation).then(response => response.json());
-            // } catch (error) {
-            //     const MSG = `Could not fetch project data from ${projectJsonLocation}. Might also be a problem related to json parsing. Make sure that a valid json is available under the specified location. Got error: ${error}`;
-            //     console.error(MSG);
-            //     return;
-            // }
-            
-            // await getDB().digital_objects.bulkPut(data);
-
-            // // Emit db ready event
-            // document.dispatchEvent(DB_READY_EVENT);
 
         // passing of argument ensures that project is defined in inner scope
         })(projectAbbr);
@@ -267,7 +246,6 @@ window.gams.projectDB = ((() => {
         const filterFunc = (digitalObject) => {
             // filter by entityTags
             const tagFound = digitalObject.props.entityTags.some(tag => {
-                // TODO use searchObject instead!
                 return searchObject.entityTags.includes(tag.toLowerCase());
             });
 
