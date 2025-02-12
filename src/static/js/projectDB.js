@@ -262,20 +262,10 @@ window.gams.projectDB = ((() => {
     }
 
     /** 
-     * TODO jsdoc!
-     * @param {Object} searchObject 
+     * Advanced search function that allows to search for objects based on a variety of parameters.
+     * @param {{startDate: string, endDate: string, entityTags: Array<string>, entityTypes: Array<string>}} searchObject advanced search query as javascript object
     */
-    const advancedSearch = (searchObject, callback = null) => {
-
-
-        // example searchObject
-        // let demo = {
-        //     startDate: "1020-01-01",
-        //     endDate: "2021-01-01",
-        //     entityTags: ["1"],
-        //     entityTypes: ["person"],
-        // };
-
+    const advancedSearch = (searchObject, callback) => {
 
         const filterFunc = (digitalObject) => {
             // filter by entityTags
