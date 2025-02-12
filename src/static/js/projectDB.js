@@ -1,5 +1,9 @@
 
-window.gams = {}
+// ensuring that gams object is defined
+if (typeof window.gams === 'undefined') {
+    window.gams = {};
+}
+
 
 window.gams.projectDB = ((() => {
 
