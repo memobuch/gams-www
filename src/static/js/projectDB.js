@@ -42,9 +42,6 @@ window.gams.projectDB = ((() => {
             // import dexie js
             importScripts('https://cdn.jsdelivr.net/npm/dexie@3.0.3/dist/dexie.min.js');
 
-            // TODO remove console logs
-            console.log("Worker received arguments: ", message.data);
-
             const data = message.data;
         
             // ensures availability in the async functionbelow
@@ -68,13 +65,9 @@ window.gams.projectDB = ((() => {
                 // TODO code duplication
                 const DB_SCHEME = message.data.DEXIE_DB_SCHEME;
                 const VERSION = message.data.version;
-                // TODO apply version?
                 dexieDb.version(VERSION).stores(DB_SCHEME);
-                console.log("Worker: Inserting data into db!!");
 
                 await dexieDb.digital_objects.bulkPut(dbData);
-                console.log("Worker: Inserted data into db!!");
-                console.log("Worker: posting now to outside");
                 // Response
                 postMessage(data);
             })();            
@@ -90,8 +83,7 @@ window.gams.projectDB = ((() => {
         worker.postMessage(workerArgs)
 
         // This function will be called when the worker finishes
-        worker.onmessage = (message) => {
-            console.log("Received worker finished: ", message);
+        worker.onmessage = () => {
             // fire custom event when db is ready
             const DB_READY_EVENT = new CustomEvent("PROJECTDB_READY");
             document.dispatchEvent(DB_READY_EVENT);
