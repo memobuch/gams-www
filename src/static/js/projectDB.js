@@ -22,8 +22,7 @@ window.gams.projectDB = ((() => {
         *props.fulltext,
         *db.baseMetadata.title,
         *db.baseMetadata.description,
-        *props.entityTypes,
-        *props.entityTags
+        *props.entityTypes
     `};
 
     /**
