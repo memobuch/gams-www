@@ -12,49 +12,50 @@
 
          <div class="row">
             <div id="filters" class="col-md-4">
-                <div class="bs-tabs--header">
-                    <ul class="nav nav-tabs">
-                    <li class="nav-item" style="cursor: pointer;"><a class="nav-link active" id="inhaltlich-tab">Inhaltlich</a></li>
-                    <li class="nav-item" style="cursor: pointer;"><a class="nav-link" id="zeitlich-tab">Zeitlich</a></li>
-                    <li class="nav-item" style="cursor: pointer;"><a class="nav-link" id="legend-tab">Legende</a></li>
-                    </ul>
-                    <br>
-                </div> <!-- TODO: generate more data-->
-                <!-- TODO: button for filter + map fullscreen-->
-                <div class="form-check"> <!-- Checkbox for each reason -->
-                    <input class="form-check-input" type="checkbox" id="resistance" value="resistance" checked>
-                    <label class="form-check-label" for="resistance">Widerstand</label>
-                </div>
-                <div class="form-check"> <!-- Checkbox for each reason -->
-                    <input class="form-check-input" type="checkbox" id="jewish" value="jewish" checked>
-                    <label class="form-check-label" for="jewish">Jüdische Opfer</label>
-                </div>
-                <div class="form-check"> <!-- Checkbox for each reason -->
-                    <input class="form-check-input" type="checkbox" id="yenish" value="yenish" checked>
-                    <label class="form-check-label" for="yenish">Jenische</label>
-                </div>
-                <div class="form-check"> <!-- Checkbox for each reason -->
-                    <input class="form-check-input" type="checkbox" id="euthanasia" value="euthanasia" checked>
-                    <label class="form-check-label" for="euthanasia">NS-Euthanasieopfer</label>
-                </div>
-                <div id="range-container">
-                    <div>
-                    <label for="startDateRange"></label>
-                    <input onchange="drawPersons()" type="range" id="startDateRange" min="1900" max="2100" value="1900" style="background: orange;">
-                    <span id="startDateRangeValue">1900</span>
+                <div class="border p-2">
+                    <h3 class="h5 fw-light mt-2">Filterung</h2>
+                    <br/>
+                    <!-- TODO: button for filter + map fullscreen-->
+                    {# <div class="form-check"> <!-- Checkbox for each reason -->
+                        <input class="form-check-input" type="checkbox" id="resistance" value="resistance" checked onchange="drawPersons()">
+                        <label class="form-check-label" for="resistance">Widerstand</label>
+                    </div>
+                    <div class="form-check"> <!-- Checkbox for each reason -->
+                        <input class="form-check-input" type="checkbox" id="jewish" value="jewish" checked onchange="drawPersons()">
+                        <label class="form-check-label" for="jewish">Jüdische Opfer</label>
+                    </div>
+                    <div class="form-check"> <!-- Checkbox for each reason -->
+                        <input class="form-check-input" type="checkbox" id="yenish" value="yenish" checked onchange="drawPersons()">
+                        <label class="form-check-label" for="yenish">Jenische</label>
+                    </div>
+                    <div class="form-check"> <!-- Checkbox for each reason -->
+                        <input class="form-check-input" type="checkbox" id="euthanasia" value="euthanasia" checked onchange="drawPersons()">
+                        <label class="form-check-label" for="euthanasia">NS-Euthanasieopfer</label>
+                    </div> #}
+                    <div class="form-check"> <!-- Checkbox for each reason -->
+                        <input class="form-check-input" type="checkbox" id="roma" value="euthanasia" checked onchange="drawPersons()">
+                        <label class="form-check-label" for="euthanasia">Roma/Romnija und Sinti/Sintize</label>
+                    </div>
+                    <br/>
+                    <div id="range-container">
+                        <div>
+                        <label for="startDateRange"></label>
+                        <input onchange="drawPersons()" type="range" id="startDateRange" min="1900" max="2100" value="1900" style="background: orange;">
+                        <span id="startDateRangeValue">1900</span>
+                        </div>
+                        <div>
+                        <label for="endDateRange"></label>
+                        <input onchange="drawPersons()" type="range" id="endDateRange" min="1900" max="2100" value="2100" style="background: orange;">
+                        <span id="endDateRangeValue">2100</span>
+                        </div>
+                    </div>
+                    <div id="legend" class="mt-3"> <!-- TODO: remove legend for now -->
                     </div>
                     <div>
-                    <label for="endDateRange"></label>
-                    <input type="range" id="endDateRange" min="1900" max="2100" value="2100" style="background: orange;">
-                    <span id="endDateRangeValue">2100</span>
+                        <button id="reset-filters" class="btn btn-secondary mt-3" onclick="clearMap()">Alle Filter zurücksetzen</button>
                     </div>
                 </div>
-                <div id="legend" class="mt-3"> <!-- TODO: remove legend for now -->
-                </div>
-                <div>
-                    <button id="reset-filters" class="btn btn-secondary mt-3" onclick="clearMap()">Alle Filter zurücksetzen</button>
-                </div>
-                </div>
+            </div>
             <!-- Map container -->
             <div id="map" class="col-md-8" style="min-height: 100vh;">
 
@@ -83,10 +84,11 @@
             // https://stackoverflow.com/questions/43015854/large-dataset-of-markers-or-dots-in-leaflet
             // cluster lib: https://github.com/mapbox/supercluster
 
+            // layer for markers
+            let markersLayer = L.layerGroup().addTo(map);
+
             // init projectDB -> TODO might be done on every page (base.j2)? 
             window.gams.projectDB.initDB("{{project.projectAbbr}}", new Date("1999"));
-
-            let markersLayer = L.layerGroup().addTo(map);
 
 
             // per found person in the projectDB, add a marker to the map
@@ -96,16 +98,20 @@
 
 
             const drawPersons = () => {
-                console.log("Drawing persons");
                 markersLayer.clearLayers();
-                //gams.projectDB.dcTypeSearch("person", (val) => {
-                    // TODO rename val -> person
-                //    drawPersonToMap(val);
-                //});
 
                 // user input
                 let userStartDate = new Date(document.getElementById('startDateRange').value)
                 let userEndDate = new Date(document.getElementById('endDateRange').value);
+
+                // supplay entitiy tags
+                let entityTags = [];
+                if (!document.getElementById('roma').checked) {
+                    entityTags.push("roma");
+                }
+                //if (!document.getElementById('jewish').checked) {
+                //    entityTags.push("juedischeopfer");
+                //}
 
 
                 // construct searchObject
@@ -114,15 +120,14 @@
                     startDate: userStartDate,
                     // TODO rename enitityEndDate
                     endDate: userEndDate,
-                    entityTags: ["roma1"],
+                    entityTags: entityTags,
                     entityTypes: ["person"],
                 };
 
                 gams.projectDB.advancedSearch(searchObject, (val) => {
                     drawPersonToMap(val);
                 });
-                    
-
+                
             }
 
 
@@ -161,8 +166,6 @@
 
 
             const clearMap = () => {
-                console.log("clearing map");
-                console.log(markersLayer);
                 markersLayer.clearLayers();
             }
 
