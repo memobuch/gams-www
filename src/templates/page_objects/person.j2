@@ -7,123 +7,129 @@
     <a target="_blank" href="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/' + 'DC.xml'  + '/content' }}"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a>
     <a target="_blank" href="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id}}"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/gams_solo.png" title="Object metadata in the CMS system"></a>
 </div>
-<div class="border container mt-2 pt-2">
-    <h2 class="h4 fw-light">Assoziierte Bilder</h1>
-    <img onerror="this.src='https://gams.uni-graz.at/templates/img/gams_solo_weiss.png'" alt="Image missing"class="border bg-dark rounded" style="max-width: 20%; max-height:8em;" src="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/1.jpg/content' }}"/>
-    <img onerror="this.src='https://gams.uni-graz.at/templates/img/gams_solo_weiss.png'" alt="Image missing"class="border bg-dark rounded" style="max-width: 20%; max-height:8em;" src="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/2.jpg/content' }}"/>
-    <br/>
-    <br/>
-    <h2 class="h4 fw-light">Basisdaten</h1>
-    <table class="table table-light">
-        <thead>
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Todesdatum</th>
-                <th scope="col">Kategorie(n)</th>
-                <th scope="col">DERLA Zeichen</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ object.db.baseMetadata.title }}</td>
-                <td>{{ object.dc.date[0][0:10] }}</td>
-                <td>{{ object.props.entityTags|join('; ')}}</td>
-                <td><a target="_blank" href="{{'https://gams.uni-graz.at/' + object.props.entityPointers[0]}}">{{ object.props.entityPointers[0]}}</a></td>
-            </tr>
-        </tbody>
-    </table>
-    <br/>
-    <h2 class="h4 fw-light">Beschreibung</h1>
-    <p>{{ object.db.baseMetadata.description }}</p>
-
-    <br/>
-    <h2 class="h4 fw-light">Materialien</h1>
-    <ul class="list-group list-group-flush">
-        {% for dsid in object.db.datastreams|sort(dsid) %}
-            <li class="list-group-item"><a target="_blank" href="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/' + dsid + '/content' }}">{{dsid}}</a></li>
-        {% endfor %}
-    </ul>
-    
-    <br/>
-    <br/>
-
-    <h2 class="h4 fw-light">Verbundenes DERLA Erinnerungszeichen (SAXONJS / GAMS->TEI_SOURCE)</h2>
-    <div id="derla_saxon_container">
-        <div id="derla_spinner" class="spinner-border" role="status"></div>
-    </div>
-    <script>
-        // loads derla sign xml and applies xslt transformation via saxonjs
-        window.addEventListener('load', (event) => {
-            let matches = window.location.pathname.match(/(\d+)/);
-             SaxonJS.transform({
-                    stylesheetLocation: "/memo/static/xsl/derla_place.sef.json",
-                    // TODO inject jinja value
-                    sourceLocation: `https://gams.uni-graz.at/archive/objects/{{ object.props.entityPointers[0] }}/datastreams/TEI_SOURCE/content`,
-                    logLevel: 2
-                },
-                "async").then(result => {
-                    document.getElementById("derla_spinner").style = "display: none";
-                });
-        });
-    </script>
-
-    <br/>
-    <h2 class="h4 fw-light">Ereignisse (SAXONJS / RDF.xml)</h2>
+<div class="container mt-2 pt-2">
     <div class="row">
-        <div class="col-md">
-            <div class="container pt-2 pb-2 bg-light">
-                <div id="saxonjs_container">
-                    <div id="spinner" class="spinner-border" role="status"></div>
-                </div>
-            </div>
-        </div>
-        {# <div class="col-md-6">
-            <div id="saxonjs_container02">
-                <div id="spinner02" class="spinner-border" role="status"></div>
-            </div>
-        </div> #}
-    </div>
+        <div class="col-md-9 border border-1 p-3">
 
-    <script>
-        if (window.location.href.includes("memo.person.")){
-            let matches = window.location.pathname.match(/(\d+)/);
-            window.onload = function () {
-                    console.log(SaxonJS.getProcessorInfo().productName + " " +
-                    SaxonJS.getProcessorInfo().productVersion + " " + SaxonJS.getProcessorInfo().releaseDate);
+        
+            <h2 class="h4 fw-light">Assoziierte Bilder</h1>
+            <img onerror="this.src='https://gams.uni-graz.at/templates/img/gams_solo_weiss.png'" alt="Image missing"class="border bg-dark rounded" style="max-width: 20%; max-height:8em;" src="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/1.jpg/content' }}"/>
+            <img onerror="this.src='https://gams.uni-graz.at/templates/img/gams_solo_weiss.png'" alt="Image missing"class="border bg-dark rounded" style="max-width: 20%; max-height:8em;" src="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/2.jpg/content' }}"/>
+            <br/>
+            <br/>
+            <h2 class="h4 fw-light">Basisdaten</h1>
+            <table class="table table-light">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Todesdatum</th>
+                        <th scope="col">Kategorie(n)</th>
+                        <th scope="col">DERLA Zeichen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ object.db.baseMetadata.title }}</td>
+                        <td>{{ object.dc.date[0][0:10] }}</td>
+                        <td>{{ object.props.entityTags|join('; ')}}</td>
+                        <td><a target="_blank" href="{{'https://gams.uni-graz.at/' + object.props.entityPointers[0]}}">{{ object.props.entityPointers[0]}}</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <br/>
+            <h2 class="h4 fw-light">Beschreibung</h1>
+            <p>{{ object.db.baseMetadata.description }}</p>
+
+            <br/>
+            <h2 class="h4 fw-light">Materialien</h1>
+            <ul class="list-group list-group-flush">
+                {% for dsid in object.db.datastreams|sort(dsid) %}
+                    <li class="list-group-item"><a target="_blank" href="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/' + dsid + '/content' }}">{{dsid}}</a></li>
+                {% endfor %}
+            </ul>
+            
+            <br/>
+            <br/>
+
+            <h2 class="h4 fw-light">Verbundenes DERLA Erinnerungszeichen (SAXONJS / GAMS->TEI_SOURCE)</h2>
+            <div id="derla_saxon_container">
+                <div id="derla_spinner" class="spinner-border" role="status"></div>
+            </div>
+            <script>
+                // loads derla sign xml and applies xslt transformation via saxonjs
+                window.addEventListener('load', (event) => {
+                    let matches = window.location.pathname.match(/(\d+)/);
                     SaxonJS.transform({
-                    stylesheetLocation: "/memo/static/xsl/object-rdf.sef.json",
-                    sourceLocation: `http://localhost:18085/api/v1/projects/memo/objects/memo.person.${matches[0]}/datastreams/RDF.xml/content`,
-                    logLevel: 2
-                },
-                "async").then(result => {
-                    document.getElementById("spinner").style = "display: none";
+                            stylesheetLocation: "/memo/static/xsl/derla_place.sef.json",
+                            // TODO inject jinja value
+                            sourceLocation: `https://gams.uni-graz.at/archive/objects/{{ object.props.entityPointers[0] }}/datastreams/TEI_SOURCE/content`,
+                            logLevel: 2
+                        },
+                        "async").then(result => {
+                            document.getElementById("derla_spinner").style = "display: none";
+                        });
                 });
-            }
-        }
-    </script>
+            </script>
 
-    {# <script>
-        // loading a second RDF file via SaxonJS and xslt for transformation
-        window.addEventListener('load', (event) => {
-            let matches = window.location.pathname.match(/(\d+)/);
-             SaxonJS.transform({
-                    stylesheetLocation: "/memo/static/xsl/object-rdf02.sef.json",
-                    sourceLocation: `http://localhost:18085/api/v1/projects/memo/objects/memo.person.${matches[0]}/datastreams/RDF.xml/content`,
-                    logLevel: 2
-                },
-                "async").then(result => {
-                    document.getElementById("spinner02").style = "display: none";
+            <br/>
+            <h2 class="h4 fw-light">Ereignisse (SAXONJS / RDF.xml)</h2>
+            <div class="row">
+                <div class="col-md">
+                    <div class="container pt-2 pb-2 bg-light">
+                        <div id="saxonjs_container">
+                            <div id="spinner" class="spinner-border" role="status"></div>
+                        </div>
+                    </div>
+                </div>
+                {# <div class="col-md-6">
+                    <div id="saxonjs_container02">
+                        <div id="spinner02" class="spinner-border" role="status"></div>
+                    </div>
+                </div> #}
+            </div>
+
+            <script>
+                if (window.location.href.includes("memo.person.")){
+                    let matches = window.location.pathname.match(/(\d+)/);
+                    window.onload = function () {
+                            console.log(SaxonJS.getProcessorInfo().productName + " " +
+                            SaxonJS.getProcessorInfo().productVersion + " " + SaxonJS.getProcessorInfo().releaseDate);
+                            SaxonJS.transform({
+                            stylesheetLocation: "/memo/static/xsl/object-rdf.sef.json",
+                            sourceLocation: `http://localhost:18085/api/v1/projects/memo/objects/memo.person.${matches[0]}/datastreams/RDF.xml/content`,
+                            logLevel: 2
+                        },
+                        "async").then(result => {
+                            document.getElementById("spinner").style = "display: none";
+                        });
+                    }
+                }
+            </script>
+
+            {# <script>
+                // loading a second RDF file via SaxonJS and xslt for transformation
+                window.addEventListener('load', (event) => {
+                    let matches = window.location.pathname.match(/(\d+)/);
+                    SaxonJS.transform({
+                            stylesheetLocation: "/memo/static/xsl/object-rdf02.sef.json",
+                            sourceLocation: `http://localhost:18085/api/v1/projects/memo/objects/memo.person.${matches[0]}/datastreams/RDF.xml/content`,
+                            logLevel: 2
+                        },
+                        "async").then(result => {
+                            document.getElementById("spinner02").style = "display: none";
+                        });
                 });
-        });
-    </script> #}
+            </script> #}
 
-    <br/>
-    <br/>
-    <br/>
-    <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
 
-    <p>Beispiel für workflow via automatisch generierte web-componenten des pollin-tools:</p>
-    {# Demo for using the auto-mapped xml via web-components #}
-    {{ object.component_map.rdf }}
-    {{ object.component_map.dc }}
+            <p>Beispiel für workflow via automatisch generierte web-componenten des pollin-tools:</p>
+            {# Demo for using the auto-mapped xml via web-components #}
+            {{ object.component_map.rdf }}
+            {{ object.component_map.dc }}
+        </div>
+    </div>
 </div>
