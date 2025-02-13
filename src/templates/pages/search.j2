@@ -3,12 +3,7 @@
     <h1 class="h3 fw-light">Volltextsuche</h1>
     <p>Personen des MEMO Projekts.</p>
 
-    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
-    <script src="/memo/static/js/projectDB.js"></script>
-
     <script>
-    
-        window.gams.projectDB.initDB("{{project.projectAbbr}}")
 
         document.addEventListener("PROJECTDB_READY", function(event) {
             console.log("DB ready", event)

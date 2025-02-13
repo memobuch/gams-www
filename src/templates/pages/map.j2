@@ -3,10 +3,6 @@
     <h1 class="h3 fw-light">Karte</h1>
     <p>Karte der Opfer erfasst von MEMO</p>
 
-    <!-- ProjectDB files -->
-    <script src="https://cdn.jsdelivr.net/npm/dexie@3.0.3/dist/dexie.min.js"></script>
-    <script src="/memo/static/js/projectDB.js"></script>
-
     <section>
 
          <div class="row">
@@ -87,7 +83,7 @@
             let markersLayer = L.layerGroup().addTo(map);
 
             // init projectDB -> TODO might be done on every page (base.j2)? 
-            window.gams.projectDB.initDB("{{project.projectAbbr}}", new Date("1999"));
+            //window.gams.projectDB.initDB("{{project.projectAbbr}}", new Date("1999"));
 
 
             // per found person in the projectDB, add a marker to the map
