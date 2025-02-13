@@ -102,6 +102,9 @@
                 // user input
                 let userStartDate = new Date(document.getElementById('startDateRange').value)
                 let userEndDate = new Date(document.getElementById('endDateRange').value);
+                // update range value display
+                document.getElementById('startDateRangeValue').innerText = userStartDate.getFullYear();
+                document.getElementById('endDateRangeValue').innerText = userEndDate.getFullYear();
 
                 // supplay entitiy tags
                 let entityTags = [];
