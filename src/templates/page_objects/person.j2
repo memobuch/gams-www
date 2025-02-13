@@ -47,6 +47,27 @@
     <br/>
     <br/>
 
+    <h2 class="h4 fw-light">Verbundenes DERLA Erinnerungszeichen (SAXONJS)</h2>
+    <div id="derla_saxon_container">
+        <div id="derla_spinner" class="spinner-border" role="status"></div>
+    </div>
+    <script>
+        // loads derla sign xml and applies xslt transformation via saxonjs
+        window.addEventListener('load', (event) => {
+            let matches = window.location.pathname.match(/(\d+)/);
+             SaxonJS.transform({
+                    stylesheetLocation: "/memo/static/xsl/derla_place.sef.json",
+                    // TODO inject jinja value
+                    sourceLocation: `https://gams.uni-graz.at/archive/objects/{{ object.props.entityPointers[0] }}/datastreams/TEI_SOURCE/content`,
+                    logLevel: 2
+                },
+                "async").then(result => {
+                    document.getElementById("derla_spinner").style = "display: none";
+                });
+        });
+    </script>
+
+    {# <br/>
     <h2 class="h4 fw-light">Ereignisse (SAXONJS)</h2>
     <p>Rendering data from RDF.xml via SAXONJS with a compiled XSLT stylesheet</p>
 
@@ -63,7 +84,6 @@
         </div>
     </div>
 
-    
     <script>
         if (window.location.href.includes("memo.person.")){
             let matches = window.location.pathname.match(/(\d+)/);
@@ -95,7 +115,7 @@
                     document.getElementById("spinner02").style = "display: none";
                 });
         });
-    </script>
+    </script> #}
 
     <br/>
     <br/>
