@@ -47,7 +47,7 @@
     <br/>
     <br/>
 
-    <h2 class="h4 fw-light">Verbundenes DERLA Erinnerungszeichen (SAXONJS)</h2>
+    <h2 class="h4 fw-light">Verbundenes DERLA Erinnerungszeichen (SAXONJS / GAMS->TEI_SOURCE)</h2>
     <div id="derla_saxon_container">
         <div id="derla_spinner" class="spinner-border" role="status"></div>
     </div>
@@ -67,21 +67,21 @@
         });
     </script>
 
-    {# <br/>
-    <h2 class="h4 fw-light">Ereignisse (SAXONJS)</h2>
-    <p>Rendering data from RDF.xml via SAXONJS with a compiled XSLT stylesheet</p>
-
+    <br/>
+    <h2 class="h4 fw-light">Ereignisse (SAXONJS / RDF.xml)</h2>
     <div class="row">
-        <div class="col-md-6">
-            <div id="saxonjs_container">
-                <div id="spinner" class="spinner-border" role="status"></div>
+        <div class="col-md">
+            <div class="container pt-2 pb-2 bg-light">
+                <div id="saxonjs_container">
+                    <div id="spinner" class="spinner-border" role="status"></div>
+                </div>
             </div>
         </div>
-        <div class="col-md">
+        {# <div class="col-md-6">
             <div id="saxonjs_container02">
                 <div id="spinner02" class="spinner-border" role="status"></div>
             </div>
-        </div>
+        </div> #}
     </div>
 
     <script>
@@ -102,7 +102,7 @@
         }
     </script>
 
-    <script>
+    {# <script>
         // loading a second RDF file via SaxonJS and xslt for transformation
         window.addEventListener('load', (event) => {
             let matches = window.location.pathname.match(/(\d+)/);
