@@ -103,10 +103,15 @@ window.gams.projectDB = ((() => {
      * Initializes and (if empty) populates the database with data from the provided project.
      * Allows to expire the database and rebuild it from scratch via defining an expiration date.
      * @param {string} projectAbbr abbreviation of the GAMS project.
-     * @param {Date} expirationDate If lower than the current date -> rebuild the database from srcatch.
+     * @param {Date | string | number} expirationDate If lower than the current date -> rebuild the database from srcatch.
      * @param {number} version Version number of the dexie database.
      */
     const initDB = (projectAbbr, expirationDate = new Date("9999-01-31"), version = 1) => {
+
+        // make sure that expirationDate is a date object
+        if (expirationDate instanceof Date === false) {
+            expirationDate = new Date(expirationDate);
+        }
 
         (async (projectAbbr) => {
 
