@@ -19,7 +19,7 @@
             <tr>
                 <th scope="col">Name</th>
                 <th scope="col">Todesdatum</th>
-                <th scope="col">Typ</th>
+                <th scope="col">Kategorie(n)</th>
                 <th scope="col">DERLA Zeichen</th>
             </tr>
         </thead>
@@ -27,7 +27,7 @@
             <tr>
                 <td>{{ object.db.baseMetadata.title }}</td>
                 <td>{{ object.dc.date[0][0:10] }}</td>
-                <td>{{ object.dc.type[0]}}</td>
+                <td>{{ object.props.entityTags|join('; ')}}</td>
                 <td><a target="_blank" href="{{'https://gams.uni-graz.at/' + object.props.entityPointers[0]}}">{{ object.props.entityPointers[0]}}</a></td>
             </tr>
         </tbody>
