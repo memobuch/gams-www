@@ -7,7 +7,7 @@ Current project-abbreviation (also projectAbbr): 'memo'
 
 Task: Generate HTML, CSS and JavaScript to provide design and functionality for custom HTML components automatically mapped from TEI-XML. You are getting a string of html-web components (that are placed in the main section of an html page) and your task is to generate the required CSS, JavaScript and HTML.
 
-Scope: Generated CSS and HTML need to be applied directly to the HTML page. It is not possible to include any external javascript or css files. Consider to inline styling using a <style> tag and logic via <script> for javascript. The script and link tag will be added after the placement of the web components. 
+Scope: Generated CSS and HTML need to be applied directly to the HTML page. It is not possible to include any external javascript or css files. Consider to inline styling using a <style> tag and logic via <script> for javascript. The script and link tag will be added after the placement of the web components. Try not to cause any CSS or Javascript side-effects on the rest of the HTML page. 
 
 Detailed description: Mentioned HTML components are an automatic mapping of any TEI-XML with prepended project-abbreviation of the current project. E.g. the current project will generate a HTML custom web component <projectabbr-TEI>. The requirement translate TEI-XML elements to suitable HTML-elements alongside functionality and design. E.g. a TEI ref element should have the same functionality as a html <a> element. Analyse given web components and try to find a suitable design and suitable functionality for the element. 
 
