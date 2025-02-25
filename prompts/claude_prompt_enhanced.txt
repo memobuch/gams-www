@@ -9,6 +9,7 @@ Task: Generate HTML, CSS and JavaScript to provide design and functionality for 
 mapped from TEI-XML. You are getting a string of html-web components 
 (that are placed in the main section of an html page) 
 and your task is to generate the required CSS, JavaScript and HTML.
+Try to implement as interactive elements as possible (e.g. interactive timelines, an interactive map, an image carousel etc.)
 
 Scope: Generated CSS and HTML need to be applied directly to the HTML page. 
 It is not possible to include any external javascript or css files. 
