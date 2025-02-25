@@ -2,149 +2,205 @@
 {# <p>Some text</p> #}
 {{ object.component_map.imprint }}
 
+
+{#
+  Afterwards follows the result generation procedure
+#}
+
 <style>
-  /* Base styling for all memo components */
-  memo-tei {
-    display: block;
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    line-height: 1.5;
-  }
-  
-  /* Hide header elements as they contain metadata */
-  memo-teiheader {
-    display: none;
-  }
-  
-  /* Main text container */
-  memo-text {
-    display: block;
-  }
-  
-  memo-body {
-    display: block;
-  }
-  
-  /* Section styling */
-  memo-div {
-    display: block;
-    margin-bottom: 2rem;
-  }
-  
-  /* Heading styles */
-  memo-head {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 1rem;
-  }
-  
-  memo-div > memo-head {
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    padding-bottom: 0.5rem;
-  }
-  
-  memo-div > memo-div > memo-head {
-    font-size: 1.25rem;
-    margin-top: 1.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  /* Paragraph styling */
-  memo-p {
-    display: block;
-    margin-bottom: 1rem;
-  }
-  
-  /* Line break handling */
-  memo-lb {
-    display: block;
-  }
-  
-  /* Link styling to mimic <a> element */
-  memo-ref {
-    color: #0d6efd;
-    text-decoration: underline;
-    cursor: pointer;
-  }
-  
-  memo-ref:hover {
-    color: #0a58ca;
-    text-decoration: underline;
-  }
-  
-  /* Italic text */
-  memo-hi[rend="italic"] {
-    font-style: italic;
-  }
-  
-  /* Person name styling */
-  memo-persname {
-    display: inline;
-  }
-  
-  /* Organization name styling */
-  memo-orgname {
-    display: inline;
-  }
-  
-  /* Language specific sections */
-  memo-div[{http://www.w3.org/XML/1998/namespace}lang] {
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    background-color: rgba(0, 0, 0, 0.03); /* Light background using Bootstrap's bg-light equivalent */
-    border-radius: 0.25rem;
-  }
-  
-  memo-div[{http://www.w3.org/XML/1998/namespace}lang] > memo-head {
-    font-size: 1.75rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    padding-bottom: 0.5rem;
-    margin-bottom: 1.5rem;
-  }
+/* Base styles for TEI components */
+memo-tei {
+  display: block;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.5;
+}
+
+/* Hide TEI header by default - it contains metadata that's not usually displayed */
+memo-teiheader {
+  display: none;
+}
+
+/* Text body styling */
+memo-text, memo-body {
+  display: block;
+}
+
+/* Basic block element styling */
+memo-div {
+  display: block;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Heading styles */
+memo-head {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 0.5rem;
+}
+
+memo-div > memo-head {
+  font-size: 1.5rem;
+}
+
+memo-div > memo-div > memo-head {
+  font-size: 1.25rem;
+}
+
+/* Paragraph styling */
+memo-p {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+/* Line break styling */
+memo-lb {
+  display: block;
+}
+
+/* Reference/link styling */
+memo-ref {
+  color: #0d6efd;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+memo-ref:hover {
+  color: #0a58ca;
+  text-decoration: none;
+}
+
+/* Highlight styling */
+memo-hi[rend="italic"] {
+  font-style: italic;
+}
+
+/* Language tabs at the top */
+.lang-tabs {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.lang-tab {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border: 1px solid #dee2e6;
+  background-color: #f8f9fa;
+  margin-right: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.lang-tab.active {
+  background-color: #0d6efd;
+  color: white;
+  border-color: #0d6efd;
+}
+
+/* Initially hide all language divs except German */
+memo-div[xml\:lang="en"], 
+memo-div[xml\:lang="fr"] {
+  display: none;
+}
+
+memo-div[xml\:lang="de"] {
+  display: block;
+}
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Make memo-ref elements behave like links
-    const refElements = document.querySelectorAll('memo-ref[target]');
-    refElements.forEach(element => {
-      element.addEventListener('click', function() {
-        const target = this.getAttribute('target');
-        if (target) {
-          // Handle email links differently
-          if (target.startsWith('mailto:')) {
-            window.location.href = target;
-          } else {
-            // Open other links in a new tab
-            window.open(target, '_blank');
-          }
+// Wait for DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+  // Setup language tabs
+  setupLanguageTabs();
+  
+  // Setup references/links
+  setupReferences();
+});
+
+// Create and setup language tabs
+function setupLanguageTabs() {
+  // Find the parent memo-text element
+  const memoText = document.querySelector('memo-text');
+  if (!memoText) return;
+  
+  // Create tabs container
+  const tabsContainer = document.createElement('div');
+  tabsContainer.className = 'lang-tabs';
+  
+  // Get all language divs
+  const langDivs = memoText.querySelectorAll('memo-div[xml\\:lang]');
+  const languages = {
+    'de': 'Deutsch',
+    'en': 'English',
+    'fr': 'Français'
+  };
+  
+  // Create a tab for each language
+  langDivs.forEach(div => {
+    const lang = div.getAttribute('xml:lang');
+    if (lang && languages[lang]) {
+      const tab = document.createElement('div');
+      tab.className = 'lang-tab';
+      tab.dataset.lang = lang;
+      tab.textContent = languages[lang];
+      
+      // Set German as active by default
+      if (lang === 'de') {
+        tab.classList.add('active');
+      }
+      
+      // Add click handler
+      tab.addEventListener('click', function() {
+        // Hide all language divs
+        langDivs.forEach(div => {
+          div.style.display = 'none';
+        });
+        
+        // Show clicked language div
+        const targetDiv = memoText.querySelector(`memo-div[xml\\:lang="${lang}"]`);
+        if (targetDiv) {
+          targetDiv.style.display = 'block';
         }
+        
+        // Update active tab styling
+        document.querySelectorAll('.lang-tab').forEach(tab => {
+          tab.classList.remove('active');
+        });
+        tab.classList.add('active');
       });
       
-      // Add title attribute for better UX
-      if (!element.hasAttribute('title') && element.textContent.trim()) {
-        element.setAttribute('title', element.textContent.trim());
-      }
-    });
-    
-    // Custom language detection and display
-    const langElements = document.querySelectorAll('memo-div[{http://www.w3.org/XML/1998/namespace}lang]');
-    langElements.forEach(element => {
-      const lang = element.getAttribute('{http://www.w3.org/XML/1998/namespace}lang');
-      const langNames = {
-        'de': 'German',
-        'en': 'English',
-        'fr': 'French'
-      };
-      
-      // Create language indicator
-      if (lang && langNames[lang]) {
-        const langIndicator = document.createElement('small');
-        langIndicator.classList.add('text-muted', 'd-block', 'mb-3');
-        langIndicator.innerText = `[${langNames[lang]}]`;
-        element.insertBefore(langIndicator, element.firstChild.nextSibling);
+      tabsContainer.appendChild(tab);
+    }
+  });
+  
+  // Add tabs before the content
+  memoText.parentNode.insertBefore(tabsContainer, memoText);
+}
+
+// Setup all reference links
+function setupReferences() {
+  // Make all memo-ref elements work as links
+  document.querySelectorAll('memo-ref[target]').forEach(ref => {
+    ref.addEventListener('click', function() {
+      const target = this.getAttribute('target');
+      if (target) {
+        // For email links
+        if (target.startsWith('mailto:')) {
+          window.location.href = target;
+        } else {
+          // For normal links, open in new tab
+          window.open(target, '_blank');
+        }
       }
     });
   });
+}
 </script>
+
+
+
+<!-- Main HTML structure remains unchanged as it's already provided -->

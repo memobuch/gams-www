@@ -128,699 +128,675 @@
 
             <p>Beispiel für workflow via automatisch generierte web-componenten des pollin-tools:</p>
             {# Demo for using the auto-mapped xml via web-components #}
-            {{ object.component_map.rdf }}
+            <div class="d-none">
+              {{ object.component_map.rdf }}
+            </div>
+            <br/>
             {# {{ object.component_map.dc }} #}
         </div>
     </div>
 
-    <style>
-/* Base styling for memo components */
-memo-rdf {
-  display: block;
-  font-family: var(--bs-body-font-family);
-  color: var(--bs-body-color);
-}
-
-/* Person description styling */
-memo-description {
-  display: block;
-  margin-bottom: 1.5rem;
-  padding: 1.25rem;
-  background-color: var(--bs-light);
-  border-radius: 0.25rem;
-}
-
-/* Main person card styling */
-memo-description[rdf\:about*="/persons/memo.person"] {
-  border: 1px solid rgba(0,0,0,0.125);
-}
-
-/* Event descriptions styling */
-memo-description[rdf\:about*="/events/"] {
-  margin-left: 1rem;
-  margin-bottom: 1rem;
-  background-color: #f8f9fa;
-  padding: 1rem;
-  border-left: 3px solid #dee2e6;
-}
-
-/* Person name and labels */
-memo-label {
-  display: block;
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-}
-
-/* Person details */
-memo-name, memo-familyname, memo-givenname, memo-basednear, memo-birthday {
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
-/* Format personal details with labels */
-memo-familyname::before {
-  content: "Last name: ";
-  font-weight: 500;
-}
-
-memo-givenname::before {
-  content: "First name: ";
-  font-weight: 500;
-}
-
-/* Format birthdate */
-memo-birthday::before {
-  content: "Born: ";
-  font-weight: 500;
-}
-
-/* Format location */
-memo-basednear::before {
-  content: "Location: ";
-  font-weight: 500;
-}
-
-/* Hide redundant elements */
-memo-type, memo-describesperson {
-  display: none;
-}
-
-/* Media container for images */
-.memo-media-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
-
-.memo-media-item {
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 0.25rem;
-  border: 1px solid rgba(0,0,0,0.125);
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.memo-media-item:hover {
-  transform: scale(1.05);
-}
-
-/* Event styling */
-memo-date::before {
-  content: "Date: ";
-  font-weight: 500;
-}
-
-memo-date {
-  display: inline-block;
-  margin-right: 1rem;
-}
-
-memo-location::before {
-  content: "Location: ";
-  font-weight: 500;
-}
-
-memo-location {
-  display: inline-block;
-}
-
-memo-description[rdf\:about*="/events/"] memo-description {
-  display: block;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-  font-style: italic;
-}
-
-/* Event categories */
-memo-description[rdf\:about*="_event_haft_"] {
-  border-left-color: #dc3545;
-}
-
-memo-description[rdf\:about*="_event_flucht_"] {
-  border-left-color: #0d6efd;
-}
-
-memo-description[rdf\:about*="_event_haft_"] memo-label::before {
-  content: "🔒 ";
-}
-
-memo-description[rdf\:about*="_event_flucht_"] memo-label::before {
-  content: "🏃 ";
-}
-
-/* Creator and rights info */
-memo-creator, memo-rights {
-  display: block;
-  font-size: 0.8rem;
-  color: var(--bs-secondary);
-  margin-top: 1rem;
-}
-
-memo-creator::before {
-  content: "Creator: ";
-}
-
-memo-rights::before {
-  content: "Rights: ";
-}
-
-/* Modal for fullsize images */
-.memo-modal {
-  display: none;
-  position: fixed;
-  z-index: 1050;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.8);
-}
-
-.memo-modal-content {
-  margin: 10% auto;
-  padding: 20px;
-  max-width: 80%;
-  max-height: 80%;
-}
-
-.memo-modal-image {
-  display: block;
-  max-width: 100%;
-  max-height: 60vh;
-  margin: 0 auto;
-}
-
-.memo-modal-close {
-  color: #f1f1f1;
-  position: absolute;
-  top: 15px;
-  right: 35px;
-  font-size: 40px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-/* Document links */
-.memo-document-link {
-  display: inline-block;
-  margin-right: 1rem;
-  margin-bottom: 0.5rem;
-  padding: 0.375rem 0.75rem;
-  background-color: var(--bs-light);
-  border: 1px solid rgba(0,0,0,0.125);
-  border-radius: 0.25rem;
-  text-decoration: none;
-  color: var(--bs-dark);
-  transition: background-color 0.2s ease;
-}
-
-.memo-document-link:hover {
-  background-color: var(--bs-gray-200);
-}
-
-.memo-document-link::before {
-  content: "📄 ";
-}
-
-.memo-section-title {
-  font-size: 1.1rem;
-  font-weight: 500;
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(0,0,0,0.125);
-  padding-bottom: 0.25rem;
-}
-
-/* Interactive Timeline */
-.memo-timeline {
-  position: relative;
-  margin: 1.5rem 0;
-  padding-left: 50px;
-}
-
-.memo-timeline-line {
-  position: absolute;
-  left: 20px;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background-color: #dee2e6;
-}
-
-.memo-timeline-event {
-  position: relative;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  background-color: #f8f9fa;
-  border-radius: 0.25rem;
-  border: 1px solid rgba(0,0,0,0.125);
-  transition: transform 0.2s ease;
-  cursor: pointer;
-}
-
-.memo-timeline-event:hover {
-  transform: translateX(5px);
-}
-
-.memo-timeline-event::before {
-  content: "";
-  position: absolute;
-  left: -37px;
-  top: 20px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background-color: #6c757d;
-  border: 3px solid #fff;
-  z-index: 1;
-}
-
-.memo-timeline-event::after {
-  content: "";
-  position: absolute;
-  left: -21px;
-  top: 24px;
-  width: 20px;
-  height: 2px;
-  background-color: #dee2e6;
-}
-
-.memo-timeline-event[data-event-type="haft"]::before {
-  background-color: #dc3545;
-}
-
-.memo-timeline-event[data-event-type="flucht"]::before {
-  background-color: #0d6efd;
-}
-
-.memo-timeline-date {
-  position: absolute;
-  left: -85px;
-  top: 16px;
-  font-weight: 500;
-  font-size: 0.85rem;
-}
-
-.memo-timeline-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.memo-timeline-title {
-  font-weight: 500;
-  margin: 0;
-}
-
-.memo-timeline-location {
-  font-size: 0.85rem;
-  margin-top: 0.5rem;
-  color: #6c757d;
-}
-
-.memo-timeline-content {
-  margin-top: 0.75rem;
-}
-
-.memo-timeline-toggle {
-  cursor: pointer;
-  font-size: 1.25rem;
-  line-height: 1;
-  color: #6c757d;
-}
-
-.memo-timeline-content {
-  display: none;
-}
-
-.memo-timeline-event.expanded .memo-timeline-content {
-  display: block;
-}
-
-.memo-legend {
-  display: flex;
-  gap: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.memo-legend-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.85rem;
-}
-
-.memo-legend-color {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-}
-
-.memo-timeline-filters {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.memo-filter-button {
-  padding: 0.25rem 0.5rem;
-  background-color: #f8f9fa;
-  border: 1px solid #dee2e6;
-  border-radius: 0.25rem;
-  cursor: pointer;
-  font-size: 0.85rem;
-  transition: all 0.2s ease;
-}
-
-.memo-filter-button:hover {
-  background-color: #e9ecef;
-}
-
-.memo-filter-button.active {
-  background-color: #212529;
-  color: #fff;
-  border-color: #212529;
-}
+  <!-- Custom styles for memorial book components -->
+<style>
+  /* Reset and scoping styles to avoid affecting other elements */
+  memo-rdf * {
+    box-sizing: border-box;
+  }
+  
+  memo-rdf {
+    display: block;
+    font-family: inherit;
+    color: inherit;
+  }
+  
+  /* Person profile section */
+  .memo-person-profile {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background-color: var(--bs-light);
+    border-radius: 0.25rem;
+  }
+  
+  .memo-person-image-container {
+    flex: 0 0 250px;
+    margin-right: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .memo-profile-content {
+    flex: 1;
+    min-width: 300px;
+  }
+  
+  .memo-person-name {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding-bottom: 0.5rem;
+  }
+  
+  .memo-person-info {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+  
+  .memo-person-info-item {
+    flex: 0 0 50%;
+    margin-bottom: 0.75rem;
+  }
+  
+  .memo-person-info-label {
+    font-weight: 600;
+    display: block;
+    font-size: 0.875rem;
+  }
+  
+  /* Media gallery */
+  .memo-media-gallery {
+    margin-top: 1.5rem;
+  }
+  
+  .memo-gallery-title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  
+  .memo-carousel {
+    position: relative;
+    overflow: hidden;
+    background-color: #f8f9fa;
+    border-radius: 0.25rem;
+    padding: 1rem;
+  }
+  
+  .memo-carousel-inner {
+    display: flex;
+    transition: transform 0.5s ease;
+  }
+  
+  .memo-carousel-item {
+    flex: 0 0 100%;
+    padding: 0 0.5rem;
+    text-align: center;
+  }
+  
+  .memo-carousel-item img {
+    max-width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    margin-bottom: 0.5rem;
+  }
+  
+  .memo-carousel-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+  
+  .memo-carousel-control {
+    background-color: var(--bs-dark);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0.5rem;
+    cursor: pointer;
+  }
+  
+  .memo-carousel-control:hover {
+    background-color: var(--bs-gray-700);
+  }
+  
+  .memo-carousel-indicators {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+  
+  .memo-carousel-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--bs-gray-300);
+    margin: 0 0.25rem;
+    cursor: pointer;
+  }
+  
+  .memo-carousel-indicator.active {
+    background-color: var(--bs-dark);
+  }
+  
+  /* Documents section */
+  .memo-documents {
+    margin-top: 1.5rem;
+  }
+  
+  .memo-document-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    background-color: var(--bs-light);
+    margin-bottom: 0.75rem;
+    border-radius: 0.25rem;
+  }
+  
+  .memo-document-icon {
+    margin-right: 1rem;
+    font-size: 1.5rem;
+  }
+  
+  .memo-document-link {
+    color: var(--bs-primary);
+    text-decoration: none;
+  }
+  
+  .memo-document-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Timeline section */
+  .memo-timeline {
+    margin: 2rem 0;
+    position: relative;
+    padding-left: 2rem;
+  }
+  
+  .memo-timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background-color: var(--bs-gray-400);
+  }
+  
+  .memo-timeline-event {
+    position: relative;
+    margin-bottom: 1.5rem;
+    background-color: var(--bs-light);
+    padding: 1rem;
+    border-radius: 0.25rem;
+  }
+  
+  .memo-timeline-event::before {
+    content: '';
+    position: absolute;
+    left: -2rem;
+    top: 1rem;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: var(--bs-dark);
+  }
+  
+  .memo-timeline-date {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  
+  .memo-timeline-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  
+  .memo-timeline-description {
+    margin-bottom: 0.5rem;
+  }
+  
+  .memo-timeline-location {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--bs-gray-600);
+  }
+  
+  /* Map container */
+  .memo-map-container {
+    height: 400px;
+    margin-top: 2rem;
+    background-color: var(--bs-light);
+    border-radius: 0.25rem;
+    position: relative;
+  }
+  
+  .memo-map {
+    height: 100%;
+    width: 100%;
+    border-radius: 0.25rem;
+  }
+  
+  /* Tab navigation for different sections */
+  .memo-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--bs-gray-300);
+    margin-bottom: 1.5rem;
+  }
+  
+  .memo-tab {
+    padding: 0.75rem 1.25rem;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    font-weight: 600;
+  }
+  
+  .memo-tab:hover {
+    background-color: var(--bs-gray-100);
+  }
+  
+  .memo-tab.active {
+    border-bottom-color: var(--bs-dark);
+  }
+  
+  .memo-tab-content {
+    display: none;
+  }
+  
+  .memo-tab-content.active {
+    display: block;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .memo-person-info-item {
+      flex: 0 0 100%;
+    }
+    
+    .memo-person-image-container {
+      flex: 0 0 100%;
+      margin-right: 0;
+      margin-bottom: 1.5rem;
+    }
+  }
 </style>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  // Create modal for displaying images
-  const createModal = () => {
-    const modal = document.createElement('div');
-    modal.className = 'memo-modal';
-    modal.innerHTML = `
-      <span class="memo-modal-close">&times;</span>
-      <div class="memo-modal-content">
-        <img class="memo-modal-image" src="" alt="Full size image">
+<!-- Generated HTML structure for the memorial book components -->
+<div class="memo-container">
+  <!-- Tabs for navigation -->
+  <div class="memo-tabs">
+    <div class="memo-tab active" data-tab="profile">Profile</div>
+    <div class="memo-tab" data-tab="timeline">Timeline</div>
+    <div class="memo-tab" data-tab="map">Map</div>
+    <div class="memo-tab" data-tab="documents">Documents</div>
+  </div>
+  
+  <!-- Profile Tab Content -->
+  <div class="memo-tab-content active" id="profile-tab">
+    <div class="memo-person-profile">
+      <div class="memo-person-image-container">
+        <div id="memo-image-carousel" class="memo-carousel">
+          <div class="memo-carousel-inner">
+            <!-- Images will be populated by JavaScript -->
+          </div>
+          <div class="memo-carousel-indicators">
+            <!-- Indicators will be populated by JavaScript -->
+          </div>
+          <div class="memo-carousel-controls">
+            <button class="memo-carousel-control prev">&lt;</button>
+            <button class="memo-carousel-control next">&gt;</button>
+          </div>
+        </div>
       </div>
-    `;
-    document.body.appendChild(modal);
-    
-    // Close modal when clicking on X or outside the image
-    modal.querySelector('.memo-modal-close').addEventListener('click', () => {
-      modal.style.display = 'none';
-    });
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.style.display = 'none';
-      }
-    });
-    
-    return modal;
-  };
+      <div class="memo-profile-content">
+        <h2 class="memo-person-name" id="person-name"></h2>
+        <div class="memo-person-info">
+          <div class="memo-person-info-item">
+            <span class="memo-person-info-label">Given Name:</span>
+            <span id="person-given-name"></span>
+          </div>
+          <div class="memo-person-info-item">
+            <span class="memo-person-info-label">Family Name:</span>
+            <span id="person-family-name"></span>
+          </div>
+          <div class="memo-person-info-item">
+            <span class="memo-person-info-label">Birth Date:</span>
+            <span id="person-birth-date"></span>
+          </div>
+          <div class="memo-person-info-item">
+            <span class="memo-person-info-label">Location:</span>
+            <span id="person-location"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   
-  const modal = createModal();
+  <!-- Timeline Tab Content -->
+  <div class="memo-tab-content" id="timeline-tab">
+    <div class="memo-timeline" id="person-timeline">
+      <!-- Timeline events will be populated by JavaScript -->
+    </div>
+  </div>
   
-  // Process person descriptions
-  document.querySelectorAll('memo-description[rdf\\:about*="/persons/memo.person"]').forEach(personDesc => {
-    // Extract birthdate and format it
-    const birthdayEl = personDesc.querySelector('memo-birthday');
-    if (birthdayEl) {
-      try {
-        const dateStr = birthdayEl.textContent;
-        const date = new Date(dateStr);
-        birthdayEl.textContent = date.toLocaleDateString('de-AT');
-      } catch (e) {
-        console.log('Could not parse date', e);
-      }
-    }
+  <!-- Map Tab Content -->
+  <div class="memo-tab-content" id="map-tab">
+    <div class="memo-map-container">
+      <div id="memo-map" class="memo-map"></div>
+    </div>
+  </div>
+  
+  <!-- Documents Tab Content -->
+  <div class="memo-tab-content" id="documents-tab">
+    <div class="memo-documents">
+      <h3 class="memo-gallery-title">Historical Documents</h3>
+      <div id="memo-documents-list">
+        <!-- Documents will be populated by JavaScript -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript for functionality -->
+<script>
+  // Initialize the memorial book components
+  document.addEventListener('DOMContentLoaded', function() {
+    // Parse the RDF data
+    const memoRdf = document.querySelector('memo-rdf');
+    if (!memoRdf) return;
     
-    // Handle images
-    const portraitImage = personDesc.querySelector('memo-portraitimage');
-    const historicImages = personDesc.querySelectorAll('memo-hashistoricimage');
+    // Find person data
+    const personDesc = memoRdf.querySelector('memo-description[rdf\\:about*="/persons/memo.person"]');
+    if (!personDesc) return;
     
-    if (portraitImage || historicImages.length > 0) {
-      // Create media container
-      const mediaContainer = document.createElement('div');
-      mediaContainer.className = 'memo-media-container';
-      
-      // Title for images section
-      const mediaTitle = document.createElement('h4');
-      mediaTitle.className = 'memo-section-title';
-      mediaTitle.textContent = 'Images';
-      
-      if (portraitImage) {
-        const imgSrc = portraitImage.getAttribute('rdf:resource');
-        const img = document.createElement('img');
-        img.src = imgSrc;
-        img.alt = 'Portrait';
-        img.className = 'memo-media-item';
-        img.addEventListener('click', () => {
-          modal.querySelector('.memo-modal-image').src = imgSrc;
-          modal.style.display = 'block';
-        });
-        mediaContainer.appendChild(img);
-      }
-      
-      historicImages.forEach((imageEl, index) => {
-        const imgSrc = imageEl.getAttribute('rdf:resource');
-        const img = document.createElement('img');
-        img.src = imgSrc;
-        img.alt = `Historic image ${index + 1}`;
-        img.className = 'memo-media-item';
-        img.addEventListener('click', () => {
-          modal.querySelector('.memo-modal-image').src = imgSrc;
-          modal.style.display = 'block';
-        });
-        mediaContainer.appendChild(img);
+    // Extract person information
+    const personName = personDesc.querySelector('memo-name')?.textContent || '';
+    const personGivenName = personDesc.querySelector('memo-givenname')?.textContent || '';
+    const personFamilyName = personDesc.querySelector('memo-familyname')?.textContent || '';
+    const personLocation = personDesc.querySelector('memo-basednear')?.textContent || '';
+    const personBirthday = personDesc.querySelector('memo-birthday')?.textContent || '';
+    
+    // Format birth date
+    let formattedBirthDate = '';
+    if (personBirthday) {
+      const birthDate = new Date(personBirthday);
+      formattedBirthDate = birthDate.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
       });
-      
-      // Insert media section after personal details
-      const insertAfter = personDesc.querySelector('memo-birthday') || 
-                         personDesc.querySelector('memo-basednear') || 
-                         personDesc.querySelector('memo-givenname');
-      if (insertAfter) {
-        insertAfter.parentNode.insertBefore(mediaTitle, insertAfter.nextSibling);
-        insertAfter.parentNode.insertBefore(mediaContainer, mediaTitle.nextSibling);
-      } else {
-        personDesc.appendChild(mediaTitle);
-        personDesc.appendChild(mediaContainer);
-      }
     }
     
-    // Handle documents
-    const documents = personDesc.querySelectorAll('memo-hashistoricsourcedocument');
-    if (documents.length > 0) {
-      const docsTitle = document.createElement('h4');
-      docsTitle.className = 'memo-section-title';
-      docsTitle.textContent = 'Documents';
-      
-      const docsContainer = document.createElement('div');
-      
-      documents.forEach((docEl, index) => {
-        const docSrc = docEl.getAttribute('rdf:resource');
-        const docLink = document.createElement('a');
-        docLink.href = docSrc;
-        docLink.className = 'memo-document-link';
-        docLink.textContent = `Document ${index + 1}`;
-        docLink.target = '_blank';
-        docsContainer.appendChild(docLink);
-      });
-      
-      // Insert after images or personal details
-      const mediaContainer = personDesc.querySelector('.memo-media-container');
-      const insertAfter = mediaContainer || 
-                         personDesc.querySelector('memo-birthday') || 
-                         personDesc.querySelector('memo-basednear') || 
-                         personDesc.querySelector('memo-givenname');
-      
-      if (insertAfter) {
-        insertAfter.parentNode.insertBefore(docsTitle, insertAfter.nextSibling);
-        insertAfter.parentNode.insertBefore(docsContainer, docsTitle.nextSibling);
-      } else {
-        personDesc.appendChild(docsTitle);
-        personDesc.appendChild(docsContainer);
-      }
-    }
+    // Set person information in the profile
+    document.getElementById('person-name').textContent = personName;
+    document.getElementById('person-given-name').textContent = personGivenName;
+    document.getElementById('person-family-name').textContent = personFamilyName;
+    document.getElementById('person-birth-date').textContent = formattedBirthDate;
+    document.getElementById('person-location').textContent = personLocation;
     
-    // Collect events
+    // Get images for carousel
+    const portraitImage = personDesc.querySelector('memo-portraitimage')?.getAttribute('rdf:resource') || '';
+    const historicImage = personDesc.querySelector('memo-hashistoricimage')?.getAttribute('rdf:resource') || '';
+    
+    // Set up image carousel
+    const carouselImages = [];
+    if (portraitImage) carouselImages.push({
+      src: portraitImage,
+      caption: 'Portrait of ' + personName
+    });
+    if (historicImage) carouselImages.push({
+      src: historicImage,
+      caption: 'Historical image'
+    });
+    
+    initCarousel(carouselImages);
+    
+    // Get documents
+    const documents = [];
+    personDesc.querySelectorAll('memo-hashistoricsourcedocument').forEach((docElement, index) => {
+      const documentUrl = docElement.getAttribute('rdf:resource') || '';
+      if (documentUrl) {
+        documents.push({
+          url: documentUrl,
+          title: `Historical Document ${index + 1}`
+        });
+      }
+    });
+    
+    renderDocuments(documents);
+    
+    // Get events for timeline and map
     const events = [];
-    document.querySelectorAll('memo-description[rdf\\:about*="/events/"]').forEach(event => {
-      const eventUrl = event.getAttribute('rdf:about');
-      let eventType = 'other';
-      
-      // Extract event type
-      const match = eventUrl.match(/event_([^_]+)_/);
-      if (match) {
-        eventType = match[1];
-      }
-      
-      // Extract date and label
-      const date = event.querySelector('memo-date')?.textContent || '';
-      const label = event.querySelector('memo-label')?.textContent || '';
-      const description = event.querySelector('memo-description')?.textContent || '';
-      const location = event.querySelector('memo-location')?.textContent || '';
+    memoRdf.querySelectorAll('memo-description[rdf\\:about*="/events/"]').forEach(eventElement => {
+      const eventLabel = eventElement.querySelector('memo-label')?.textContent || '';
+      const eventDescription = eventElement.querySelector('memo-description')?.textContent || '';
+      const eventDate = eventElement.querySelector('memo-date')?.textContent || '';
+      const eventLocation = eventElement.querySelector('memo-location')?.textContent || '';
+      const eventLat = parseFloat(eventElement.querySelector('memo-lat')?.getAttribute('rdf:datatype') ? 
+                                 eventElement.querySelector('memo-lat').textContent : 0);
+      const eventLong = parseFloat(eventElement.querySelector('memo-long')?.getAttribute('rdf:datatype') ? 
+                                  eventElement.querySelector('memo-long').textContent : 0);
       
       events.push({
-        element: event,
-        type: eventType,
-        date,
-        label,
-        description,
-        location,
-        url: eventUrl
+        label: eventLabel,
+        description: eventDescription,
+        date: eventDate,
+        location: eventLocation,
+        latitude: eventLat,
+        longitude: eventLong
       });
     });
     
-    // Create interactive timeline
-    if (events.length > 0) {
-      // Sort events by date
-      events.sort((a, b) => a.date.localeCompare(b.date));
-      
-      // Create timeline container
-      const timelineTitle = document.createElement('h4');
-      timelineTitle.className = 'memo-section-title';
-      timelineTitle.textContent = 'Interactive Timeline';
-      personDesc.appendChild(timelineTitle);
-      
-      // Create legend
-      const legendContainer = document.createElement('div');
-      legendContainer.className = 'memo-legend';
-      
-      // Get unique event types
-      const eventTypes = [...new Set(events.map(e => e.type))];
-      
-      // Create filters
-      const filtersContainer = document.createElement('div');
-      filtersContainer.className = 'memo-timeline-filters';
-      
-      const allFilterButton = document.createElement('button');
-      allFilterButton.className = 'memo-filter-button active';
-      allFilterButton.textContent = 'All Events';
-      allFilterButton.dataset.filter = 'all';
-      filtersContainer.appendChild(allFilterButton);
-      
-      eventTypes.forEach(type => {
-        // Add to legend
-        const legendItem = document.createElement('div');
-        legendItem.className = 'memo-legend-item';
+    // Sort events by date
+    events.sort((a, b) => {
+      return parseInt(a.date) - parseInt(b.date);
+    });
+    
+    renderTimeline(events);
+    initMap(events);
+    
+    // Initialize tab navigation
+    initTabs();
+  });
+  
+  // Tab functionality
+  function initTabs() {
+    const tabs = document.querySelectorAll('.memo-tab');
+    
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        // Remove active class from all tabs
+        tabs.forEach(t => t.classList.remove('active'));
         
-        const legendColor = document.createElement('div');
-        legendColor.className = 'memo-legend-color';
-        legendColor.style.backgroundColor = type === 'haft' ? '#dc3545' : 
-                                          type === 'flucht' ? '#0d6efd' : '#6c757d';
+        // Add active class to clicked tab
+        this.classList.add('active');
         
-        const legendText = document.createElement('span');
-        legendText.textContent = type.charAt(0).toUpperCase() + type.slice(1);
-        
-        legendItem.appendChild(legendColor);
-        legendItem.appendChild(legendText);
-        legendContainer.appendChild(legendItem);
-        
-        // Add filter button
-        const filterButton = document.createElement('button');
-        filterButton.className = 'memo-filter-button';
-        filterButton.textContent = type.charAt(0).toUpperCase() + type.slice(1);
-        filterButton.dataset.filter = type;
-        filtersContainer.appendChild(filterButton);
-      });
-      
-      personDesc.appendChild(legendContainer);
-      personDesc.appendChild(filtersContainer);
-      
-      // Create timeline
-      const timeline = document.createElement('div');
-      timeline.className = 'memo-timeline';
-      
-      // Create timeline line
-      const timelineLine = document.createElement('div');
-      timelineLine.className = 'memo-timeline-line';
-      timeline.appendChild(timelineLine);
-      
-      // Add events to timeline
-      events.forEach(event => {
-        const timelineEvent = document.createElement('div');
-        timelineEvent.className = 'memo-timeline-event';
-        timelineEvent.dataset.eventType = event.type;
-        
-        // Add date marker
-        const timelineDate = document.createElement('div');
-        timelineDate.className = 'memo-timeline-date';
-        timelineDate.textContent = event.date;
-        timelineEvent.appendChild(timelineDate);
-        
-        // Create header with title and toggle
-        const timelineHeader = document.createElement('div');
-        timelineHeader.className = 'memo-timeline-header';
-        
-        const timelineTitle = document.createElement('h5');
-        timelineTitle.className = 'memo-timeline-title';
-        timelineTitle.textContent = event.label;
-        
-        const timelineToggle = document.createElement('span');
-        timelineToggle.className = 'memo-timeline-toggle';
-        timelineToggle.innerHTML = '&plus;';
-        
-        timelineHeader.appendChild(timelineTitle);
-        timelineHeader.appendChild(timelineToggle);
-        timelineEvent.appendChild(timelineHeader);
-        
-        // Add location
-        const timelineLocation = document.createElement('div');
-        timelineLocation.className = 'memo-timeline-location';
-        timelineLocation.textContent = `📍 ${event.location}`;
-        timelineEvent.appendChild(timelineLocation);
-        
-        // Add content container
-        const timelineContent = document.createElement('div');
-        timelineContent.className = 'memo-timeline-content';
-        timelineContent.textContent = event.description;
-        timelineEvent.appendChild(timelineContent);
-        
-        // Add toggle functionality
-        timelineEvent.addEventListener('click', () => {
-          const isExpanded = timelineEvent.classList.contains('expanded');
-          
-          // First collapse all events
-          document.querySelectorAll('.memo-timeline-event').forEach(el => {
-            el.classList.remove('expanded');
-            el.querySelector('.memo-timeline-toggle').innerHTML = '&plus;';
-          });
-          
-          // Then expand the clicked one if it wasn't expanded before
-          if (!isExpanded) {
-            timelineEvent.classList.add('expanded');
-            timelineToggle.innerHTML = '&minus;';
-          }
+        // Hide all tab content
+        document.querySelectorAll('.memo-tab-content').forEach(content => {
+          content.classList.remove('active');
         });
         
-        timeline.appendChild(timelineEvent);
+        // Show selected tab content
+        const tabName = this.getAttribute('data-tab');
+        document.getElementById(tabName + '-tab').classList.add('active');
       });
+    });
+  }
+  
+  // Image carousel functionality
+  function initCarousel(images) {
+    const carouselInner = document.querySelector('.memo-carousel-inner');
+    const indicators = document.querySelector('.memo-carousel-indicators');
+    
+    // If no images, show placeholder
+    if (images.length === 0) {
+      carouselInner.innerHTML = `
+        <div class="memo-carousel-item">
+          <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_1%20text%20%7B%20fill%3A%23AAAAAA%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_1%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23EEEEEE%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22100%22%20y%3D%22100%22%20text-anchor%3D%22middle%22%20alignment-baseline%3D%22middle%22%3ENo Image Available%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="No image available">
+          <div class="memo-carousel-caption">No Images Available</div>
+        </div>
+      `;
+      return;
+    }
+    
+    // Populate carousel with images
+    images.forEach((image, index) => {
+      const item = document.createElement('div');
+      item.className = `memo-carousel-item${index === 0 ? ' active' : ''}`;
+      item.innerHTML = `
+        <img src="${image.src}" alt="${image.caption}">
+        <div class="memo-carousel-caption">${image.caption}</div>
+      `;
+      carouselInner.appendChild(item);
       
-      personDesc.appendChild(timeline);
+      // Add indicator
+      const indicator = document.createElement('div');
+      indicator.className = `memo-carousel-indicator${index === 0 ? ' active' : ''}`;
+      indicator.setAttribute('data-slide-to', index);
+      indicators.appendChild(indicator);
+    });
+    
+    // Set up carousel controls
+    let currentSlide = 0;
+    const totalSlides = images.length;
+    
+    document.querySelector('.memo-carousel-control.prev').addEventListener('click', () => {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      updateCarousel();
+    });
+    
+    document.querySelector('.memo-carousel-control.next').addEventListener('click', () => {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateCarousel();
+    });
+    
+    // Indicator click events
+    document.querySelectorAll('.memo-carousel-indicator').forEach((indicator, index) => {
+      indicator.addEventListener('click', () => {
+        currentSlide = index;
+        updateCarousel();
+      });
+    });
+    
+    function updateCarousel() {
+      carouselInner.style.transform = `translateX(-${currentSlide * 100}%)`;
       
-      // Add filter functionality
-      document.querySelectorAll('.memo-filter-button').forEach(button => {
-        button.addEventListener('click', () => {
-          // Update active state
-          document.querySelectorAll('.memo-filter-button').forEach(btn => {
-            btn.classList.remove('active');
-          });
-          button.classList.add('active');
-          
-          const filter = button.dataset.filter;
-          
-          // Filter timeline events
-          document.querySelectorAll('.memo-timeline-event').forEach(event => {
-            if (filter === 'all' || event.dataset.eventType === filter) {
-              event.style.display = 'block';
-            } else {
-              event.style.display = 'none';
-            }
-          });
-        });
+      // Update indicators
+      document.querySelectorAll('.memo-carousel-indicator').forEach((indicator, index) => {
+        if (index === currentSlide) {
+          indicator.classList.add('active');
+        } else {
+          indicator.classList.remove('active');
+        }
       });
     }
-  });
-});
+  }
+  
+  // Timeline rendering
+  function renderTimeline(events) {
+    const timeline = document.getElementById('person-timeline');
+    timeline.innerHTML = '';
+    
+    events.forEach(event => {
+      const eventElement = document.createElement('div');
+      eventElement.className = 'memo-timeline-event';
+      eventElement.innerHTML = `
+        <div class="memo-timeline-date">${event.date}</div>
+        <div class="memo-timeline-label">${event.label}</div>
+        <div class="memo-timeline-description">${event.description}</div>
+        <div class="memo-timeline-location">${event.location}</div>
+      `;
+      timeline.appendChild(eventElement);
+    });
+    
+    if (events.length === 0) {
+      timeline.innerHTML = '<p class="text-center">No timeline events available</p>';
+    }
+  }
+  
+  // Map initialization
+  function initMap(events) {
+    const mapContainer = document.getElementById('memo-map');
+    
+    // Simple SVG map representation since we can't include external libraries
+    let mapSvg = `
+      <svg width="100%" height="100%" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+        <!-- Simple world map outline -->
+        <rect x="0" y="0" width="800" height="400" fill="#f8f9fa" stroke="#dee2e6" stroke-width="1" />
+        <path d="M100,200 C150,150 200,250 300,200 C400,150 500,250 600,200 C700,150" fill="none" stroke="#adb5bd" stroke-width="2" />
+        <!-- Event markers -->
+    `;
+    
+    // Add markers for each event
+    events.forEach((event, index) => {
+      // Normalize coordinates to fit our simple map
+      // This is just for demonstration since we can't use a real mapping library
+      const x = ((event.longitude + 180) / 360) * 800;
+      const y = ((90 - event.latitude) / 180) * 400;
+      
+      mapSvg += `
+        <g>
+          <circle cx="${x}" cy="${y}" r="8" fill="#212529" />
+          <text x="${x + 15}" y="${y + 5}" font-size="12" fill="#212529">${index + 1}. ${event.label}</text>
+        </g>
+      `;
+    });
+    
+    mapSvg += '</svg>';
+    
+    // Insert the map
+    mapContainer.innerHTML = mapSvg;
+    
+    // Add event list below the map
+    const eventList = document.createElement('div');
+    eventList.className = 'mt-3';
+    
+    if (events.length === 0) {
+      eventList.innerHTML = '<p class="text-center">No location data available</p>';
+    } else {
+      let eventListHtml = '<h4 class="mb-3">Events</h4><ul class="list-group">';
+      
+      events.forEach((event, index) => {
+        eventListHtml += `
+          <li class="list-group-item bg-light">
+            <strong>${index + 1}. ${event.label}</strong> (${event.date})
+            <div>${event.location}</div>
+          </li>
+        `;
+      });
+      
+      eventListHtml += '</ul>';
+      eventList.innerHTML = eventListHtml;
+    }
+    
+    document.querySelector('.memo-map-container').appendChild(eventList);
+  }
+  
+  // Document rendering
+  function renderDocuments(documents) {
+    const documentsList = document.getElementById('memo-documents-list');
+    
+    if (documents.length === 0) {
+      documentsList.innerHTML = '<p class="text-center">No documents available</p>';
+      return;
+    }
+    
+    documents.forEach(doc => {
+      const docElement = document.createElement('div');
+      docElement.className = 'memo-document-item';
+      docElement.innerHTML = `
+        <div class="memo-document-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16 13H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16 17H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M10 9H9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <a href="${doc.url}" class="memo-document-link" target="_blank">${doc.title}</a>
+      `;
+      documentsList.appendChild(docElement);
+    });
+  }
 </script>
-
 
 </div>
