@@ -32,7 +32,7 @@
                         <td>{{ object.db.baseMetadata.title }}</td>
                         <td>{{ object.dc.date[0][0:10] }}</td>
                         <td>{{ object.props.entityTags|join('; ')}}</td>
-                        <td><a target="_blank" href="{{'https://gams.uni-graz.at/' + object.props.entityPointers[0]}}">{{ object.props.entityPointers[0]}}</a></td>
+                        {# <td><a target="_blank" href="{{'https://gams.uni-graz.at/' + object.props.entityPointers[0]}}">{{ object.props.entityPointers[0]}}</a></td> #}
                     </tr>
                 </tbody>
             </table>
@@ -55,21 +55,6 @@
             <div id="derla_saxon_container">
                 <div id="derla_spinner" class="spinner-border" role="status"></div>
             </div>
-            <script>
-                // loads derla sign xml and applies xslt transformation via saxonjs
-                window.addEventListener('load', (event) => {
-                    let matches = window.location.pathname.match(/(\d+)/);
-                    SaxonJS.transform({
-                            stylesheetLocation: "/memo/static/xsl/derla_place.sef.json",
-                            // TODO inject jinja value
-                            sourceLocation: `https://gams.uni-graz.at/archive/objects/{{ object.props.entityPointers[0] }}/datastreams/TEI_SOURCE/content`,
-                            logLevel: 2
-                        },
-                        "async").then(result => {
-                            document.getElementById("derla_spinner").style = "display: none";
-                        });
-                });
-            </script>
 
             <br/>
             <h2 class="h4 fw-light">Ereignisse (SAXONJS / RDF.xml)</h2>
