@@ -1,0 +1,29 @@
+[project]
+projectAbbr = "memo" # id of the project to be loaded from the gams-api
+
+[ui]
+version = "0.0.0"
+title = "MEMO WebUI" # (optional) title of the application
+
+#
+# Following properties are directly connected to the pollin tool commands 
+# (handles environment specific configuration: development / production etc.)
+#
+
+[dev]
+gamsApiOrigin  = "http://localhost:18085" # address of the gams-api
+# allows to configure a path to where pollin tool produces it's files
+# outputPath = "C:\\Users\\sebas\\Documents\\programming\\gams\\pollin-tool\\1"
+
+[build]
+gamsApiOrigin  = "http://localhost:18085"
+
+[dev.load]
+objectCountRestriction = 20000 # limits the number of objects loaded (+ used for rendering)
+objectsRequired = [
+] # defines which objects are required to be loaded (ignoring the count restriction)
+
+[build.load]
+objectCountRestriction = 100000
+objectsRequired = [
+]

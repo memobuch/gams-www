@@ -1,7 +1,0 @@
-{
-    "load": {
-        "objectCountRestriction": 100,
-        "objectsRequired": ["memo.imprint", "memo.about"]
-    }
-
-}
