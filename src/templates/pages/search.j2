@@ -3,46 +3,63 @@
     <h1 class="h3 fw-light">Volltextsuche</h1>
     <p>Personen des MEMO Projekts.</p>
 
-    <script>
-
-        document.addEventListener("PROJECTDB_READY", function(event) {
-            console.log("DB ready", event)
-            let searchString = new URL(window.location.href).hash.replace("#/", "")
-
-            let spinnerElem = document.getElementById("spinner");
-            let resultCountElem = document.getElementById("resultCount");
-            let resultCount = 0;
-
-            // fulltext search based on individual entries found
-            window.gams.projectDB.fulltextSearch(searchString, (digitalObject) => {
-                spinnerElem.style.display = "none";
-                console.log(digitalObject);
-                //let html = `<ul>${digitalObjects.map(digitalObject => `<li><a href='/memo/objects/${digitalObject.db.id}'>${digitalObject.db.baseMetadata.title}</a></li>`).join('')}</ul>`
-                let html = `<li><a href='/memo/objects/${digitalObject.db.id}'>${digitalObject.db.baseMetadata.title}</a></li>`
-                document.getElementById("result").innerHTML += html
-                resultCount++;
-                resultCountElem.innerHTML = resultCount;
-            })
+    <p>{{env}}</p>
 
 
-            // dc type based search
-            console.log("Project DB is populated --> Doing now a dc type based search");
-            gams.projectDB.dcTypeSearch("person", (val) => {
-                //console.log(val);
-                //document.getElementById("result").innerHTML += `${val.db.id}<br/>`
-            })
-
-        });
-
-
-    </script>
-
+    <p>Suchbegriff: <b id="searchQueryDisplay"></b></p>
     <p>Suchergebnisse: <b id="resultCount">0</b></p>
-    <div id="result">
+
+    <ul id="searchResults"></ul>
+
+    
+    <div id="searchSpinner">
         <div id="spinner" class="spinner-border" role="status">
             
         </div>
         
     </div>
+
+    <script>
+
+        (async () => {
+            // some pre selections
+            let resultUl = document.querySelector("#searchResults");
+            let resultSpinner = document.querySelector("#searchSpinner")
+            let resultCountElement = document.querySelector("#resultCount");
+            let searchQueryDisplay = document.querySelector("#searchQueryDisplay");
+
+            let requestUrl = new URL("{{env.GAMS_API_ORIGIN}}/api/v1/integration/gsearch/fulltext");
+            
+
+            let searchQuery = new URL(window.location.href).searchParams.get("q") || "";
+            requestUrl.searchParams.set("q", searchQuery);
+
+            let resp = await fetch(requestUrl.toString());
+            let body = await resp.json();
+
+
+            searchQueryDisplay.innerText = `"${searchQuery}"`;
+            resultCountElement.innerText = body.results.pagination.totalElements;
+            
+
+            console.log(body);
+            
+
+            // TODO this weird proeprties should be changed in the backend
+            body.results.results.forEach(result => {
+                resultUl.append(result["dc.title"][0])
+            })
+
+            resultSpinner.remove();
+
+        })();
+
+
+       
+
+
+    </script>
+
+    
     
 {% endblock %}
