@@ -40,14 +40,12 @@
 
             searchQueryDisplay.innerText = `"${searchQuery}"`;
             resultCountElement.innerText = body.results.pagination.totalElements;
-            
-
-            console.log(body);
-            
 
             // TODO this weird proeprties should be changed in the backend
             body.results.results.forEach(result => {
-                resultUl.append(result["dc.title"][0])
+                let renderLi = document.createElement("li");
+                renderLi.innerText = result["dc.title"][0];
+                resultUl.append(renderLi);
             })
 
             resultSpinner.remove();
