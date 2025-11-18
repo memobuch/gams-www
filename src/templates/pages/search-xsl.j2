@@ -63,7 +63,7 @@
         console.log(
             SaxonJS.getProcessorInfo().productName + " " + SaxonJS.getProcessorInfo().productVersion + " " + SaxonJS.getProcessorInfo().releaseDate
         );
-        let result = SaxonJS.transform({
+        SaxonJS.transform({
             stylesheetLocation: "/memo/static/xsl/memo-fulltext-search.sef.json",
             sourceLocation: `{{env.GAMS_API_ORIGIN}}/api/v1/integration/gsearch/fulltext?format=xml&q=${searchQuery}&pageIndex=${currentPage}`,
             logLevel: 2,
@@ -87,7 +87,6 @@
                 document.getElementById("saxonjs_container").innerHTML = result.principalResult;
             });
     }
-
 
 
 </script>
