@@ -6,14 +6,29 @@
 <p>{{env}}</p>
 
 
-<div id="saxonjs_container"></div>
 
+<form id="searchForm" method="get" action="/{{ project.projectAbbr }}/search-xsl.html">
+    <div class="input-group mb-3">  
+        <input type="text" class="form-control" placeholder="Suchbegriff eingeben" aria-label="Suchbegriff eingeben" aria-describedby="searchButton" name="q" id="searchInput">
+        <button class="btn btn-outline-secondary" type="submit" id="searchButton">Suchen</button>
+    </div>
+</form>
+
+{# Set value of input from url parameter 'q': #}
+<script>
+    // read out url parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchQuery = urlParams.get('q') || '';
+    document.getElementById("searchInput").value = searchQuery;
+</script>
+
+
+<div id="saxonjs_container"></div>
 
 <div id="searchSpinner">
     <div id="spinner" class="spinner-border" role="status">
 
     </div>
-
 </div>
 
 <script>
