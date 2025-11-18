@@ -16,10 +16,15 @@
 
 {# Set value of input from url parameter 'q': #}
 <script>
-    // read out url parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    const searchQuery = urlParams.get('q') || '';
-    document.getElementById("searchInput").value = searchQuery;
+    (
+        () => {
+            // read out url parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.get('q') || '';
+            document.getElementById("searchInput").value = searchQuery;
+        }
+    )();
+    
 </script>
 
 
