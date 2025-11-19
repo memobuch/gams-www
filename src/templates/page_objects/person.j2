@@ -13,8 +13,9 @@
 
         
             <h2 class="h4 fw-light">Assoziierte Bilder</h1>
-            <img onerror="this.src='https://gams.uni-graz.at/templates/img/gams_solo_weiss.png'" alt="Image missing"class="border bg-dark rounded" style="max-width: 20%; max-height:8em;" src="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/1.jpg/content' }}"/>
-            <img onerror="this.src='https://gams.uni-graz.at/templates/img/gams_solo_weiss.png'" alt="Image missing"class="border bg-dark rounded" style="max-width: 20%; max-height:8em;" src="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/2.jpg/content' }}"/>
+            {# TODO replace hardcoded server name #}
+            <a href="http://localhost:18080/iiif/2/{{project.projectAbbr}}%2f{{object.db.id}}%2f1.jpg/full/full/0/default.jpg" target="blank"><img onerror="this.src='https://gams.uni-graz.at/templates/img/gams_solo_weiss.png'" alt="Image missing"class="border bg-dark rounded" style="max-width: 20%; max-height:8em;" src="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/1.jpg/content' }}"/></a>
+            <a href="http://localhost:18080/iiif/2/{{project.projectAbbr}}%2f{{object.db.id}}%2f2.jpg/full/full/0/default.jpg" target="blank"><img onerror="this.src='https://gams.uni-graz.at/templates/img/gams_solo_weiss.png'" alt="Image missing"class="border bg-dark rounded" style="max-width: 20%; max-height:8em;" src="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/2.jpg/content' }}"/></a>
             <br/>
             <br/>
             <h2 class="h4 fw-light">Basisdaten</h1>
