@@ -7,12 +7,10 @@
     <a target="_blank" href="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/' + 'DC.xml'  + '/content' }}"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a>
     <a target="_blank" href="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id}}"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/gams_solo.png" title="Object metadata in the CMS system"></a>
 </div>
-<div class="container mt-2 pt-2">
+<div>
+    <hr/>
     <div class="row">
-        <div class="col-md-9 border border-1 p-3">
-
-        
-            <h2 class="h4 fw-light">Assoziierte Bilder</h1>
+        <div class="col-md-9">
             {# TODO replace hardcoded server name #}
             <a href="http://localhost:18080/iiif/2/{{project.projectAbbr}}%2f{{object.db.id}}%2f1.jpg/full/full/0/default.jpg" target="blank"><img onerror="this.src='https://gams.uni-graz.at/templates/img/gams_solo_weiss.png'" alt="Image missing"class="border bg-dark rounded" style="max-width: 20%; max-height:8em;" src="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/1.jpg/content' }}"/></a>
             <a href="http://localhost:18080/iiif/2/{{project.projectAbbr}}%2f{{object.db.id}}%2f2.jpg/full/full/0/default.jpg" target="blank"><img onerror="this.src='https://gams.uni-graz.at/templates/img/gams_solo_weiss.png'" alt="Image missing"class="border bg-dark rounded" style="max-width: 20%; max-height:8em;" src="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/2.jpg/content' }}"/></a>
