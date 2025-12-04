@@ -4,33 +4,6 @@
    =================================== */
 
 
-/* ===== Header ===== */
-.header {
-    background-color: #1a1a1a;
-    color: #f5f5f0;
-    padding: 2rem 1.5rem;
-    border-bottom: 4px solid #666;
-}
-
-.header-content {
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
-.title {
-    font-size: 2.2rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-.subtitle {
-    font-size: 1rem;
-    font-weight: 300;
-    opacity: 0.9;
-}
-
 /* ===== Controls Panel ===== */
 .controls-panel {
     background-color: #fff;
@@ -581,6 +554,32 @@ a:focus {
 
 .filter-label .color-indicator {
     margin-right: 0.25rem;
+}
+
+/* ===== Marker Clusters - Enhanced for Event Type Breakdown ===== */
+.marker-cluster-small,
+.marker-cluster-medium,
+.marker-cluster-large {
+    background-color: transparent !important;
+}
+
+.marker-cluster-eventtype div {
+    background-color: transparent !important;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 50%;
+}
+
+.marker-cluster-eventtype svg {
+    display: block;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* Hover effect for clusters */
+.marker-cluster-eventtype:hover svg {
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.4));
+    transform: scale(1.05);
+    transition: all 0.2s ease;
 }
 
 .leaflet-control-container {
