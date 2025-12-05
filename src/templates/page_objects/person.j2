@@ -2,40 +2,32 @@
 
 <h1 class="h3 fw-light">{{ object.db.baseMetadata.title }}</h1>
 <p class="pb-0 mb-1">Information zu einer einzelnen Person erfasst im MEMO Projekt.</p>
-<div class="mb-4">
-    <a target="_blank" href="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/RDF.xml/content' }}"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/RDF_icon.png" title="RDF"></a>
-    <a target="_blank" href="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/' + 'DC.xml'  + '/content' }}"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a>
-    <a target="_blank" href="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id}}"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/gams_solo.png" title="Object metadata in the CMS system"></a>
-</div>
 <div>
     <hr/>
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-8">
             {# TODO replace hardcoded server name #}
-            <a href="http://localhost:18080/iiif/2/{{project.projectAbbr}}%2f{{object.db.id}}%2f1.jpg/full/full/0/default.jpg" target="blank"><img onerror="this.src='https://gams.uni-graz.at/templates/img/gams_solo_weiss.png'" alt="Image missing"class="border bg-dark rounded" style="max-width: 20%; max-height:8em;" src="http://localhost:18080/iiif/2/memo%2f{{object.db.id}}%2f1.jpg/full/100,/0/default.jpg"/></a>
-            <a href="http://localhost:18080/iiif/2/{{project.projectAbbr}}%2f{{object.db.id}}%2f2.jpg/full/full/0/default.jpg" target="blank"><img onerror="this.src='https://gams.uni-graz.at/templates/img/gams_solo_weiss.png'" alt="Image missing"class="border bg-dark rounded" style="max-width: 20%; max-height:8em;" src="http://localhost:18080/iiif/2/memo%2f{{object.db.id}}%2f2.jpg/full/100,/0/default.jpg"/></a>
-            <br/>
-            <br/>
+            <a href="http://localhost:18080/iiif/2/{{project.projectAbbr}}%2f{{object.db.id}}%2f1.jpg/full/full/0/default.jpg" target="blank">
+                <img alt="Kein Bild vorhanden" class="border bg-white rounded" src="http://localhost:18080/iiif/2/memo%2f{{object.db.id}}%2f1.jpg/full/,500/0/default.jpg"/>
+            </a>
+            <a href="http://localhost:18080/iiif/2/{{project.projectAbbr}}%2f{{object.db.id}}%2f2.jpg/full/full/0/default.jpg" target="blank">
+                <img alt="Kein Bild vorhanden"class="border bg-white rounded" src="http://localhost:18080/iiif/2/memo%2f{{object.db.id}}%2f2.jpg/full/,500/0/default.jpg"/>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Name: {{ object.db.baseMetadata.title }}</li>
+                <li class="list-group-item">Datum: {{ object.dc.date[0][0:10] }}</li>
+                <li class="list-group-item"><a target="_blank" href="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/RDF.xml/content' }}"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/RDF_icon.png" title="RDF"></a> RDF</li>
+                <li class="list-group-item"><a target="_blank" href="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/' + 'DC.xml'  + '/content' }}"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a> Dublin Core</li>
+                <li class="list-group-item"><a target="_blank" href="{{'http://localhost:18085/api/v1/projects/memo/objects/' +  object.db.id}}"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/gams_solo.png" title="Object metadata in the CMS system"></a> Metadatenansicht</li>
 
-            <h2 class="h4 fw-light">Basisdaten</h1>
-            <table class="table table-light">
-                <thead>
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Todesdatum</th>
-                        <th scope="col">Kategorie(n)</th>
-                        <th scope="col">DERLA Zeichen</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>{{ object.db.baseMetadata.title }}</td>
-                        <td>{{ object.dc.date[0][0:10] }}</td>
-                        <td>{{ object.props.entityTags|join('; ')}}</td>
-                        {# <td><a target="_blank" href="{{'https://gams.uni-graz.at/' + object.props.entityPointers[0]}}">{{ object.props.entityPointers[0]}}</a></td> #}
-                    </tr>
-                </tbody>
-            </table>
+            </ul>
+        </div>
+    </div>
+
+
+            
             <br/>
             <h2 class="h4 fw-light">Beschreibung</h1>
             <p>{{ object.db.baseMetadata.description }}</p>
@@ -115,7 +107,5 @@
             {{ macros.object_viewer() }}
 
             
-        </div>
-    </div>
 
 </div>
