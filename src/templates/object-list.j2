@@ -15,9 +15,9 @@
     <table id="example" class="display">
         <thead>
             <tr>
+                <th>#</th>
                 <th>ID</th>
-                <th>Sigle</th>
-                <th>Titel</th>
+                <th>Name</th>
                 <th>Beschreibung</th>
             </tr>
         </thead>
@@ -27,10 +27,10 @@
                 {% if 'person' in object.db.tags %}
                     <tr>
                         <td>
-                            <a href="/{{project.projectAbbr}}/objects/{{ object.db.id }}">{{ object.db.id }}</a>
+                            <img src="http://localhost:18080/iiif/2/memo%2f{{object.db.id}}%2f1.jpg/full/,50/0/default.jpg" alt="Person 369">
                         </td>
                         <td>
-                            {{ object.db.id|replace("memo.", "")|upper() }}
+                            <a href="/memo/objects/{{object.db.id}}" target="_blank">{{ object.db.id }}</a>
                         </td>
                         <td>{{ object.db.baseMetadata.title }}
                         </td>
