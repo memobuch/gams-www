@@ -26,6 +26,7 @@
                 }
                 let manifest = await resp.text();
 
+                // TODO must be env variables
                 manifest = manifest.replaceAll("https://gams.uni-graz.at/iiif", "http://localhost:18080/iiif")
 
                 // console.log(manifest);
