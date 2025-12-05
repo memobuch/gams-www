@@ -1,4 +1,4 @@
-
+{% import 'widgets/object_viewer.j2' as widgets with context %}
 
 <h1 class="h3 fw-light">{{ object.db.baseMetadata.title }}</h1>
 <p class="pb-0 mb-1">Information zu einer einzelnen Person erfasst im MEMO Projekt.</p>
@@ -111,51 +111,10 @@
             <br/>
             <br/>
 
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tify@0.34.4/dist/tify.css">
-             <div id="tify" style="height: 100vh"></div>
 
-            <script type="module">
-                import Tify from 'https://cdn.jsdelivr.net/npm/tify@0.34.5/dist/tify.js'
+            {{ widgets.object_viewer() }}
 
-                (async () => {
-
-                    // TODO add development / build mode conditional
-
-                    // 01. Prefetch manifest from remote server
-                    let manifestUrl = '{{env.GAMS_API_ORIGIN}}/api/v1/projects/memo/objects/{{object.db.id}}/datastreams/manifest.json/content';
-                    //let manifestUrl = '/memo/static/iiif-manifest.json';
-
-                    let resp = await fetch(manifestUrl);
-                    
-                    if (!resp.ok) {
-                        //console.error(`Failed to fetch manifest: ${resp.status} ${resp.statusText}`);
-                        return;
-                    }
-                    let manifest = await resp.text();
-
-                    manifest = manifest.replaceAll("https://gams.uni-graz.at/iiif", "http://localhost:18080/iiif")
-
-                    // console.log(manifest);
-
-                    // 02, Modify manifest to use local IIIF Image API endpoints
-                    //let manifestAsString = JSON.stringify(manifest, null, 2);
-
-                    // 03. Create a Blob URL for the modified manifest
-                    let manifestBlobUrl = URL.createObjectURL(
-                        new Blob([manifest], { type: 'application/json' })
-                    );
-                    
-                    // 04. Initialize Tify with the manifest Blob URL
-                    new Tify({
-                        container: '#tify',
-                        manifestUrl: manifestBlobUrl,
-                    })
-
-
-                })();
-
-                
-            </script>
+            
         </div>
     </div>
 
