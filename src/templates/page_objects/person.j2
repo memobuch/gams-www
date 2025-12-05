@@ -122,13 +122,13 @@
                     // TODO add development / build mode conditional
 
                     // 01. Prefetch manifest from remote server
-                    //let manifestUrl = 'https://manifests.sub.uni-goettingen.de/iiif/presentation/PPN623133725/manifest';
-                    let manifestUrl = '/memo/static/iiif-manifest.json';
+                    let manifestUrl = '{{env.GAMS_API_ORIGIN}}/api/v1/projects/memo/objects/{{object.db.id}}/datastreams/manifest.json/content';
+                    //let manifestUrl = '/memo/static/iiif-manifest.json';
 
-                    
                     let resp = await fetch(manifestUrl);
+                    
                     if (!resp.ok) {
-                        console.error(`Failed to fetch manifest: ${resp.status} ${resp.statusText}`);
+                        //console.error(`Failed to fetch manifest: ${resp.status} ${resp.statusText}`);
                         return;
                     }
                     let manifest = await resp.text();
