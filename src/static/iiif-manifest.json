@@ -3,19 +3,16 @@
   "id": "https://gams.uni-graz.at/api/v1/projects/memo/objects/memo.person.3/datastreams/manifest.json/content",
   "type": "Manifest",
   "label": {
-    "en": [
-      "Simple Manifest - Book"
+    "de": [
+      "Personen material"
     ]
   },
-  "behavior": [
-    "paged"
-  ],
   "items": [
     {
       "id": "https://iiif.io/api/cookbook/recipe/0009-book-1/canvas/p1",
       "type": "Canvas",
       "label": {
-        "en": [
+        "de": [
           "Blank page"
         ]
       },
