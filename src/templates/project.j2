@@ -1,5 +1,5 @@
 {% extends "parents/base.j2" %}
-{% import 'widgets/dc_stats.j2' as widgets with context %}
+{% import 'macros/dc_stats.j2' as macros with context %}
 {% block content %}
     {# <h1>{{ project.projectTitle }}</h1> #}
     <h1>MEMO</h1>
@@ -21,6 +21,6 @@
     </div> #}
 
     <div id="searchResults"></div>
-    {{ widgets.dc_stats('searchResults') }}
+    {{ macros.dc_stats('searchResults') }}
 
 {% endblock %}

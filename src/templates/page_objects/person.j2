@@ -1,4 +1,4 @@
-{% import 'widgets/object_viewer.j2' as widgets with context %}
+{% import 'macros/object_viewer.j2' as macros with context %}
 
 <h1 class="h3 fw-light">{{ object.db.baseMetadata.title }}</h1>
 <p class="pb-0 mb-1">Information zu einer einzelnen Person erfasst im MEMO Projekt.</p>
@@ -112,7 +112,7 @@
             <br/>
 
 
-            {{ widgets.object_viewer() }}
+            {{ macros.object_viewer() }}
 
             
         </div>
