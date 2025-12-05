@@ -1,24 +1,61 @@
 {% extends "parents/base.j2" %}
 {% block content %}
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.css" />
+    <script
+        src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+        integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
+
+
     <h1 class="h3 fw-light">Personenübersicht</h1>
     <p>Personen erfassst im MEMO Projekt. Wohnhafte oder ansässige Personen in Graz ermordert durch das NS-Regime.</p>
 
-    <ul class="list-group list-group-flush border">
-        {% for object in objects|sort(attribute="db.baseMetadata.title") %}
-            <li class="list-group-item p-3">
-                <div>
-                    <p><a href="{{ object.db.id }}">{{ object.db.baseMetadata.title }}</a></p>
-                    <img 
-                        onerror="this.src='https://gams.uni-graz.at/templates/img/gams_solo_weiss.png'" 
-                        alt="Image missing"
-                        class="d-block mb-5 border bg-dark rounded" 
-                        style="max-width: 15%;" 
-                        src="http://localhost:18080/iiif/2/memo%2f{{object.db.id}}%2f1.jpg/full/100,/0/default.jpg"/>
-                    <p>{{ object.db.baseMetadata.description }}</p>
-                    {# <p>Todesdatum: {{ object.dc.date[0][0:10]}}</p> #}
-                </div>
-            </li>
-        {% endfor %}
-    </ul>
+    <table id="example" class="display">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Sigle</th>
+                <th>Titel</th>
+                <th>Beschreibung</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for object in objects|sort(attribute='db.baseMetadata.title') %}
+                {# show only objects of tag person #}
+                {% if 'person' in object.db.tags %}
+                    <tr>
+                        <td>
+                            <a href="/{{project.projectAbbr}}/objects/{{ object.db.id }}">{{ object.db.id }}</a>
+                        </td>
+                        <td>
+                            {{ object.db.id|replace("memo.", "")|upper() }}
+                        </td>
+                        <td>{{ object.db.baseMetadata.title }}
+                        </td>
+                        <td>{{ object.db.baseMetadata.description }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <script>
+        let dataTable = new DataTable('#example', {
+            language: {
+                search: "Suchen",
+                lengthMenu: "Zeige _MENU_ Einträge",
+                info: "Zeige _START_ bis _END_ von _TOTAL_ Einträgen",
+                infoEmpty: "Keine Einträge vorhanden",
+                infoFiltered: "(gefiltert von _MAX_ Einträgen)",
+                zeroRecords: "Keine passenden Einträge gefunden"
+            }
+        });
+
+    </script>
+
+
+
+   
 
 {% endblock %}
