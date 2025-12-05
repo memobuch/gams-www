@@ -119,8 +119,11 @@
 
                 (async () => {
 
+                    // TODO add development / build mode conditional
+
                     // 01. Prefetch manifest from remote server
-                    let manifestUrl = 'https://manifests.sub.uni-goettingen.de/iiif/presentation/PPN623133725/manifest';
+                    //let manifestUrl = 'https://manifests.sub.uni-goettingen.de/iiif/presentation/PPN623133725/manifest';
+                    let manifestUrl = '/memo/static/iiif-manifest.json';
 
                     
                     let resp = await fetch(manifestUrl);
