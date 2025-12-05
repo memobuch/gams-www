@@ -1,6 +1,6 @@
 {
   "@context": "http://iiif.io/api/presentation/3/context.json",
-  "id": "http://localhost:18090/memo/static/iiif-manifest.json",
+  "id": "https://gams.uni-graz.at/api/v1/projects/memo/objects/memo.person.3/datastreams/manifest.json/content",
   "type": "Manifest",
   "label": {
     "en": [
@@ -38,7 +38,7 @@
                 "width": 3204,
                 "service": [
                   {
-                    "id": "http://localhost:18080/iiif/2/memo%2fmemo.person.3%2f1.jpg",
+                    "id": "https://gams.uni-graz.at/iiif/2/memo%2fmemo.person.3%2f1.jpg",
                     "type": "ImageService2",
                     "profile": "level1"
                   }
@@ -77,7 +77,7 @@
                 "height": 4612,
                 "service": [
                   {
-                    "id": "http://localhost:18080/iiif/2/memo%2fmemo.person.3%2f2.jpg",
+                    "id": "https://gams.uni-graz.at/iiif/2/memo%2fmemo.person.3%2f2.jpg",
                     "type": "ImageService3",
                     "profile": "level1"
                   }

@@ -131,14 +131,18 @@
                         console.error(`Failed to fetch manifest: ${resp.status} ${resp.statusText}`);
                         return;
                     }
-                    let manifest = await resp.json();
+                    let manifest = await resp.text();
+
+                    manifest = manifest.replaceAll("https://gams.uni-graz.at/iiif", "http://localhost:18080/iiif")
+
+                    console.log(manifest);
 
                     // 02, Modify manifest to use local IIIF Image API endpoints
-                    let manifestAsString = JSON.stringify(manifest, null, 2);
+                    //let manifestAsString = JSON.stringify(manifest, null, 2);
 
                     // 03. Create a Blob URL for the modified manifest
                     let manifestBlobUrl = URL.createObjectURL(
-                        new Blob([manifestAsString], { type: 'application/json' })
+                        new Blob([manifest], { type: 'application/json' })
                     );
                     
                     // 04. Initialize Tify with the manifest Blob URL
