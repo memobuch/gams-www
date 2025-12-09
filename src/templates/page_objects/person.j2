@@ -40,69 +40,6 @@
                     <li class="list-group-item"><a target="_blank" href="{{ env.GAMS_API_ORIGIN + '/api/v1/projects/memo/objects/' +  object.db.id + '/datastreams/' + dsid + '/content' }}">{{dsid}}</a></li>
                 {% endfor %}
             </ul>
-            
-            <br/>
-            <br/>
-
-            <h2 class="h4 fw-light">Verbundenes DERLA Erinnerungszeichen (SAXONJS / GAMS->TEI_SOURCE)</h2>
-            <div id="derla_saxon_container">
-                <div id="derla_spinner" class="spinner-border" role="status"></div>
-            </div>
-
-            <br/>
-            <h2 class="h4 fw-light">Ereignisse (SAXONJS / RDF.xml)</h2>
-            <div class="row">
-                <div class="col-md">
-                    <div class="container pt-2 pb-2 bg-light">
-                        <div id="saxonjs_container">
-                            <div id="spinner" class="spinner-border" role="status"></div>
-                        </div>
-                    </div>
-                </div>
-                {# <div class="col-md-6">
-                    <div id="saxonjs_container02">
-                        <div id="spinner02" class="spinner-border" role="status"></div>
-                    </div>
-                </div> #}
-            </div>
-
-            <script>
-                if (window.location.href.includes("memo.person.")){
-                    let matches = window.location.pathname.match(/(\d+)/);
-                    window.onload = function () {
-                            console.log(SaxonJS.getProcessorInfo().productName + " " +
-                            SaxonJS.getProcessorInfo().productVersion + " " + SaxonJS.getProcessorInfo().releaseDate);
-                            SaxonJS.transform({
-                            stylesheetLocation: "/memo/static/xsl/object-rdf.sef.json",
-                            sourceLocation: `http://localhost:18085/api/v1/projects/memo/objects/memo.person.${matches[0]}/datastreams/RDF.xml/content`,
-                            logLevel: 2
-                        },
-                        "async").then(result => {
-                            document.getElementById("spinner").style = "display: none";
-                        });
-                    }
-                }
-            </script>
-
-            {# <script>
-                // loading a second RDF file via SaxonJS and xslt for transformation
-                window.addEventListener('load', (event) => {
-                    let matches = window.location.pathname.match(/(\d+)/);
-                    SaxonJS.transform({
-                            stylesheetLocation: "/memo/static/xsl/object-rdf02.sef.json",
-                            sourceLocation: `http://localhost:18085/api/v1/projects/memo/objects/memo.person.${matches[0]}/datastreams/RDF.xml/content`,
-                            logLevel: 2
-                        },
-                        "async").then(result => {
-                            document.getElementById("spinner02").style = "display: none";
-                        });
-                });
-            </script> #}
-
-            <br/>
-            <br/>
-            <br/>
-            <br/>
 
 
             {# {{ object_viewer() }} #}
