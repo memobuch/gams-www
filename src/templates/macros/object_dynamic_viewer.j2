@@ -1,0 +1,29 @@
+
+
+{# 
+    1. Generates a dynamic IIIFv3 manifest.json requesting against the gams-api.
+    2. Uses Tipfy IIIF viewer to display the images.    
+#}
+{% macro object_dynamic_viewer() -%}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tify@0.34.4/dist/tify.css">
+<div id="tify" style="height: 100vh"></div>
+<script src="/memo/static/js/iiif/iiifManifestv3Builder.js"></script>
+<script type="module">
+    import Tify from 'https://cdn.jsdelivr.net/npm/tify@0.34.5/dist/tify.js'
+
+    (async () => {
+        let manifest = await iiifManifestv3Builder.build("http://localhost:18080", "memo", "memo.person.99");
+        let manifestAsString = JSON.stringify(manifest);
+        let manifestBlobUrl = URL.createObjectURL(
+            new Blob([manifestAsString], { type: 'application/json' })
+        );
+        
+        // Initialize Tify with the manifest Blob URL
+        new Tify({
+            container: '#tify',
+            manifestUrl: manifestBlobUrl,
+        })
+    })();
+
+</script>
+{%- endmacro %}
