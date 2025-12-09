@@ -12,14 +12,21 @@
 
             (async () => {
 
-                // TODO add development / build mode conditional
-
-                // 01. Prefetch manifest from remote server
                 let manifestUrl = '{{env.GAMS_API_ORIGIN}}/api/v1/projects/memo/objects/{{object.db.id}}/datastreams/manifest.json/content';
-                //let manifestUrl = '/memo/static/iiif-manifest.json';
 
-                let resp = await fetch(manifestUrl);
-                
+                // 00. Manifest.json should work as is in production
+                let curPollinMode = "{{env.POLLIN_MODE}}";
+                if(curPollinMode !== "dev"){
+                    return new Tify({
+                        container: '#tify',
+                        manifestUrl: manifestUrl,
+                    })
+                }
+
+                // if in development
+                console.warn("Rewriting manifest.json because: pollin tool runs in mode: ", curPollinMode);
+                // 01. prefetch manifest.json
+                let resp = await fetch(manifestUrl);                
                 if (!resp.ok) {
                     //console.error(`Failed to fetch manifest: ${resp.status} ${resp.statusText}`);
                     return;
