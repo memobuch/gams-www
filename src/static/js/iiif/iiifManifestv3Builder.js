@@ -17,9 +17,10 @@ const IIIFManifestBuilder = (
     /**
      * Builds a IIIFv3 manifest item to be displayed in an image viewer
      * @param {string} iiifUrl Adress of the IIIF resource  
+     * @param {string} label Label of the image to be shown
      * @returns constructed item   
      */
-    const createIIIFItem = (iiifUrl) => {
+    const createIIIFItem = (iiifUrl, label) => {
 
         let canvasId = `https://gams.uni-graz.at/api/canvas/${crypto.randomUUID().toString()}`;
 
@@ -28,7 +29,7 @@ const IIIFManifestBuilder = (
             "type": "Canvas",
             "label": {
                 "de": [
-                    "Blank page"
+                    label
                 ]
             },
             "height": 4613,
@@ -97,7 +98,10 @@ const IIIFManifestBuilder = (
             if(!datastream.mimeType.includes("image"))return;
             let dsid = datastream.dsid;
             template.items.push(
-                createIIIFItem(`${IIIF_SERVER_ORIGIN}/iiif/2/${projectAbbr}%2f${objectId}%2f${dsid}`)
+                createIIIFItem(
+                    `${IIIF_SERVER_ORIGIN}/iiif/2/${projectAbbr}%2f${objectId}%2f${dsid}`,
+                    datastream.baseMetadata.title
+                )
             );
         });
 
