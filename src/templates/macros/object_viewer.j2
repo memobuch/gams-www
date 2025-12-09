@@ -1,56 +1,55 @@
-
-{# 
-    Macro to display dc.subject stats for the current project.
-    Uses the GAMS search API to get facet counts for dc.subject. 
+{#
+Macro to display dc.subject stats for the current project.
+Uses the GAMS search API to get facet counts for dc.subject.
 #}
 {% macro object_viewer() -%}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tify@0.34.4/dist/tify.css">
-             <div id="tify" style="height: 100vh"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tify@0.34.4/dist/tify.css">
+<div id="tify" style="height: 100vh"></div>
 
-        <script type="module">
-            import Tify from 'https://cdn.jsdelivr.net/npm/tify@0.34.5/dist/tify.js'
+<script type="module">
+    import Tify from 'https://cdn.jsdelivr.net/npm/tify@0.34.5/dist/tify.js'
 
-            (async () => {
+    (async () => {
 
-                let manifestUrl = '{{env.GAMS_API_ORIGIN}}/api/v1/projects/memo/objects/{{object.db.id}}/datastreams/manifest.json/content';
+        let manifestUrl = '{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.db.id}}/datastreams/manifest.json/content';
 
-                // 00. Manifest.json should work as is in production
-                let curPollinMode = "{{env.POLLIN_MODE}}";
-                if(curPollinMode !== "dev"){
-                    return new Tify({
-                        container: '#tify',
-                        manifestUrl: manifestUrl,
-                    })
-                }
+        // 00. Manifest.json should work as is in production
+        let curPollinMode = "{{env.POLLIN_MODE}}";
+        if (curPollinMode !== "dev") {
+            return new Tify({
+                container: '#tify',
+                manifestUrl: manifestUrl,
+            })
+        }
 
-                // if in development
-                console.warn("Rewriting manifest.json because: pollin tool runs in mode: ", curPollinMode);
-                // 01. prefetch manifest.json
-                let resp = await fetch(manifestUrl);                
-                if (!resp.ok) {
-                    //console.error(`Failed to fetch manifest: ${resp.status} ${resp.statusText}`);
-                    return;
-                }
-                let manifest = await resp.text();
+        // if in development
+        console.warn("Rewriting manifest.json because: pollin tool runs in mode: ", curPollinMode);
+        // 01. prefetch manifest.json
+        let resp = await fetch(manifestUrl);
+        if (!resp.ok) {
+            //console.error(`Failed to fetch manifest: ${resp.status} ${resp.statusText}`);
+            return;
+        }
+        let manifest = await resp.text();
 
-                // 02, Modify manifest to use local IIIF Image API endpoints
-                //let manifestAsString = JSON.stringify(manifest, null, 2);
-                manifest = manifest.replaceAll("https://gams.uni-graz.at/iiif", "{{env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif");
+        // 02, Modify manifest to use local IIIF Image API endpoints
+        //let manifestAsString = JSON.stringify(manifest, null, 2);
+        manifest = manifest.replaceAll("https://gams.uni-graz.at/iiif", "{{env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif");
 
-                // 03. Create a Blob URL for the modified manifest
-                let manifestBlobUrl = URL.createObjectURL(
-                    new Blob([manifest], { type: 'application/json' })
-                );
-                
-                // 04. Initialize Tify with the manifest Blob URL
-                new Tify({
-                    container: '#tify',
-                    manifestUrl: manifestBlobUrl,
-                })
+        // 03. Create a Blob URL for the modified manifest
+        let manifestBlobUrl = URL.createObjectURL(
+            new Blob([manifest], { type: 'application/json' })
+        );
+
+        // 04. Initialize Tify with the manifest Blob URL
+        new Tify({
+            container: '#tify',
+            manifestUrl: manifestBlobUrl,
+        })
 
 
-            })();
+    })();
 
-            
-        </script>
+
+</script>
 {%- endmacro %}
