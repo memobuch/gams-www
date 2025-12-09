@@ -1,4 +1,4 @@
-{% import 'macros/object_viewer.j2' as macros with context %}
+{% from 'macros/object_viewer.j2' import object_viewer with context %}
 {% from 'macros/object_dynamic_viewer.j2' import object_dynamic_viewer with context %}
 
 <h1 class="h3 fw-light">{{ object.db.baseMetadata.title }}</h1>
@@ -105,7 +105,7 @@
             <br/>
 
 
-            {# {{ macros.object_viewer() }} #}
+            {# {{ object_viewer() }} #}
             {{ object_dynamic_viewer() }}
 
             
