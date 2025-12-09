@@ -12,11 +12,13 @@ title = "MEMO WebUI" # (optional) title of the application
 
 [dev]
 gamsApiOrigin  = "http://localhost:18085" # address of the gams-api
+iiifImageServerOrigin = "http://localhost:18080" # adress of the IIIF server to be used
 # allows to configure a path to where pollin tool produces it's files
 # outputPath = "C:\\Users\\sebas\\Documents\\programming\\gams\\pollin-tool\\1"
 
 [build]
 gamsApiOrigin  = "http://localhost:18085"
+iiifImageServerOrigin = "http://localhost:18080"
 
 [dev.load]
 objectCountRestriction = 20000 # limits the number of objects loaded (+ used for rendering)
