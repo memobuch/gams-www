@@ -1,13 +1,23 @@
 
 
 
-const iiifManifestv3Builder = (() => {
+/**
+ * 
+ * @param {string} gamsApiOrigin Origin of the gams-api 
+ * @param {string} iiifServerOrigin origin of the iiif server 
+ */
+const IIIFManifestBuilder = (
+    gamsApiOrigin,
+    iiifServerOrigin
+) => {
     
+    const GAMS_API_ORIGIN = gamsApiOrigin;
+    const IIIF_SERVER_ORIGIN = iiifServerOrigin;
 
     /**
-     * 
+     * Builds a IIIFv3 manifest item to be displayed in an image viewer
      * @param {string} iiifUrl Adress of the IIIF resource  
-     * @returns  
+     * @returns constructed item   
      */
     const createIIIFItem = (iiifUrl) => {
 
@@ -58,22 +68,17 @@ const iiifManifestv3Builder = (() => {
 
     }
 
-
-    
-
-
     /**
-     * TODO
-     * @param {*} objectId 
+     * Builds IIIFv3 manifest for the current object.
+     * @param {string} projectAbbr project id
+     * @param {string} objectId id of the digital object
      */
-    const build = async (origin, projectAbbr, objectId) => {
+    const build = async (projectAbbr, objectId) => {
 
-        let url = `http://localhost:18085/api/v1/projects/memo/objects/${objectId}/datastreams`;
+        let url = `${GAMS_API_ORIGIN}/api/v1/projects/memo/objects/${objectId}/datastreams`;
         // fetch datastream info
         let response = await fetch(url);
         let json = await response.json();
-
-        console.log(json);
 
         const template = {
             "@context": "http://iiif.io/api/presentation/3/context.json",
@@ -89,18 +94,12 @@ const iiifManifestv3Builder = (() => {
 
 
         json.results.forEach(datastream => {
-            
             if(!datastream.mimeType.includes("image"))return;
-
             let dsid = datastream.dsid;
-
             template.items.push(
-                createIIIFItem(`${origin}/iiif/2/${projectAbbr}%2f${objectId}%2f${dsid}`)
+                createIIIFItem(`${IIIF_SERVER_ORIGIN}/iiif/2/${projectAbbr}%2f${objectId}%2f${dsid}`)
             );
-
         });
-
-        console.log("Generated manifest: ", template);
 
         return template;
    
@@ -111,4 +110,4 @@ const iiifManifestv3Builder = (() => {
         build
     }
 
-})();
+};
