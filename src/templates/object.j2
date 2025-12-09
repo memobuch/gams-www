@@ -1,16 +1,12 @@
 {% extends "parents/base.j2" %}
 {% block content %}
 
-{# Needs to be done by the type workflow in the future? #}
 {% if 'person' in object.db.id %}
     {% include "page_objects/person.j2" %}
-{% elif 'imprint' in object.db.id %}
-    {% include "page_objects/imprint.j2" %}
 {% elif 'about' in object.db.id %}
     {% include "page_objects/about.j2" %}
 {% else %}
     {% include "page_objects/default.j2" %}
 {% endif %}
     
-
 {% endblock %}
