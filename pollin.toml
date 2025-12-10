@@ -1,9 +1,9 @@
 [project]
-projectAbbr = "memo" # id of the project to be loaded from the gams-api
+PROJECT_ABBR = "memo" # id of the project to be loaded from the gams-api
 
 [ui]
-version = "0.0.0"
-title = "MEMO WebUI" # (optional) title of the application
+VERSION = "0.0.0" # required version of the web app
+TITLE = "MEMO WebUI" # (optional) title of the application
 
 #
 # Following properties are directly connected to the pollin tool commands 
