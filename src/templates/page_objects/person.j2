@@ -23,6 +23,11 @@
                 <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.id}}/datastreams/DC.xml/content"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a> Dublin Core</li>
                 <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.id}}"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/gams_solo.png" title="Object metadata in the CMS system"></a> Metadatenansicht</li>
             </ul>
+            <ul class="list-group list-group-flush">
+                {% for datastream in object.datastreams|sort(attribute=dsid) %}
+                    <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.id}}/datastreams/{{datastream.dsid}}/content">{{datastream.baseMetadata.title}}</a></li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 
@@ -39,12 +44,7 @@
     
 
     <br/>
-    <h2 class="h4 fw-light">Materialien</h1>
-    <ul class="list-group list-group-flush">
-        {% for dsid in object.datastreams|sort(dsid) %}
-            <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.id}}/datastreams/content">{{dsid}}</a></li>
-        {% endfor %}
-    </ul>
+    
 
 
     {# {{ object_viewer() }} #}
