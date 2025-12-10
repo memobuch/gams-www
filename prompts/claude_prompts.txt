@@ -1,2 +1,0 @@
-
-Hi, I have a custom web-component representation of an TEI-XML imprint for my research project. (Pasted down below) Please generate for me suitable CSS design based on bootstrap5. Additionally I want you to add reasonable functionality via javascript for the mapped TEI elements. For example should a <ref> element behave like an HTML <a> tag. All CSS and javascript should be added directly in the HTML page (inside a style / script element). You cannot change the provided HTML directly - all CSS and javascript must be applied afterwards.
