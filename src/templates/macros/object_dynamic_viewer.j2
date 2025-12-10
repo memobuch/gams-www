@@ -29,20 +29,16 @@ Displays a image viewer for all images of the current object (using IIIF).
             manifestUrl: manifestBlobUrl,
         })
 
-        console.log(tify);
+        // controling tify from outside - needs exposing on window object
+        // window.tify = tify;
 
-        window.tify = tify;
-
+        // example for tiffy event handling
         tify.ready.then((arg) => {
             console.log(arg);
             tify.viewer.addHandler('open', event => {
                 console.log('Tify ready!', event);
             });
         })
-
-        
-
-            
 
 
     })();
