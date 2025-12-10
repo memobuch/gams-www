@@ -17,7 +17,7 @@
         <div class="col-md-4">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">Name: {{ object.db.baseMetadata.title }}</li>
-                <li class="list-group-item">Datum: {{ object.dc.date[0][0:10] }}</li>
+                <li class="list-group-item">Datum: {{ object.db.dublinCore.date[0].value}}</li>
                 <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.db.id}}/datastreams/RDF.xml/content"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/RDF_icon.png" title="RDF"></a> RDF</li>
                 <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.db.id}}/datastreams/DC.xml/content"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a> Dublin Core</li>
                 <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.db.id}}"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/gams_solo.png" title="Object metadata in the CMS system"></a> Metadatenansicht</li>
