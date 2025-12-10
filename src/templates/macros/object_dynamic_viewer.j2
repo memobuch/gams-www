@@ -17,17 +17,34 @@ Displays a image viewer for all images of the current object (using IIIF).
             "{{env.GAMS_API_ORIGIN}}",
             "{{env.IIIF_IMAGE_SERVER_ORIGIN}}"
         );
-        let manifest = await manifestBuilder.build("{{project.projectAbbr}}", "{{object.db.id}}");
+        let manifest = await manifestBuilder.build("{{project.projectAbbr}}", "{{object.id}}");
         let manifestAsString = JSON.stringify(manifest);
         let manifestBlobUrl = URL.createObjectURL(
             new Blob([manifestAsString], { type: 'application/json' })
         );
         
         // Initialize Tify with the manifest Blob URL
-        new Tify({
+        let tify = new Tify({
             container: '#tify',
             manifestUrl: manifestBlobUrl,
         })
+
+        console.log(tify);
+
+        window.tify = tify;
+
+        tify.ready.then((arg) => {
+            console.log(arg);
+            tify.viewer.addHandler('open', event => {
+                console.log('Tify ready!', event);
+            });
+        })
+
+        
+
+            
+
+
     })();
 
 </script>

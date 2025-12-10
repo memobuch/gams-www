@@ -1,26 +1,27 @@
 {% from 'macros/object_viewer.j2' import object_viewer with context %}
 {% from 'macros/object_dynamic_viewer.j2' import object_dynamic_viewer with context %}
 
-<h1 class="h3 fw-light">{{ object.db.baseMetadata.title }}</h1>
+<h1 class="h3 fw-light">{{ object.baseMetadata.title }}</h1>
 <p class="pb-0 mb-1">Information zu einer einzelnen Person erfasst im MEMO Projekt.</p>
+{# <p>{{object}}</p> #}
 <div>
     <hr/>
     <div class="row">
         <div class="col-md-6">
-            <a href="{{env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{project.projectAbbr}}%2f{{object.db.id}}%2f1.jpg/full/full/0/default.jpg" target="blank">
-                <img alt="Kein Bild vorhanden" class="border bg-white rounded" src="{{env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2f{{object.db.id}}%2f1.jpg/full/,500/0/default.jpg"/>
+            <a href="{{env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{project.projectAbbr}}%2f{{object.id}}%2f1.jpg/full/full/0/default.jpg" target="blank">
+                <img alt="Kein Bild vorhanden" class="border bg-white rounded" src="{{env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2f{{object.id}}%2f1.jpg/full/,500/0/default.jpg"/>
             </a>
-            <a href="{{env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{project.projectAbbr}}%2f{{object.db.id}}%2f2.jpg/full/full/0/default.jpg" target="blank">
-                <img alt="Kein Bild vorhanden"class="border bg-white rounded" src="{{env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2f{{object.db.id}}%2f2.jpg/full/,500/0/default.jpg"/>
+            <a href="{{env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{project.projectAbbr}}%2f{{object.id}}%2f2.jpg/full/full/0/default.jpg" target="blank">
+                <img alt="Kein Bild vorhanden"class="border bg-white rounded" src="{{env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2f{{object.id}}%2f2.jpg/full/,500/0/default.jpg"/>
             </a>
         </div>
         <div class="col-md-4">
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">Name: {{ object.db.baseMetadata.title }}</li>
-                <li class="list-group-item">Datum: {{ object.db.dublinCore.date[0].value}}</li>
-                <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.db.id}}/datastreams/RDF.xml/content"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/RDF_icon.png" title="RDF"></a> RDF</li>
-                <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.db.id}}/datastreams/DC.xml/content"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a> Dublin Core</li>
-                <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.db.id}}"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/gams_solo.png" title="Object metadata in the CMS system"></a> Metadatenansicht</li>
+                <li class="list-group-item">Name: {{ object.baseMetadata.title }}</li>
+                <li class="list-group-item">Datum: {{ object.dublinCore.date[0].value}}</li>
+                <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.id}}/datastreams/RDF.xml/content"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/RDF_icon.png" title="RDF"></a> RDF</li>
+                <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.id}}/datastreams/DC.xml/content"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a> Dublin Core</li>
+                <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.id}}"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/gams_solo.png" title="Object metadata in the CMS system"></a> Metadatenansicht</li>
             </ul>
         </div>
     </div>
@@ -31,7 +32,7 @@
         <div class="col-md-6">
         <h2 class="h4">Beschreibung</h2>
             <div>
-                <p>{{ object.db.baseMetadata.description }}</p>
+                <p>{{ object.baseMetadata.description }}</p>
             </div>
         </div>
     </div>
@@ -40,8 +41,8 @@
     <br/>
     <h2 class="h4 fw-light">Materialien</h1>
     <ul class="list-group list-group-flush">
-        {% for dsid in object.db.datastreams|sort(dsid) %}
-            <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.db.id}}/datastreams/content">{{dsid}}</a></li>
+        {% for dsid in object.datastreams|sort(dsid) %}
+            <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.id}}/datastreams/content">{{dsid}}</a></li>
         {% endfor %}
     </ul>
 

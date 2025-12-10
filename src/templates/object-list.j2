@@ -22,19 +22,19 @@
             </tr>
         </thead>
         <tbody>
-            {% for object in objects|sort(attribute='db.baseMetadata.title') %}
+            {% for object in objects|sort(attribute='baseMetadata.title') %}
                 {# show only objects of tag person #}
-                {% if 'person' in object.db.tags %}
+                {% if 'person' in object.tags %}
                     <tr>
                         <td>
-                            <img loading="lazy" src="{{env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2f{{object.db.id}}%2f1.jpg/full/,50/0/default.jpg" alt="Person 369">
+                            <img loading="lazy" src="{{env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2f{{object.id}}%2f1.jpg/full/,50/0/default.jpg" alt="Person 369">
                         </td>
                         <td>
-                            <a href="/{{project.projectAbbr}}/objects/{{object.db.id}}">{{ object.db.id }}</a>
+                            <a href="/{{project.projectAbbr}}/objects/{{object.id}}">{{ object.id }}</a>
                         </td>
-                        <td>{{ object.db.baseMetadata.title }}
+                        <td>{{ object.baseMetadata.title }}
                         </td>
-                        <td>{{ object.db.baseMetadata.description }}</td>
+                        <td>{{ object.baseMetadata.description }}</td>
                     </tr>
                 {% endif %}
             {% endfor %}

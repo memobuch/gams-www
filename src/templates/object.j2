@@ -1,9 +1,9 @@
 {% extends "parents/base.j2" %}
 {% block content %}
 
-{% if 'person' in object.db.id %}
+{% if 'person' in object.id %}
     {% include "page_objects/person.j2" %}
-{% elif 'about' in object.db.id %}
+{% elif 'about' in object.id %}
     {% include "page_objects/about.j2" %}
 {% else %}
     {% include "page_objects/default.j2" %}
