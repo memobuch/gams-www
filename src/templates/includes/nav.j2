@@ -1,7 +1,10 @@
 <nav class="navbar bd-navbar navbar-expand-lg mb-3 sticky-top bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href={{'/' + project.projectAbbr + '/'}} style="text-transform:uppercase;">{{ project.projectAbbr }}</a>
-    <button class="navbar-toggler text-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand" href="/{{project.projectAbbr}}" style="text-transform:uppercase;">{{project.projectAbbr
+      }}</a>
+    <button class="navbar-toggler text-light" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+      aria-label="Toggle navigation">
       <span class="navbar-toggler-icon text-light"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -17,18 +20,21 @@
             Projekt
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/{{project.projectAbbr}}/objects/memo.about">About</a></li>
-            <li><a class="dropdown-item" href="/{{project.projectAbbr}}/objects/memo.imprint">Impressum</a></li>
-            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/{{project.projectAbbr}}/about.html">About</a></li>
+            <li><a class="dropdown-item" href="/{{project.projectAbbr}}/imprint.html">Impressum</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
             <li><a class="dropdown-item" href="/{{project.projectAbbr}}/datamodel.html">Datenmodell</a></li>
           </ul>
         </li>
-         <li class="nav-item dropdown">
+        <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Erweiterte Funktionalitäten
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/{{ project.projectAbbr }}/search-xsl.html">Volltextsuche via xsl</a></li>
+            <li><a class="dropdown-item" href="/{{ project.projectAbbr }}/search-xsl.html">Volltextsuche via xsl</a>
+            </li>
           </ul>
         </li>
       </ul>
