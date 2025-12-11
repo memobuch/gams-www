@@ -8,6 +8,7 @@
         crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
 
+    {# {{ self._TemplateReference__context.name }} #}
 
     <h1 class="h3 fw-light">Personenregister</h1>
     <p>Personen erfassst im MEMO Projekt. Wohnhafte oder ansässige Personen in Graz ermordert durch das NS-Regime.</p>
@@ -21,6 +22,7 @@
                 <th>Nachname</th>
                 <th>Vorname</th>
                 <th>Beschreibung</th>
+                <th>Schlagworte</th>
             </tr>
         </thead>
         <tbody>
@@ -41,6 +43,7 @@
                         {{ object.baseMetadata.title.split(' ')[0] }}
                         </td>
                         <td>{{ object.baseMetadata.description }}</td>
+                        <td>{{ object.tags }}</td>
                     </tr>
                 {% endif %}
             {% endfor %}
