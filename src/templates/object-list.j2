@@ -12,12 +12,14 @@
     <h1 class="h3 fw-light">Personenübersicht</h1>
     <p>Personen erfassst im MEMO Projekt. Wohnhafte oder ansässige Personen in Graz ermordert durch das NS-Regime.</p>
 
+    {# <pre>{{ objects | tojson(indent=2) }}</pre> #}
     <table id="example" class="display">
         <thead>
             <tr>
                 <th>#</th>
                 <th>ID</th>
-                <th>Name</th>
+                <th>Nachname</th>
+                <th>Vorname</th>
                 <th>Beschreibung</th>
             </tr>
         </thead>
@@ -32,7 +34,11 @@
                         <td>
                             <a href="/{{project.projectAbbr}}/objects/{{object.id}}">{{ object.id }}</a>
                         </td>
-                        <td>{{ object.baseMetadata.title }}
+                        <td>
+                            {{ object.baseMetadata.title.split(' ', 1)[-1] }}    
+                        </td>
+                        <td>
+                        {{ object.baseMetadata.title.split(' ')[0] }}
                         </td>
                         <td>{{ object.baseMetadata.description }}</td>
                     </tr>
