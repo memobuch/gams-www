@@ -3,17 +3,19 @@
 
 <h1 class="h3 fw-light">{{ object.baseMetadata.title }}</h1>
 <p class="pb-0 mb-1">Information zu einer einzelnen Person erfasst im MEMO Projekt.</p>
-{# <pre>{{ object | tojson(indent=2) }}</pre> #}
+<pre>{{ object | tojson(indent=2) }}</pre>
 <div>
     <hr/>
     <div class="row">
         <div class="col-md-6">
-            <a href="{{env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{project.projectAbbr}}%2f{{object.id}}%2f1.jpg/full/full/0/default.jpg" target="blank">
-                <img alt="Kein Bild vorhanden" class="border bg-white rounded" src="{{env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2f{{object.id}}%2f1.jpg/full/,500/0/default.jpg"/>
-            </a>
-            <a href="{{env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{project.projectAbbr}}%2f{{object.id}}%2f2.jpg/full/full/0/default.jpg" target="blank">
-                <img alt="Kein Bild vorhanden"class="border bg-white rounded" src="{{env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2f{{object.id}}%2f2.jpg/full/,500/0/default.jpg"/>
-            </a>
+            {# Display all images via IIIF adress filtered by mimetype #}
+            {% for datastream in object.datastreams|sort(attribute='dsid') %}
+                {% if 'image' in datastream.mimeType %}
+                    <a href="{{env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{project.projectAbbr}}%2f{{object.id}}%2f{{datastream.dsid}}/full/full/0/default.jpg" target="blank">
+                        <img alt="Kein Bild vorhanden" class="border bg-white rounded" src="{{env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2f{{object.id}}%2f{{datastream.dsid}}/full/,250/0/default.jpg"/>
+                    </a>
+                {% endif %}
+            {% endfor %}
         </div>
         <div class="col-md-4">
             <ul class="list-group list-group-flush">
