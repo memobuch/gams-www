@@ -11,7 +11,35 @@
 {# <pre>{{ object | tojson(indent=2) }}</pre> #}
 <div>
     <hr/>
-    <div class="row">
+    <ul class="nav nav-pills nav-fill" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Übersicht</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Bildanalyse</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Kartenansicht</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane" type="button" role="tab" aria-controls="disabled-tab-pane" aria-selected="false">Forschungsdaten</button>
+        </li>
+    </ul>
+    {# Overwrite default styling of bootstrap tabs / piis #}
+    <style>
+        ul#myTab button {
+            color: black;
+        }
+    
+        button.active {
+            background-color: lightblue !important;
+            color: black !important;
+        }
+    </style>
+    <br/>
+    <div class="tab-content bg-white" id="myTabContent">
+        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="row">
         <div class="col">
             <div class="row row-cols-1 row-cols-md-3 g-4">
                 <div class="col">
@@ -46,29 +74,38 @@
                 {% endfor %}
             </div>
         </div>
-        
     </div>
+        </div>
+        <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+            {# {{ object_viewer() }} #}
+            {{ object_dynamic_viewer() }}
+        </div>
+        <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">...</div>
+        <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">
+            <div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Name: {{ object.baseMetadata.title }}</li>
+                    <li class="list-group-item">Datum: {{ object.dublinCore.date[0].value}}</li>
+                    <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.id}}/datastreams/RDF.xml/content"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/RDF_icon.png" title="RDF"></a> RDF</li>
+                    <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.id}}/datastreams/DC.xml/content"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a> Dublin Core</li>
+                    <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.id}}"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/gams_solo.png" title="Object metadata in the CMS system"></a> Metadatenansicht</li>
+                </ul>
+                <ul class="list-group list-group-flush">
+                    {% for datastream in object.datastreams|sort(attribute=dsid) %}
+                        <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.id}}/datastreams/{{datastream.dsid}}/content">{{datastream.baseMetadata.title}}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    
 
     <br/>
     
 
 
-    {# {{ object_viewer() }} #}
-    {{ object_dynamic_viewer() }}
+    
 
-    <div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">Name: {{ object.baseMetadata.title }}</li>
-            <li class="list-group-item">Datum: {{ object.dublinCore.date[0].value}}</li>
-            <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.id}}/datastreams/RDF.xml/content"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/RDF_icon.png" title="RDF"></a> RDF</li>
-            <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.id}}/datastreams/DC.xml/content"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a> Dublin Core</li>
-            <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.id}}"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/gams_solo.png" title="Object metadata in the CMS system"></a> Metadatenansicht</li>
-        </ul>
-        <ul class="list-group list-group-flush">
-            {% for datastream in object.datastreams|sort(attribute=dsid) %}
-                <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.id}}/datastreams/{{datastream.dsid}}/content">{{datastream.baseMetadata.title}}</a></li>
-            {% endfor %}
-        </ul>
-    </div>
+    
 
 </div>
