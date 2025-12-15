@@ -28,24 +28,24 @@
             </tr>
         </thead>
         <tbody>
-            {% for object in objects|sort(attribute='baseMetadata.title') %}
+            {% for object in context.objects|sort(attribute='baseMetadata.title') %}
                 {# show only objects of tag person #}
                 {% if 'person' in object.tags %}
                     <tr>
                         <td>
-                            <img loading="lazy" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{project.projectAbbr}}%2f{{context.object.id}}%2f1.jpg/full/,100/0/default.jpg" alt="Person 369">
+                            <img loading="lazy" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{context.project.projectAbbr}}%2f{{object.id}}%2f1.jpg/full/,100/0/default.jpg" alt="Person 369">
                         </td>
                         <td>
-                            <a href="/{{context.project.projectAbbr}}/objects/{{context.object.id}}">{{ context.object.id }}</a>
+                            <a href="/{{context.project.projectAbbr}}/objects/{{object.id}}">{{ object.id }}</a>
                         </td>
                         <td>
-                            {{ context.object.baseMetadata.title.split(' ', 1)[-1] }}    
+                            {{ object.baseMetadata.title.split(' ', 1)[-1] }}    
                         </td>
                         <td>
-                        {{ context.object.baseMetadata.title.split(' ')[0] }}
+                        {{ object.baseMetadata.title.split(' ')[0] }}
                         </td>
-                        <td>{{ context.object.baseMetadata.description }}</td>
-                        <td>{{ context.object.tags }}</td>
+                        <td>{{ object.baseMetadata.description }}</td>
+                        <td>{{ object.tags }}</td>
                     </tr>
                 {% endif %}
             {% endfor %}
