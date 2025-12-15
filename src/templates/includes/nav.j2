@@ -10,16 +10,16 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a id="project" class="nav-link" aria-current="page" href="/{{context.project.projectAbbr}}">Startseite</a>
+          <a data-active-template="project" class="nav-link" aria-current="page" href="/{{context.project.projectAbbr}}">Startseite</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/{{context.project.projectAbbr}}/map.html">Karte</a>
+          <a data-active-template="pages/map" class="nav-link" aria-current="page" href="/{{context.project.projectAbbr}}/map.html">Karte</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/{{context.project.projectAbbr}}/objects/">Personenregister</a>
+          <a data-active-template="object-list" class="nav-link" aria-current="page" href="/{{context.project.projectAbbr}}/objects/">Personenregister</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/{{context.project.projectAbbr}}/geobrowser.html">Quantitative Analyse</a>
+          <a data-active-template="pages/geobrowser" class="nav-link" aria-current="page" href="/{{context.project.projectAbbr}}/geobrowser.html">Quantitative Analyse</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -51,3 +51,20 @@
     </div>
   </div>
 </nav>
+
+<script>
+  (() => {
+    let selector = `a[data-active-template='${window._gams._template_name}']`
+    let navLink = document.querySelector(selector);
+
+    // Debugging information only if in development using jinja2 conditionals
+    {% if "dev" in context.env.POLLIN_MODE %}
+      console.debug("Setting active nav a element to selection: ", selector, " Selected element: ", navLink);
+    {% endif %}
+
+    if(!navLink){
+      return;
+    }
+    document.querySelector(selector).classList.add("active");
+  })();
+</script>

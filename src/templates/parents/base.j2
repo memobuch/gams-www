@@ -12,8 +12,24 @@
     #}
     <script src="/{{context.project.projectAbbr}}/static/js/SaxonJS3-beta-1.rt.js"></script>
 
+    {# Definition of global variables #}
+    <script>
+      window._gams = {
+        "_template_name": "{{context._template_name}}",
+        "_template_file_name": "{{context._template_file_name}}",
+        "env": {
+          "GAMS_API_ORIGIN": "{{context.env.GAMS_API_ORIGIN}}",
+          "IIIF_IMAGE_SERVER_ORIGIN": "{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}",
+          "POLLIN_MODE": "{{context.env.POLLIN_MODE}}",
+          "PROJECT_ABBR": "{{context.project.projectAbbr}}",
+          "UI_TITLE": "{{context.env.UI_TITLE}}",
+          "UI_VERSION": "{{context.env.UI_VERSION}}"
+        }
+      }
+    </script>
+
   </head>
-  <body page-data="{{context._template_name}}">
+  <body>
     <header class="bg-light">
       <div class="row">
         <div class="col-xl-2">
