@@ -1,15 +1,14 @@
 {% from 'macros/object_viewer.j2' import object_viewer with context %}
 {% from 'macros/object_dynamic_viewer.j2' import object_dynamic_viewer with context %}
 
-<h1 class="h3 fw-light">{{ object.baseMetadata.title }}</h1>
+<h1 class="h3 fw-light">{{ context.object.baseMetadata.title }}</h1>
 <p class="pb-0 mb-1">Information zu einer einzelnen Person erfasst im MEMO Projekt.</p>
 <div>
-    <a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.id}}/datastreams/RDF.xml/content"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/RDF_icon.png" title="RDF"></a> 
-    <a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.id}}/datastreams/DC.xml/content"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a>
-    <a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.id}}"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/gams_solo.png" title="Object metadata in the CMS system"></a>
+    <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/RDF.xml/content"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/RDF_icon.png" title="RDF"></a> 
+    <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/DC.xml/content"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a>
+    <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/gams_solo.png" title="Object metadata in the CMS system"></a>
 </div>
-{# <pre>{{ object | tojson(indent=2) }}</pre> #}
-{# <pre>{{ self._TemplateReference__context }}</pre> #}
+<pre>{{ context | tojson(indent=2) }}</pre>
 <div>
     <hr/>
     <ul class="nav nav-pills nav-fill" id="myTab" role="tablist">
@@ -47,23 +46,23 @@
                     <div class="card border">
                         <div class="card-body">
                             <h5 class="card-title h4">Biografie</h5>
-                            <p class="card-text">{{object.baseMetadata.description}}</p>
+                            <p class="card-text">{{context.object.baseMetadata.description}}</p>
                         </div>
                         <div class="card-footer">
-                            <small class="text-body-secondary">&copy; {{object.baseMetadata.creator}}</small>
+                            <small class="text-body-secondary">&copy; {{context.object.baseMetadata.creator}}</small>
                         </div>
                     </div>
                 </div>
                 {# Display all images via IIIF adress filtered by mimetype #}
-                {% for datastream in object.datastreams|sort(attribute='dsid') %}
+                {% for datastream in context.object.datastreams|sort(attribute='dsid') %}
                     {% if 'image' in datastream.mimeType %}
                         <div class="col">
                             <div class="card border">
                                 <div class="card-body">
                                     <h5 class="card-title">{{datastream.baseMetadata.title}} ({{loop.index}})</h5>
                                     <p class="card-text">{{datastream.baseMetadata.description}}</p>
-                                    <a href="{{env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{project.projectAbbr}}%2f{{object.id}}%2f{{datastream.dsid}}/full/full/0/default.jpg" target="blank">
-                                        <img alt="Kein Bild vorhanden" class="border bg-white rounded" src="{{env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2f{{object.id}}%2f{{datastream.dsid}}/full/,250/0/default.jpg"/>
+                                    <a href="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{context.project.projectAbbr}}%2f{{context.object.id}}%2f{{datastream.dsid}}/full/full/0/default.jpg" target="blank">
+                                        <img alt="Kein Bild vorhanden" class="border bg-white rounded" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2f{{context.object.id}}%2f{{datastream.dsid}}/full/,250/0/default.jpg"/>
                                     </a>
                                 </div>
                                 <div class="card-footer">
@@ -85,15 +84,15 @@
         <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">
             <div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Name: {{ object.baseMetadata.title }}</li>
-                    <li class="list-group-item">Datum: {{ object.dublinCore.date[0].value}}</li>
-                    <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.id}}/datastreams/RDF.xml/content"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/RDF_icon.png" title="RDF"></a> RDF</li>
-                    <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.id}}/datastreams/DC.xml/content"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a> Dublin Core</li>
-                    <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.id}}"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/gams_solo.png" title="Object metadata in the CMS system"></a> Metadatenansicht</li>
+                    <li class="list-group-item">Name: {{ context.object.baseMetadata.title }}</li>
+                    <li class="list-group-item">Datum: {{ context.object.dublinCore.date[0].value}}</li>
+                    <li class="list-group-item"><a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/RDF.xml/content"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/RDF_icon.png" title="RDF"></a> RDF</li>
+                    <li class="list-group-item"><a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/DC.xml/content"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a> Dublin Core</li>
+                    <li class="list-group-item"><a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/gams_solo.png" title="Object metadata in the CMS system"></a> Metadatenansicht</li>
                 </ul>
                 <ul class="list-group list-group-flush">
-                    {% for datastream in object.datastreams|sort(attribute=dsid) %}
-                        <li class="list-group-item"><a target="_blank" href="{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.id}}/datastreams/{{datastream.dsid}}/content">{{datastream.baseMetadata.title}}</a></li>
+                    {% for datastream in context.object.datastreams|sort(attribute=dsid) %}
+                        <li class="list-group-item"><a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/{{datastream.dsid}}/content">{{datastream.baseMetadata.title}}</a></li>
                     {% endfor %}
                 </ul>
             </div>

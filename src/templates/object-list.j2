@@ -8,12 +8,14 @@
         crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
 
-    {# {{ self._TemplateReference__context.name }} #}
+    {# {{ self._TemplateReference__context }} #}
+
+    {{_template_name}}
 
     <h1 class="h3 fw-light">Personenregister</h1>
     <p>Personen erfassst im MEMO Projekt. Wohnhafte oder ansässige Personen in Graz ermordert durch das NS-Regime.</p>
 
-    {# <pre>{{ objects | tojson(indent=2) }}</pre> #}
+    {# <pre>{{ context.objects | tojson(indent=2) }}</pre> #}
     <table id="example" class="display">
         <thead>
             <tr>
@@ -31,19 +33,19 @@
                 {% if 'person' in object.tags %}
                     <tr>
                         <td>
-                            <img loading="lazy" src="{{env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{project.projectAbbr}}%2f{{object.id}}%2f1.jpg/full/,100/0/default.jpg" alt="Person 369">
+                            <img loading="lazy" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{project.projectAbbr}}%2f{{context.object.id}}%2f1.jpg/full/,100/0/default.jpg" alt="Person 369">
                         </td>
                         <td>
-                            <a href="/{{project.projectAbbr}}/objects/{{object.id}}">{{ object.id }}</a>
+                            <a href="/{{context.project.projectAbbr}}/objects/{{context.object.id}}">{{ context.object.id }}</a>
                         </td>
                         <td>
-                            {{ object.baseMetadata.title.split(' ', 1)[-1] }}    
+                            {{ context.object.baseMetadata.title.split(' ', 1)[-1] }}    
                         </td>
                         <td>
-                        {{ object.baseMetadata.title.split(' ')[0] }}
+                        {{ context.object.baseMetadata.title.split(' ')[0] }}
                         </td>
-                        <td>{{ object.baseMetadata.description }}</td>
-                        <td>{{ object.tags }}</td>
+                        <td>{{ context.object.baseMetadata.description }}</td>
+                        <td>{{ context.object.tags }}</td>
                     </tr>
                 {% endif %}
             {% endfor %}

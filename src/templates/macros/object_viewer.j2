@@ -11,10 +11,10 @@ Uses the GAMS search API to get facet counts for dc.subject.
 
     (async () => {
 
-        let manifestUrl = '{{env.GAMS_API_ORIGIN}}/api/v1/projects/{{project.projectAbbr}}/objects/{{object.id}}/datastreams/manifest.json/content';
+        let manifestUrl = '{{context.env.GAMS_API_ORIGIN}}/api/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/manifest.json/content';
 
         // 00. Manifest.json should work as is in production
-        let curPollinMode = "{{env.POLLIN_MODE}}";
+        let curPollinMode = "{{context.env.POLLIN_MODE}}";
         if (curPollinMode !== "dev") {
             return new Tify({
                 container: '#tify',
@@ -34,7 +34,7 @@ Uses the GAMS search API to get facet counts for dc.subject.
 
         // 02, Modify manifest to use local IIIF Image API endpoints
         //let manifestAsString = JSON.stringify(manifest, null, 2);
-        manifest = manifest.replaceAll("https://gams.uni-graz.at/iiif", "{{env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif");
+        manifest = manifest.replaceAll("https://gams.uni-graz.at/iiif", "{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif");
 
         // 03. Create a Blob URL for the modified manifest
         let manifestBlobUrl = URL.createObjectURL(
