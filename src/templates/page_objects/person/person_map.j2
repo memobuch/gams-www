@@ -1,0 +1,45 @@
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<!-- MarkerCluster CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+
+<!-- Custom CSS: reuse base look and feel -->
+<link rel="stylesheet" href="/memo/static/apps/map/map.css">
+<link rel="stylesheet" href="/memo/static/apps/persons_map/persons_map.css">
+
+<!-- Map Container -->
+<div id="map" class="map-container" style="height:100vh;">
+    <!-- Inline navigation panel inside map -->
+    <div id="pm-nav" class="pm-nav">
+        <div class="pm-nav-header">
+            <span id="pm-nav-title" class="pm-nav-title">Stationen</span>
+            <span id="pm-nav-counter" class="pm-nav-counter">0/0</span>
+        </div>
+        <div id="pm-nav-body" class="pm-nav-body">
+            <div id="pm-nav-event" class="pm-nav-event">—</div>
+            <div id="pm-nav-place" class="pm-nav-place">—</div>
+            <div id="pm-nav-date" class="pm-nav-date">—</div>
+            <div class="pm-nav-toggle">
+                <label class="pm-toggle-label">
+                    <input id="pm-toggle-path" type="checkbox" checked>
+                    <span>Verlauf anzeigen</span>
+                </label>
+            </div>
+        </div>
+        <div class="pm-nav-actions">
+            <button id="pm-prev" class="pm-btn" type="button">Zurück</button>
+            <button id="pm-next" class="pm-btn pm-btn-primary" type="button">Weiter</button>
+        </div>
+    </div>
+</div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- MarkerCluster JS -->
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<!-- PolylineDecorator for elegant arrows along paths -->
+<script src="https://unpkg.com/leaflet-polylinedecorator@1.7.0/dist/leaflet.polylineDecorator.min.js"></script>
+
+<!-- Persons Map JS -->
+<script src="/memo/static/apps/persons_map/persons_map.js"></script>

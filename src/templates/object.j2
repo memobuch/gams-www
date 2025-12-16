@@ -2,7 +2,7 @@
 {% block content %}
 
 {% if 'person' in context.object.id %}
-    {% include "page_objects/person.j2" %}
+    {% include "page_objects/person/person.j2" %}
 {% elif 'about' in context.object.id %}
     {% include "page_objects/about.j2" %}
 {% else %}
