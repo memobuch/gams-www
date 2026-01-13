@@ -3,12 +3,12 @@
 // Version 5.2.0 - Shape from Vocab + All Victim Categories in Filters
 // ===================================
 
-(function() {
+function initMap(url) {
     'use strict';
 
     // ===== Configuration =====
     const CONFIG = {
-        geojsonFile: 'http://localhost:18085/api/v1/projects/memo/objects/memo.person-register/datastreams/EVENTS.json/content',
+        geojsonFile: url,
         mapCenter: [47.0707, 15.4395],
         mapZoom: 4,
         minZoom: 1,
@@ -1016,4 +1016,4 @@
         init();
     }
 
-})();
+};
