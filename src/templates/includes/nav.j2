@@ -1,37 +1,37 @@
 <nav class="navbar bd-navbar navbar-expand-lg mb-3 sticky-top bg-light border border-3 border-start-0 border-end-0">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/{{context.project.projectAbbr}}" style="text-transform:uppercase;">{{context.project.projectAbbr
+    <a class="navbar-brand" href="{{context.env.PROJECT_WEB_ROOT}}" style="text-transform:uppercase;">{{context.project.projectAbbr
       }}</a>
     <button class="navbar-toggler text-light" type="button" data-bs-toggle="collapse"
       data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
       aria-label="Toggle navigation">
       <span class="navbar-toggler-icon text-light"></span>
-    </button>
+    </button> 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a data-active-template="project" class="nav-link" aria-current="page" href="/{{context.project.projectAbbr}}">Startseite</a>
+          <a data-active-template="project" class="nav-link" aria-current="page" href="{{context.env.PROJECT_WEB_ROOT}}">Startseite</a>
         </li>
         <li class="nav-item">
-          <a data-active-template="pages/map" class="nav-link" aria-current="page" href="/{{context.project.projectAbbr}}/map.html">Karte</a>
+          <a data-active-template="pages/map" class="nav-link" aria-current="page" href="{{context.env.PROJECT_WEB_ROOT}}/map.html">Karte</a>
         </li>
         <li class="nav-item">
-          <a data-active-template="object-list" class="nav-link" aria-current="page" href="/{{context.project.projectAbbr}}/objects/">Personenregister</a>
+          <a data-active-template="object-list" class="nav-link" aria-current="page" href="{{context.env.PROJECT_WEB_ROOT}}/objects/">Personenregister</a>
         </li>
         <li class="nav-item">
-          <a data-active-template="pages/geobrowser" class="nav-link" aria-current="page" href="/{{context.project.projectAbbr}}/geobrowser.html">Quantitative Analyse</a>
+          <a data-active-template="pages/geobrowser" class="nav-link" aria-current="page" href="{{context.env.PROJECT_WEB_ROOT}}/geobrowser.html">Quantitative Analyse</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Projekt
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/{{context.project.projectAbbr}}/about.html">About</a></li>
-            <li><a class="dropdown-item" href="/{{context.project.projectAbbr}}/imprint.html">Impressum</a></li>
+            <li><a class="dropdown-item" href="{{context.env.PROJECT_WEB_ROOT}}/about.html">About</a></li>
+            <li><a class="dropdown-item" href="{{context.env.PROJECT_WEB_ROOT}}/imprint.html">Impressum</a></li>
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="/{{context.project.projectAbbr}}/datamodel.html">Datenmodell</a></li>
+            <li><a class="dropdown-item" href="{{context.env.PROJECT_WEB_ROOT}}/datamodel.html">Datenmodell</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">
@@ -39,12 +39,12 @@
             Erweiterte Funktionalitäten
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/{{ context.project.projectAbbr }}/search-xsl.html">Volltextsuche via xsl</a>
+            <li><a class="dropdown-item" href="{{context.env.PROJECT_WEB_ROOT}}/search-xsl.html">Volltextsuche via xsl</a>
             </li>
           </ul>
         </li>
       </ul>
-      <form class="d-flex" role="search" method="get" action="/{{ context.project.projectAbbr }}/search.html">
+      <form class="d-flex" role="search" method="get" action="{{context.env.PROJECT_WEB_ROOT}}/search.html">
         <input class="form-control me-2" type="search" name="q" placeholder="Volltext" aria-label="Suchen">
         <button class="btn btn-light" type="submit">Suche</button>
       </form>
