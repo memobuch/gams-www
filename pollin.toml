@@ -21,8 +21,8 @@ GAMS_API_ORIGIN = "https://it030021.uni-graz.at" # address of the gams-api
 IIIF_IMAGE_SERVER_ORIGIN = "https://it030021.uni-graz.at" # adress of the IIIF server to be used
 
 [build]
-GAMS_API_ORIGIN = "http://localhost:18085"
-IIIF_IMAGE_SERVER_ORIGIN = "http://localhost:18080"
+GAMS_API_ORIGIN = "https://it030021.uni-graz.at"
+IIIF_IMAGE_SERVER_ORIGIN = "https://it030021.uni-graz.at"
 
 [dev.load]
 OBJECT_COUNT_RESTRICTION = 2000000 # limits the number of objects loaded (+ used for rendering)
