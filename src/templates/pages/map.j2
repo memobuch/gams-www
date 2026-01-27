@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/memo/static/apps/map/map.css">
+    <link rel="stylesheet" href="{{context.env.PROJECT_WEB_ROOT}}/static/apps/map/map.css">
 
     <h1 class="h3 fw-light">Opfer der NS-Verfolgung aus Graz</h1>
     <p>Karte der Opfer erfasst von MEMO</p>
@@ -66,7 +66,7 @@
     <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
     
     <!-- Custom JS -->
-    <script src="/memo/static/apps/map/map.js"></script>
+    <script src="{{context.env.PROJECT_WEB_ROOT}}/static/apps/map/map.js"></script>
 
     <script>
         initMap('{{ context.env.GAMS_API_ORIGIN }}/api/v1/projects/memo/objects/memo.person-register/datastreams/EVENTS.json/content');

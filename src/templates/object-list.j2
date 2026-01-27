@@ -36,7 +36,7 @@
                             <img loading="lazy" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{context.project.projectAbbr}}%2f{{object.id}}%2f1.jpg/full/,100/0/default.jpg" alt="Person 369">
                         </td>
                         <td>
-                            <a href="/{{context.project.projectAbbr}}/objects/{{object.id}}">{{ object.id }}</a>
+                            <a href="{{context.env.PROJECT_WEB_ROOT}}/objects/{{object.id}}">{{ object.id }}</a>
                         </td>
                         <td>
                             {{ object.baseMetadata.title.split(' ', 1)[-1] }}    
