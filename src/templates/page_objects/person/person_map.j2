@@ -5,8 +5,8 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
 
 <!-- Custom CSS: reuse base look and feel -->
-<link rel="stylesheet" href="{{context.env.PROJECT_WEB_ROOT}}/static/apps/map/map.css">
-<link rel="stylesheet" href="{{context.env.PROJECT_WEB_ROOT}}/static/apps/persons_map/persons_map.css">
+<link rel="stylesheet" href="{{context._root_path}}/static/apps/map/map.css">
+<link rel="stylesheet" href="{{context._root_path}}/static/apps/persons_map/persons_map.css">
 
 <!-- Map Container -->
 <div id="map" class="map-container" style="height:100vh;">
@@ -42,4 +42,4 @@
 <script src="https://unpkg.com/leaflet-polylinedecorator@1.7.0/dist/leaflet.polylineDecorator.min.js"></script>
 
 <!-- Persons Map JS -->
-<script src="{{context.env.PROJECT_WEB_ROOT}}/static/apps/persons_map/persons_map.js"></script>
+<script src="{{context._root_path}}/static/apps/persons_map/persons_map.js"></script>

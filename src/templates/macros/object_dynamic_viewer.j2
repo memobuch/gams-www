@@ -8,7 +8,7 @@ Displays a image viewer for all images of the current object (using IIIF).
 {% macro object_dynamic_viewer() -%}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tify@0.34.4/dist/tify.css">
 <div id="tify" style="height: 100vh"></div>
-<script src="{{context.env.PROJECT_WEB_ROOT}}/static/js/iiif/iiifManifestv3Builder.js"></script>
+<script src="{{context._root_path}}/static/js/iiif/iiifManifestv3Builder.js"></script>
 <script type="module">
     import Tify from 'https://cdn.jsdelivr.net/npm/tify@0.34.5/dist/tify.js'
 

@@ -11,7 +11,7 @@
     <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/DC.xml/content"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a>
     <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/gams_solo.png" title="Object metadata in the CMS system"></a>
 </div>
-{# <pre>{{ context | tojson(indent=2) }}</pre> #}
+<pre>{{ context | tojson(indent=2) }}</pre>
 <div>
     <hr/>
     <ul class="nav nav-pills nav-fill" id="myTab" role="tablist">
