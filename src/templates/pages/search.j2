@@ -28,7 +28,7 @@
             let resultCountElement = document.querySelector("#resultCount");
             let searchQueryDisplay = document.querySelector("#searchQueryDisplay");
 
-            let requestUrl = new URL("{{context.env.GAMS_API_ORIGIN}}/api/v1/integration/gsearch/fulltext");
+            let requestUrl = new URL("{{context.env.GAMS_API_ORIGIN}}/api/v1/integration/gsearch/fulltext?projects={{context.project.projectAbbr}}");
             
 
             let searchQuery = new URL(window.location.href).searchParams.get("q") || "";
