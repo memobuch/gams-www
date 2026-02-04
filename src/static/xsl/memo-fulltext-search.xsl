@@ -45,7 +45,7 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     <xsl:if test="/FulltextDigitalObjectResultDto/results/pagination/hasPrevious = 'true'">
-                        <li class="page-item"><a class="page-link" href="/memo/search-xsl.html?q={$searchQuery}&amp;pageIndex={$currentPage - 1}">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="{{context._root_path}}/search-xsl.html?q={$searchQuery}&amp;pageIndex={$currentPage - 1}">Previous</a></li>
                     </xsl:if>
                     
                     <!--<li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -54,7 +54,7 @@
                     
                     
                     <xsl:if test="/FulltextDigitalObjectResultDto/results/pagination/hasNext = 'true'">
-                        <li class="page-item"><a class="page-link" href="/memo/search-xsl.html?q={$searchQuery}&amp;pageIndex={$currentPage + 1}">Next</a></li>    
+                        <li class="page-item"><a class="page-link" href="{{context._root_path}}/search-xsl.html?q={$searchQuery}&amp;pageIndex={$currentPage + 1}">Next</a></li>    
                     </xsl:if>
                 </ul>
             </nav>
@@ -62,7 +62,7 @@
             
             <ul class="list-group">
                 <xsl:for-each select="//result">
-                    <li class="list-group-item"><a target="_blank" href="/memo/objects/{id}"><xsl:value-of select="dc.title"/></a> (<xsl:value-of select="id"/>)</li>
+                    <li class="list-group-item"><a target="_blank" href="{{context._root_path}}/objects/{id}"><xsl:value-of select="dc.title"/></a> (<xsl:value-of select="id"/>)</li>
                 </xsl:for-each>
             </ul>
     </xsl:template>
