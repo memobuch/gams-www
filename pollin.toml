@@ -5,24 +5,32 @@ PROJECT_ABBR = "memo" # id of the project to be loaded from the gams-api
 VERSION = "0.0.0" # required version of the web app
 TITLE = "MEMO WebUI" # (optional) title of the application
 
+# dangerous variables that point always to production adresses.
+# values are needed in some situations (e.g. rewrites for manifest.json / rdf files using production adresses during development / staging)
+# shouldn't be used regularly
+[dangerous]
+GAMS3_PRODUCTION_ORIGIN = "https://gams.uni-graz.at" # gams3 potential unstable production address
+GAMS5_PRODUCTION_ORIGIN = "https://gams.uni-graz.at" # gams5 potential unstable production address 
+
+
 #
 # Following properties are directly connected to the pollin tool commands 
-# (handles environment specific configuration: development / production etc.)
+# (handles environment specific configuration: development / staging / production etc.)
 #
 
 [dev]
-GAMS_API_ORIGIN = "https://it030021.uni-graz.at" # address of the gams-api
-IIIF_IMAGE_SERVER_ORIGIN = "https://it030021.uni-graz.at" # adress of the IIIF server to be used
+GAMS_API_ORIGIN = "https://ginko.uni-graz.at" # origin of the gams-api (might be somewhere else)
+IIIF_IMAGE_SERVER_ORIGIN = "https://ginko.uni-graz.at" # adress of the IIIF server to be used (might be somewhere else)
 # allows to configure a path to where pollin tool produces it's files
 # OUTPUT_PATH = "C:\\Users\\sebas\\Documents\\programming\\gams\\pollin-tool\\1"
 
 [stage]
-GAMS_API_ORIGIN = "https://it030021.uni-graz.at" # address of the gams-api
-IIIF_IMAGE_SERVER_ORIGIN = "https://it030021.uni-graz.at" # adress of the IIIF server to be used
+GAMS_API_ORIGIN = "https://ginko.uni-graz.at"
+IIIF_IMAGE_SERVER_ORIGIN = "https://ginko.uni-graz.at"
 
 [build]
-GAMS_API_ORIGIN = "https://it030021.uni-graz.at"
-IIIF_IMAGE_SERVER_ORIGIN = "https://it030021.uni-graz.at"
+GAMS_API_ORIGIN = "https://ginko.uni-graz.at"
+IIIF_IMAGE_SERVER_ORIGIN = "https://ginko.uni-graz.at"
 
 [dev.load]
 OBJECT_COUNT_RESTRICTION = 2000000 # limits the number of objects loaded (+ used for rendering)
@@ -33,3 +41,5 @@ OBJECTS_REQUIRED = [
 OBJECT_COUNT_RESTRICTION = 100000
 OBJECTS_REQUIRED = [
 ]
+
+

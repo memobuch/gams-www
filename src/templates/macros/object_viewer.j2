@@ -34,7 +34,7 @@ Uses the GAMS search API to get facet counts for dc.subject.
 
         // 02, Modify manifest to use local IIIF Image API endpoints
         //let manifestAsString = JSON.stringify(manifest, null, 2);
-        manifest = manifest.replaceAll("https://gams.uni-graz.at/iiif", "{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif");
+        manifest = manifest.replaceAll("{{context.env.DANGEROUS_GAMS5_PRODUCTION_ORIGIN}}/iiif", "{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif");
 
         // 03. Create a Blob URL for the modified manifest
         let manifestBlobUrl = URL.createObjectURL(

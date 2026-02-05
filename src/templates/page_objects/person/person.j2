@@ -7,9 +7,9 @@
 <h1 class="h3 fw-light">{{ context.object.baseMetadata.title }}</h1>
 <p class="pb-0 mb-1">Information zu einer einzelnen Person erfasst im MEMO Projekt.</p>
 <div>
-    <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/RDF.xml/content"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/RDF_icon.png" title="RDF"></a> 
+    <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/RDF.xml/content"><img alt="RDF" height="30" id="rdf" src="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/templates/img/RDF_icon.png" title="RDF"></a> 
     <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/DC.xml/content"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a>
-    <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/gams_solo.png" title="Object metadata in the CMS system"></a>
+    <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}"><img alt="RDF" height="30" id="rdf" src="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/templates/img/gams_solo.png" title="Object metadata in the CMS system"></a>
 </div>
 {# <pre>{{ context | tojson(indent=2) }}</pre> #}
 <div>
@@ -99,9 +99,9 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Name: {{ context.object.baseMetadata.title }}</li>
                     <li class="list-group-item">Datum: {{ context.object.dublinCore.date[0].value}}</li>
-                    <li class="list-group-item"><a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/RDF.xml/content"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/RDF_icon.png" title="RDF"></a> RDF</li>
+                    <li class="list-group-item"><a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/RDF.xml/content"><img alt="RDF" height="30" id="rdf" src="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/templates/img/RDF_icon.png" title="RDF"></a> RDF</li>
                     <li class="list-group-item"><a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/DC.xml/content"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a> Dublin Core</li>
-                    <li class="list-group-item"><a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}"><img alt="RDF" height="30" id="rdf" src="http://gams.uni-graz.at/templates/img/gams_solo.png" title="Object metadata in the CMS system"></a> Metadatenansicht</li>
+                    <li class="list-group-item"><a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}"><img alt="RDF" height="30" id="rdf" src="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/templates/img/gams_solo.png" title="Object metadata in the CMS system"></a> Metadatenansicht</li>
                 </ul>
                 <ul class="list-group list-group-flush">
                     {% for datastream in context.object.datastreams|sort(attribute=dsid) %}
