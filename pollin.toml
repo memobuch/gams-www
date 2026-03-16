@@ -25,8 +25,8 @@ IIIF_IMAGE_SERVER_ORIGIN = "https://ginko.uni-graz.at" # adress of the IIIF serv
 # OUTPUT_PATH = "C:\\Users\\sebas\\Documents\\programming\\gams\\pollin-tool\\1"
 
 [stage]
-GAMS_API_ORIGIN = "https://ginko.uni-graz.at"
-IIIF_IMAGE_SERVER_ORIGIN = "https://ginko.uni-graz.at"
+GAMS_API_ORIGIN = "http://localhost"
+IIIF_IMAGE_SERVER_ORIGIN = "https://localhost"
 
 [build]
 GAMS_API_ORIGIN = "https://ginko.uni-graz.at"
@@ -34,6 +34,11 @@ IIIF_IMAGE_SERVER_ORIGIN = "https://ginko.uni-graz.at"
 
 [dev.load]
 OBJECT_COUNT_RESTRICTION = 2000000 # limits the number of objects loaded (+ used for rendering)
+OBJECTS_REQUIRED = [
+] # defines which objects are required to be loaded (ignoring the count restriction)
+
+[stage.load]
+OBJECT_COUNT_RESTRICTION = 20 # limits the number of objects loaded (+ used for rendering)
 OBJECTS_REQUIRED = [
 ] # defines which objects are required to be loaded (ignoring the count restriction)
 
