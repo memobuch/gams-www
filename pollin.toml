@@ -25,8 +25,8 @@ IIIF_IMAGE_SERVER_ORIGIN = "https://ginko.uni-graz.at" # adress of the IIIF serv
 # OUTPUT_PATH = "C:\\Users\\sebas\\Documents\\programming\\gams\\pollin-tool\\1"
 
 [stage]
-GAMS_API_ORIGIN = "http://localhost"
-IIIF_IMAGE_SERVER_ORIGIN = "http://localhost"
+GAMS_API_ORIGIN = "https://it030021.uni-graz.at"
+IIIF_IMAGE_SERVER_ORIGIN = "https://it030021.uni-graz.at"
 
 [build]
 GAMS_API_ORIGIN = "https://ginko.uni-graz.at"
