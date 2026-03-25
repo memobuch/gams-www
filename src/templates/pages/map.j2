@@ -1,0 +1,77 @@
+{% extends "parents/base.j2" %}
+{% block content %}
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Leaflet MarkerCluster CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{context._root_path}}/static/apps/map/map.css">
+
+    <h1 class="h3 fw-light">Opfer der NS-Verfolgung aus Graz</h1>
+    <p>Karte der Opfer erfasst von MEMO</p>
+
+    <section>
+
+        <div>
+
+        <!-- Map Container -->
+        <div id="map" class="map-container"></div>
+
+        <!-- Filter Controls -->
+        <div class="controls-panel">
+            <div class="controls-content">
+                <!-- Event Type Filters -->
+                <div class="filter-section">
+                    <h3 class="filter-title">Ereignistypen filtern (Formen)</h3>
+                    <div class="filter-grid" id="event-type-filters">
+                        <!-- Dynamically populated from vocab -->
+                    </div>
+                </div>
+
+                <!-- Victim Category Filters -->
+                <div class="filter-section">
+                    <h3 class="filter-title">Opferkategorien filtern (Farben)</h3>
+                    <div class="filter-grid" id="victim-category-filters">
+                        <!-- Dynamically populated from vocab -->
+                    </div>
+                </div>
+
+                <!-- Statistics -->
+                <div class="stats-section">
+                    <div class="stat-item">
+                        <span class="stat-label">Personen</span>
+                        <span class="stat-value" id="total-persons">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Ereignisse</span>
+                        <span class="stat-value" id="total-events">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Sichtbar</span>
+                        <span class="stat-value" id="visible-events">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Leaflet MarkerCluster JS -->
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="{{context._root_path}}/static/apps/map/map.js"></script>
+
+    <script>
+        initMap('{{ context.env.GAMS_API_ORIGIN }}/api/v1/projects/memo/objects/memo.person-register/datastreams/EVENTS.json/content');
+    </script>
+
+    </section>
+
+{% endblock %}

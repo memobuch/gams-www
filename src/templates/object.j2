@@ -1,0 +1,12 @@
+{% extends "parents/base.j2" %}
+{% block content %}
+
+{% if 'person' in context.object.id %}
+    {% include "page_objects/person/person.j2" %}
+{% elif 'about' in context.object.id %}
+    {% include "page_objects/about.j2" %}
+{% else %}
+    {% include "page_objects/default.j2" %}
+{% endif %}
+    
+{% endblock %}

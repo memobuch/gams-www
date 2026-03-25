@@ -1,0 +1,55 @@
+{#
+Macro to display dc.subject stats for the current project.
+Uses the GAMS search API to get facet counts for dc.subject.
+#}
+{% macro object_viewer() -%}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tify@0.34.4/dist/tify.css">
+<div id="tify" style="height: 100vh"></div>
+
+<script type="module">
+    import Tify from 'https://cdn.jsdelivr.net/npm/tify@0.34.5/dist/tify.js'
+
+    (async () => {
+
+        let manifestUrl = '{{context.env.GAMS_API_ORIGIN}}/api/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/manifest.json/content';
+
+        // 00. Manifest.json should work as is in production
+        let curPollinMode = "{{context.env.POLLIN_MODE}}";
+        if (curPollinMode !== "dev") {
+            return new Tify({
+                container: '#tify',
+                manifestUrl: manifestUrl,
+            })
+        }
+
+        // if in development
+        console.warn("Rewriting manifest.json because: pollin tool runs in mode: ", curPollinMode);
+        // 01. prefetch manifest.json
+        let resp = await fetch(manifestUrl);
+        if (!resp.ok) {
+            //console.error(`Failed to fetch manifest: ${resp.status} ${resp.statusText}`);
+            return;
+        }
+        let manifest = await resp.text();
+
+        // 02, Modify manifest to use local IIIF Image API endpoints
+        //let manifestAsString = JSON.stringify(manifest, null, 2);
+        manifest = manifest.replaceAll("{{context.env.DANGEROUS_GAMS5_PRODUCTION_ORIGIN}}/iiif", "{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif");
+
+        // 03. Create a Blob URL for the modified manifest
+        let manifestBlobUrl = URL.createObjectURL(
+            new Blob([manifest], { type: 'application/json' })
+        );
+
+        // 04. Initialize Tify with the manifest Blob URL
+        new Tify({
+            container: '#tify',
+            manifestUrl: manifestBlobUrl,
+        })
+
+
+    })();
+
+
+</script>
+{%- endmacro %}

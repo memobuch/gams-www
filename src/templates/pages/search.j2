@@ -1,0 +1,63 @@
+{% extends "parents/base.j2" %}
+{% block content %}
+    <h1 class="h3 fw-light">Volltextsuche</h1>
+    <p>Personen des MEMO Projekts.</p>
+
+    <p>{{context.env}}</p>
+
+
+    <p>Suchbegriff: <b id="searchQueryDisplay"></b></p>
+    <p>Suchergebnisse: <b id="resultCount">0</b></p>
+
+    <ul id="searchResults"></ul>
+
+    
+    <div id="searchSpinner">
+        <div id="spinner" class="spinner-border" role="status">
+            
+        </div>
+        
+    </div>
+
+    <script>
+
+        (async () => {
+            // some pre selections
+            let resultUl = document.querySelector("#searchResults");
+            let resultSpinner = document.querySelector("#searchSpinner")
+            let resultCountElement = document.querySelector("#resultCount");
+            let searchQueryDisplay = document.querySelector("#searchQueryDisplay");
+
+            let requestUrl = new URL("{{context.env.GAMS_API_ORIGIN}}/api/v1/integration/gsearch/fulltext?projects={{context.project.projectAbbr}}");
+            
+
+            let searchQuery = new URL(window.location.href).searchParams.get("q") || "";
+            requestUrl.searchParams.set("q", searchQuery);
+
+            let resp = await fetch(requestUrl.toString());
+            let body = await resp.json();
+
+
+            searchQueryDisplay.innerText = `"${searchQuery}"`;
+            resultCountElement.innerText = body.results.pagination.totalElements;
+
+            // TODO this weird proeprties should be changed in the backend
+            body.results.results.forEach(result => {
+                let renderLi = document.createElement("li");
+                renderLi.innerText = result["dc.title"][0];
+                resultUl.append(renderLi);
+            })
+
+            resultSpinner.remove();
+
+        })();
+
+
+       
+
+
+    </script>
+
+    
+    
+{% endblock %}

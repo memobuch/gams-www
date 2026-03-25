@@ -1,0 +1,96 @@
+{% extends "parents/base.j2" %}
+{% block content %}
+<h1 class="h3 fw-light">Volltext - XSL Suche</h1>
+<p>Personen des MEMO Projekts.</p>
+
+{# <p>{{context.env}}</p> #}
+
+
+
+<form id="searchForm" method="get" action="{{context._root_path}}/search-xsl.html">
+    <div class="input-group mb-3">  
+        <input type="text" class="form-control" placeholder="Suchbegriff eingeben" aria-label="Suchbegriff eingeben" aria-describedby="searchButton" name="q" id="searchInput">
+        <button class="btn btn-outline-secondary" type="submit" id="searchButton">Suchen</button>
+    </div>
+</form>
+
+{# Set value of input from url parameter 'q': #}
+<script>
+    (
+        () => {
+            // read out url parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.get('q') || '';
+            document.getElementById("searchInput").value = searchQuery;
+        }
+    )();
+    
+</script>
+
+
+<div id="saxonjs_container"></div>
+
+<div id="searchSpinner">
+    <div id="spinner" class="spinner-border" role="status">
+
+    </div>
+</div>
+
+<script>
+
+
+
+    window.onload = () => {
+
+        // load cached result from localStorage
+        //if (localStorage.getItem("searchResults")) {
+        //    console.log("Loading search results from cache");
+        //    document.getElementById("spinner").style = "display: none";
+        //    document.getElementById("saxonjs_container").innerHTML = localStorage.getItem("searchResults");
+        //    return;
+        //}
+        // 
+
+
+        // read out url parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchQuery = urlParams.get('q') || '';
+        const currentPage = parseInt(urlParams.get('pageIndex')) || 0;
+        const resultsPerPage = 10; // set your desired results per page
+
+
+        // Saxonjs transformation
+        console.log(
+            SaxonJS.getProcessorInfo().productName + " " + SaxonJS.getProcessorInfo().productVersion + " " + SaxonJS.getProcessorInfo().releaseDate
+        );
+        SaxonJS.transform({
+            stylesheetLocation: "{{context._root_path}}/static/xsl/memo-fulltext-search.sef.json",
+            sourceLocation: `{{context.env.GAMS_API_ORIGIN}}/api/v1/integration/gsearch/fulltext?format=xml&q=${searchQuery}&pageIndex=${currentPage}`,
+            logLevel: 2,
+            destination: "serialized", // we want the result as a string
+            stylesheetParams: {
+                "searchQuery": searchQuery,
+                "currentPage": currentPage,
+                "resultsPerPage": resultsPerPage
+            }
+        },
+            "async").then(result => {
+                document.getElementById("spinner").style = "display: none";
+                console.log("Transformation complete");
+                console.log(result);
+
+                let html = result.principalResult;
+                // caching the html result 
+                localStorage.setItem("searchResults", html);
+
+                // applying the result
+                document.getElementById("saxonjs_container").innerHTML = result.principalResult;
+            });
+    }
+
+
+</script>
+
+
+
+{% endblock %}

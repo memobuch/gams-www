@@ -1,0 +1,49 @@
+
+
+{# 
+Displays a image viewer for all images of the current object (using IIIF).
+    1. Generates a dynamic IIIFv3 manifest.json requesting against the gams-api.
+    2. Uses Tipfy IIIF viewer to display the images.    
+#}
+{% macro object_dynamic_viewer() -%}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tify@0.34.4/dist/tify.css">
+<div id="tify" style="height: 100vh"></div>
+<script src="{{context._root_path}}/static/js/iiif/iiifManifestv3Builder.js"></script>
+<script type="module">
+    import Tify from 'https://cdn.jsdelivr.net/npm/tify@0.34.5/dist/tify.js'
+
+    (async () => {
+        let manifestBuilder = IIIFManifestBuilder(
+            "{{context.env.DANGEROUS_GAMS5_PRODUCTION_ORIGIN}}",
+            "{{context.env.GAMS_API_ORIGIN}}",
+            "{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}"
+        );
+        let manifest = await manifestBuilder.build("{{context.project.projectAbbr}}", "{{context.object.id}}");
+        let manifestAsString = JSON.stringify(manifest);
+        let manifestBlobUrl = URL.createObjectURL(
+            new Blob([manifestAsString], { type: 'application/json' })
+        );
+        
+        // Initialize Tify with the manifest Blob URL
+        let tify = new Tify({
+            container: '#tify',
+            manifestUrl: manifestBlobUrl,
+            view: "thumbnails"
+        })
+
+        // controling tify from outside - needs exposing on window object
+        // window.tify = tify;
+
+        // example for tiffy event handling
+        tify.ready.then((arg) => {
+            console.log(arg);
+            tify.viewer.addHandler('open', event => {
+                console.log('Tify ready!', event);
+            });
+        })
+
+
+    })();
+
+</script>
+{%- endmacro %}

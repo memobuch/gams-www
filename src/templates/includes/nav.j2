@@ -1,0 +1,70 @@
+<nav class="navbar bd-navbar navbar-expand-lg mb-3 sticky-top bg-light border border-3 border-start-0 border-end-0">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{{context._root_path}}" style="text-transform:uppercase;">{{context.project.projectAbbr
+      }}</a>
+    <button class="navbar-toggler text-light" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon text-light"></span>
+    </button> 
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a data-active-template="project" class="nav-link" aria-current="page" href="{{context._root_path}}">Startseite</a>
+        </li>
+        <li class="nav-item">
+          <a data-active-template="pages/map" class="nav-link" aria-current="page" href="{{context._root_path}}/map.html">Karte</a>
+        </li>
+        <li class="nav-item">
+          <a data-active-template="object-list" class="nav-link" aria-current="page" href="{{context._root_path}}/objects/">Personenregister</a>
+        </li>
+        <li class="nav-item">
+          <a data-active-template="pages/geobrowser" class="nav-link" aria-current="page" href="{{context._root_path}}/geobrowser.html">Quantitative Analyse</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Projekt
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{{context._root_path}}/about.html">About</a></li>
+            <li><a class="dropdown-item" href="{{context._root_path}}/imprint.html">Impressum</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="{{context._root_path}}/datamodel.html">Datenmodell</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Erweiterte Funktionalitäten
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item disabled" href="{{context._root_path}}/search-xsl.html">Volltextsuche via xsl</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <form class="d-flex" role="search" method="get" action="{{context._root_path}}/search.html">
+        <input class="form-control me-2" type="search" name="q" placeholder="Volltext" aria-label="Suchen" disabled>
+        <button class="btn btn-light" type="submit" disabled>Suche</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<script>
+  (() => {
+    let selector = `nav a[data-active-template='${pollin._template_name}']`
+    let navLink = document.querySelector(selector);
+
+    // Debugging information only if in development using jinja2 conditionals
+    {% if "dev" in context.env.POLLIN_MODE %}
+      console.debug("Setting active nav a element to selection: ", selector, " Selected element: ", navLink);
+    {% endif %}
+
+    if(!navLink){
+      return;
+    }
+    document.querySelector(selector).classList.add("active");
+  })();
+</script>
