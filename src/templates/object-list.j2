@@ -8,19 +8,19 @@
         crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
 
-    <h1 class="h3 fw-light">Personenregister</h1>
+    <h1 class="h3 fw-light">Biographien der Grazer NS-Opfer</h1>
     <p>Personen erfassst im MEMO Projekt. Wohnhafte oder ansässige Personen in Graz ermordert durch das NS-Regime.</p>
 
-    {# <pre>{{ context | tojson(indent=2) }}</pre> #}
+     <pre>{{ context | tojson(indent=2) }}</pre> 
     <table id="example" class="display">
         <thead>
             <tr>
                 <th>#</th>
-                <th>ID</th>
                 <th>Nachname</th>
                 <th>Vorname</th>
-                <th>Beschreibung</th>
-                <th>Schlagworte</th>
+                <th>Geburtsdatum</th>
+                <th>Beschreibung</th> 
+                <th>Opferkategorie</th>
             </tr>
         </thead>
         <tbody>
@@ -31,16 +31,25 @@
                         <td>
                             <img loading="lazy" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{context.project.projectAbbr}}%2f{{object.id}}%2f1.jpg/full/,100/0/default.jpg" alt="Person 369">
                         </td>
-                        <td>
+                       {# <td>
                             <a href="{{context._root_path}}/objects/{{object.id}}/">{{ object.id }}</a>
-                        </td>
+                        </td> #}
                         <td>
-                            {{ object.baseMetadata.title.split(' ', 1)[-1] }}    
+                            <a href="{{context._root_path}}/objects/{{object.id}}/">{{ object.baseMetadata.title.split(' ', 1)[-1] }}</a>
                         </td>
                         <td>
                         {{ object.baseMetadata.title.split(' ')[0] }}
                         </td>
-                        <td>{{ object.baseMetadata.description }}</td>
+                        <td>
+                        {% if object.dublinCore.date|default([ – ], true)|length > 0 %}
+                            {{ object.dublinCore.date[0].value}}
+                        {% else %}
+                            -
+                        {% endif %}
+                        </td>
+                        <td>
+                            {{ object.baseMetadata.description[0:70] }}...<a href="{{context._root_path}}/objects/{{object.id}}/" style="color:gray">mehr</a>
+                        </td>
                         <td>{{ object.tags }}</td>
                     </tr>
                 {% endif %}
