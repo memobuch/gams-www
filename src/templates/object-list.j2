@@ -8,14 +8,39 @@
         crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
 
-    <h1 class="h3 fw-light">Biographien der Grazer NS-Opfer</h1>
+    <h1 class="h3 fw-light mt-5">Biographien der Grazer NS-Opfer</h1>
     <p>Personen erfassst im MEMO Projekt. Wohnhafte oder ansässige Personen in Graz ermordert durch das NS-Regime.</p>
 
-     <pre>{{ context | tojson(indent=2) }}</pre> 
-    <table id="example" class="display">
+    {# Collect unique Opferkategorien #}
+    {% set categories = [] %}
+    {% for object in context.objects %}
+        {% if 'person' in object.tags %}
+            {% for tag in object.tags | reject('in', ['person', 'male', 'female', 'jugendlich']) %}
+                {% if tag not in categories %}
+                    {% set _ = categories.append(tag) %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+    {% set categories = categories | sort %}
+
+    <div class="row mb-4">
+        <div class="col-md-4 col-lg-3 mt-3 mb-2 p-2 bg-light border rounded" style="max-width: 320px;">
+            <label for="categoryFilter" class="form-label">Nach Opferkategorie filtern:</label>
+            <select id="categoryFilter" class="form-select form-select-sm">
+                <option value="">alle</option>
+                {% for cat in categories %}
+                    <option value="{{ cat }}">{{ cat }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    {# <pre>{{ context | tojson(indent=2) }}</pre> #}
+    <table id="example" class="display mt-2">
         <thead>
             <tr>
-                <th>#</th>
+                <th></th>
                 <th>Nachname</th>
                 <th>Vorname</th>
                 <th>Geburtsdatum</th>
@@ -29,11 +54,8 @@
                 {% if 'person' in object.tags %}
                     <tr>
                         <td>
-                            <img loading="lazy" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{context.project.projectAbbr}}%2f{{object.id}}%2f1.jpg/full/,100/0/default.jpg" alt="Person 369">
+                            <img loading="lazy" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{context.project.projectAbbr}}%2f{{object.id}}%2f1.jpg/full/,100/0/default.jpg" alt="Person">
                         </td>
-                       {# <td>
-                            <a href="{{context._root_path}}/objects/{{object.id}}/">{{ object.id }}</a>
-                        </td> #}
                         <td>
                             <a href="{{context._root_path}}/objects/{{object.id}}/">{{ object.baseMetadata.title.split(' ', 1)[-1] }}</a>
                         </td>
@@ -41,16 +63,14 @@
                         {{ object.baseMetadata.title.split(' ')[0] }}
                         </td>
                         <td>
-                        {% if object.dublinCore.date|default([ – ], true)|length > 0 %}
+                        {% if object.dublinCore.date|default([ ], true)|length > 0 %}
                             {{ object.dublinCore.date[0].value}}
-                        {% else %}
-                            -
                         {% endif %}
                         </td>
                         <td>
                             {{ object.baseMetadata.description[0:70] }}...<a href="{{context._root_path}}/objects/{{object.id}}/" style="color:gray">mehr</a>
                         </td>
-                        <td>{{ object.tags }}</td>
+                        <td>{{ object.tags | reject('in', ['person', 'male', 'female', 'jugendlich']) | join(', ') }}</td>
                     </tr>
                 {% endif %}
             {% endfor %}
@@ -58,6 +78,9 @@
     </table>
     <script>
         let dataTable = new DataTable('#example', {
+            columnDefs: [
+                { orderable: false, targets: [0, 3, 4, 5] }, 
+            ],
             language: {
                 search: "Suchen",
                 lengthMenu: "Zeige _MENU_ Einträge",
@@ -66,6 +89,17 @@
                 infoFiltered: "(gefiltert von _MAX_ Einträgen)",
                 zeroRecords: "Keine passenden Einträge gefunden"
             }
+        });
+
+        // Filter for Opferkategorie (narrow exact match)
+        $('#categoryFilter').on('change', function() {
+            const value = this.value;
+            if (!value) {
+                dataTable.column(5).search('').draw();
+                return;
+            }
+            const regex = `(^|[,\s])+${value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(,|$)`;
+            dataTable.column(5).search(regex, true, false).draw();
         });
 
     </script>
