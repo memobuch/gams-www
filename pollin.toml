@@ -33,7 +33,7 @@ GAMS_API_ORIGIN = "https://ginko.uni-graz.at"
 IIIF_IMAGE_SERVER_ORIGIN = "https://ginko.uni-graz.at"
 
 [dev.load]
-OBJECT_COUNT_RESTRICTION = 2000000 # limits the number of objects loaded (+ used for rendering)
+OBJECT_COUNT_RESTRICTION = 10 # limits the number of objects loaded (+ used for rendering)
 OBJECTS_REQUIRED = [
 ] # defines which objects are required to be loaded (ignoring the count restriction)
 
