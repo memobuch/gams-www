@@ -16,9 +16,8 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>ID</th>
-                <th>Nachname</th>
                 <th>Vorname</th>
+                <th>Nachname</th>
                 <th>Beschreibung</th>
                 <th>Schlagworte</th>
             </tr>
@@ -32,15 +31,12 @@
                             <img loading="lazy" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{context.project.projectAbbr}}%2f{{object.id}}%2f1.jpg/full/,100/0/default.jpg" alt="Person 369">
                         </td>
                         <td>
-                            <a href="{{context._root_path}}/objects/{{object.id}}/">{{ object.id }}</a>
-                        </td>
-                        <td>
-                            {{ object.baseMetadata.title.split(' ', 1)[-1] }}    
-                        </td>
-                        <td>
                         {{ object.baseMetadata.title.split(' ')[0] }}
                         </td>
-                        <td>{{ object.baseMetadata.description }}</td>
+                        <td>
+                            <a href="{{context._root_path}}/objects/{{object.id}}/">{{ object.baseMetadata.title.split(' ', 1)[-1] }}</a>    
+                        </td>
+                        <td><small>{{ object.baseMetadata.description[0:200] }}</small></td>
                         <td>{{ object.tags }}</td>
                     </tr>
                 {% endif %}
