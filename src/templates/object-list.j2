@@ -15,7 +15,7 @@
     <table id="example" class="display">
         <thead>
             <tr>
-                <th>#</th>
+                {# <th>#</th> #}
                 <th>Vorname</th>
                 <th>Nachname</th>
                 <th>Beschreibung</th>
@@ -27,9 +27,9 @@
                 {# show only objects of tag person #}
                 {% if 'person' in object.tags %}
                     <tr>
-                        <td>
+                        {# <td>
                             <img loading="lazy" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{context.project.projectAbbr}}%2f{{object.id}}%2f1.jpg/full/,100/0/default.jpg" alt="Person 369">
-                        </td>
+                        </td> #}
                         <td>
                         {{ object.baseMetadata.title.split(' ')[0] }}
                         </td>
