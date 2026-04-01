@@ -37,7 +37,7 @@
                             <a href="{{context._root_path}}/objects/{{object.id}}/">{{ object.baseMetadata.title.split(' ', 1)[-1] }}</a>    
                         </td>
                         <td><small>{{ object.baseMetadata.description[0:200] }}</small></td>
-                        <td>{{ object.tags }}</td>
+                        <td>{{ object.tags | replace('[', '') | replace(']', '') | replace("'", '') | replace('person,', '') | replace(', male', '') | replace(', female', '')}}</td>
                     </tr>
                 {% endif %}
             {% endfor %}
