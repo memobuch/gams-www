@@ -11,7 +11,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{context._root_path}}/static/apps/map/map.css">
 
-    <h1 class="h3 fw-light">Opfer der NS-Verfolgung aus Graz</h1>
+    <h1 class="h3 fw-light" id="main-heading">Opfer der NS-Verfolgung aus Graz</h1>
     <p>Diese Karte zeigt die letzten freiwilligen Wohnadressen von 691 Opfern des Nationalsozialismus in Graz zwischen 1938 und 1945. Jeder Punkt repräsentiert den letzten selbstgewählten Wohnort einer verfolgten Person, bevor Verfolgung, Vertreibung oder Deportation einsetzte.</p>
 
     <section>
@@ -61,6 +61,9 @@
     <script src="{{context._root_path}}/static/apps/map/map.js"></script>
 
     <script>
+
+        document.querySelector('#main-heading').scrollIntoView(true, { behavior: 'smooth' });
+
          MEMO.initMap({
             geoJsonUrl: '{{ context.env.GAMS_API_ORIGIN }}/api/v1/projects/{{context.project.projectAbbr}}/objects/memo.person-register/datastreams/EVENTS.json/content',
             personBaseUrl: '/pub/{{context.project.projectAbbr}}/objects'
