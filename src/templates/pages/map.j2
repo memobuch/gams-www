@@ -62,11 +62,9 @@
 
     <script>
          MEMO.initMap({
-            geoJsonUrl: '{{ context.env.GAMS_API_ORIGIN }}/api/v1/projects/memo/objects/memo.person-register/datastreams/EVENTS.json/content',
-            personBaseUrl: '/pub/memo/objects'
+            geoJsonUrl: '{{ context.env.GAMS_API_ORIGIN }}/api/v1/projects/{{context.project.projectAbbr}}/objects/memo.person-register/datastreams/EVENTS.json/content',
+            personBaseUrl: '/pub/{{context.project.projectAbbr}}/objects'
         });
-
-        //initMap('{{ context.env.GAMS_API_ORIGIN }}/api/v1/projects/memo/objects/memo.person-register/datastreams/EVENTS.json/content');
     </script>
 
     </section>

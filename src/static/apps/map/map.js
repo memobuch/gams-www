@@ -18,7 +18,7 @@ MEMO.initMap = function(options) {
     // ===== Configuration =====
     const CONFIG = {
         geoJsonUrl: options.geoJsonUrl,
-        personBaseUrl: options.personBaseUrl || null, // e.g. 'http://localhost:18090/pub/memo/objects'
+        personBaseUrl: options.personBaseUrl || null,
         mapCenter: [47.0707, 15.4395],
         mapZoom: 13,
         minZoom: 1,
