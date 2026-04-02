@@ -38,10 +38,9 @@
           <a data-active-template="pages/geobrowser" class="nav-link disabled" aria-current="page" href="{{context._root_path}}/geobrowser.html">Analyse</a>
         </li>
       </ul>
-      <form class="d-flex" role="search" method="get" action="{{context._root_path}}/search.html">
-        <input class="form-control me-2" type="search" name="q" placeholder="Volltext" aria-label="Suchen" disabled>
-        <button class="btn btn-light" type="submit" disabled>Suche</button>
-      </form>
+      <div class="d-flex" role="search" method="get" action="{{context._root_path}}/search.html">
+        <a class="btn btn-light" href="{{context._root_path}}/objects/" disabled>Suche</a>
+      </div>
     </div>
   </div>
 </nav>
