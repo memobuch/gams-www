@@ -56,7 +56,9 @@
             return;
         }
 
-
+        /**
+        * Using data-i18n attribute to translate according to i18nb files 
+        */
         document.querySelectorAll('[data-i18n]').forEach(element => {
             const key = element.getAttribute('data-i18n');
             if (data[key]) {
@@ -66,6 +68,24 @@
                 console.log(`No translation found for key: ${key} in data:`, data);
             }
         });
+
+        /**
+        Adding to all internal links the lang= query parameter with selected values and maintaining all current search params
+        */
+        if (currentLanguage === defaultLanguage) return; // skip if default language is being used
+        document.querySelectorAll('a[href]').forEach(link => {
+            try {
+                const url = new URL(link.href, window.location.origin);
+                if (url.origin !== window.location.origin) return;
+                const currentSearchParams = new URLSearchParams(window.location.search);
+                currentSearchParams.forEach((value, key) => {
+                    url.searchParams.set(key, value);
+                });
+                url.searchParams.set(LANG_QUERY_PARAMETER, currentLanguage);
+                link.href = url.toString();
+            } catch(e) { /* ignore malformed hrefs like # or javascript: */ }
+        });
+
     })();
 
 </script>
