@@ -1,3 +1,5 @@
+{% from '_variables.j2' import get_excluded_object_tags %}
+
 {% extends "parents/base.j2" %}
 {% block content %}
 
@@ -37,7 +39,11 @@
                             <a href="{{context._root_path}}/objects/{{object.id}}/">{{ object.baseMetadata.title.split(' ', 1)[-1] | replace("(person description)", "") }}</a>    
                         </td>
                         <td><small>{{ object.baseMetadata.description }}</small></td>
-                        <td>{{ object.tags | replace('[', '') | replace(']', '') | replace("'", '') | replace('person,', '') | replace(', male', '') | replace(', female', '')}}</td>
+                        <td>
+                            {% for tag in object.tags | reject('in', get_excluded_object_tags()) %}
+                                <li><a data-i18n="{{tag}}" target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/v1/projects/{{context.project.projectAbbr}}/objects?tags={{tag}}">{{ tag }}</a></li>
+                            {% endfor %}
+                        </td>
                     </tr>
                 {% endif %}
             {% endfor %}
