@@ -15,6 +15,7 @@
     "zwangsarbeiter": "ZwangsarbeiterInnen",
     "alliierte": "Alliierte Soldaten",
     "zivileopfer": "Zivile Opfer",
-    "male": "männlich",
-    "female": "weiblich"
+    "male": "male victims",
+    "female": "female victims",
+    "jugendlich": "juvenile victims"
 }

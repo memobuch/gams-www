@@ -14,8 +14,10 @@
     #}
     <script src="{{context._root_path}}/static/js/SaxonJS3-beta-1.rt.js"></script>
 
-    {# Definition of global variables #}
+    {# Definition of global variables / pollin variable #}
     <script>
+
+      // TODO move to template include? / macro?
       window.pollin = {
         "_root_path": "{{context._root_path}}",
         "_template_name": "{{context._template_name}}",
@@ -31,7 +33,15 @@
           "UI_VERSION": "{{context.env.UI_VERSION}}"
         }
       }
+
+      // utility function for the pollin tool
+      window.pollin.utils = {}
+      window.pollin.utils.isProduction = () => {
+        return window.pollin.env.POLLIN_MODE === "build";
+      }
+
     </script>
+    {{ enable_i18en_logic('de') }}
 
   </head>
   <body>
@@ -57,9 +67,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script type="text/javascript" language="javascript" src="{{context._root_path}}/static/js/project.js"></script>
 
-    
-    {{ enable_i18en_logic('de') }}
 
+    
+    <script>
+      window.pollin.i18n.translate();
+    </script>
 
 
   </body>
