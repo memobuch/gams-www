@@ -50,32 +50,16 @@
 
         let i18nTranslationFileUrl = `{{context._root_path}}/static/i18n/${currentLanguage}.json`;
         
-        let response;
-        await fetch(i18nTranslationFileUrl)
-            .then(resp => {
-            if (resp.ok) {
-                response = resp;
-            } else {
-                console.error("pollin-i18n: Failed to fetch translation file for language:", currentLanguage ," at url: ",i18nTranslationFileUrl)
-            }
-            }).catch(error => {
-            console.error("pollin-i18n: Failed to fetch translation file for language:", currentLanguage ," at url: ",i18nTranslationFileUrl);
-            return;
-        });
-
-        if (!response) {
-            return;
-        }
-        
         let translationMap;
-        await response.json().then(
-            parsed => {
-            translationMap = parsed;
-        }).catch(error => {
-            console.error("pollin-i18n: Failed to parse translation file for language:", currentLanguage ," at url:"  , i18nTranslationFileUrl);
-        });
-
-        if(!translationMap) {
+        try {
+            const response = await fetch(i18nTranslationFileUrl);
+            if (!response.ok) {
+                console.error("pollin-i18n: Failed to fetch translation file for language:", currentLanguage ," at url: ",i18nTranslationFileUrl);
+                return;
+            }
+            translationMap = await response.json();
+        } catch (error) {
+            console.error("pollin-i18n: Failed to fetch or parse translation file for language:", currentLanguage ," at url: ",i18nTranslationFileUrl);
             return;
         }
 
