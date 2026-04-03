@@ -1,12 +1,17 @@
 {# 
- This macro includes a script block with the i18n logic applied to  
- a gams project frontend. Translates all elements with the data-i18n attribute according
+ This macro includes a script block exposing the i18n logic applied to  
+ a gams project frontend via pollin variable. 
+ Under pollin.i18n (check browser console)
+
+ Supplied functionaloty:
+ Translates all elements with the data-i18n attribute according
  to language (lang url parameter) defined in the related i18n file.  
  @param defaultLanguage: default language to be used for translation
 
  1. data-i18n attribute on any html element will be translated (based on ids)
  2. query parameter 'lang' (should be ISO code - e.g. 'de', 'en')
  3. additional translation files in i18n folder in static
+ 4. internal links will be rewritten to keep current query parameters (like lang)
 #}
 
 {% macro enable_i18en_logic(defaultISOLanguage) -%}
