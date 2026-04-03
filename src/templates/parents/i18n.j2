@@ -18,95 +18,101 @@
 
 <script>
 
-    window.pollin.i18n = {};
-    window.pollin.i18n.defaultISOLanguage = '{{defaultISOLanguage}}';
+    (() => {
 
-    /**
-    * Translates all elements with the data-i18n attribute according
-    * to language (lang url parameter) defined in the related i18n file. 
-    * @param containerElem All translations / rewritings will happen inside this container defaults to document 
-    *
-    * 1. data-i18n attribute on any html element will be translated (based on ids)
-    * 2. query parameter 'lang' (should be ISO code - e.g. 'de', 'en') is being used to decide for the translation files
-    * 3. additional translation files in i18n folder in static (mus also follow iso code e.g. "de.json")
-    * 4. internal links will be rewritten to keep current query parameters (like lang)
-    */
-    window.pollin.i18n.translate = async (containerElem) => {
+        window.pollin.i18n = {};
+        window.pollin.i18n.defaultISOLanguage = '{{defaultISOLanguage}}';
 
-        if(!containerElem){
-            containerElem = document;
-        }
+        /**
+        * Translates all elements with the data-i18n attribute according
+        * to language (lang url parameter) defined in the related i18n file. 
+        * @param containerElem All translations / rewritings will happen inside this container defaults to document 
+        *
+        * 1. data-i18n attribute on any html element will be translated (based on ids)
+        * 2. query parameter 'lang' (should be ISO code - e.g. 'de', 'en') is being used to decide for the translation files
+        * 3. additional translation files in i18n folder in static (mus also follow iso code e.g. "de.json")
+        * 4. internal links will be rewritten to keep current query parameters (like lang)
+        */
+        window.pollin.i18n.translate = async (containerElem) => {
 
-        const LANG_QUERY_PARAMETER = "lang"
+            if(!containerElem){
+                containerElem = document;
+            }
 
-        let defaultLanguage = window.pollin.i18n.defaultISOLanguage;
-        if(defaultLanguage.length == 0){
-            defaultLanguage = 'de';
-        }
+            const LANG_QUERY_PARAMETER = "lang"
 
-        // use value from url query parameter
-        let searchParams = new URLSearchParams(window.location.search);
-        const currentLanguage = searchParams.get(LANG_QUERY_PARAMETER) || defaultLanguage;
+            let defaultLanguage = window.pollin.i18n.defaultISOLanguage;
+            if(defaultLanguage.length == 0){
+                defaultLanguage = 'de';
+            }
 
-        let i18nTranslationFileUrl = `{{context._root_path}}/static/i18n/${currentLanguage}.json`;
-        
-        let translationMap;
-        try {
-            const response = await fetch(i18nTranslationFileUrl);
-            if (!response.ok) {
-                console.error("pollin-i18n: Failed to fetch translation file for language:", currentLanguage ," at url: ",i18nTranslationFileUrl);
+            // use value from url query parameter
+            let searchParams = new URLSearchParams(window.location.search);
+            const currentLanguage = searchParams.get(LANG_QUERY_PARAMETER) || defaultLanguage;
+
+            let i18nTranslationFileUrl = `{{context._root_path}}/static/i18n/${currentLanguage}.json`;
+            
+            let translationMap;
+            try {
+                const response = await fetch(i18nTranslationFileUrl);
+                if (!response.ok) {
+                    console.error("pollin-i18n: Failed to fetch translation file for language:", currentLanguage ," at url: ",i18nTranslationFileUrl);
+                    return;
+                }
+                translationMap = await response.json();
+            } catch (error) {
+                console.error("pollin-i18n: Failed to fetch or parse translation file for language:", currentLanguage ," at url: ",i18nTranslationFileUrl);
                 return;
             }
-            translationMap = await response.json();
-        } catch (error) {
-            console.error("pollin-i18n: Failed to fetch or parse translation file for language:", currentLanguage ," at url: ",i18nTranslationFileUrl);
-            return;
-        }
 
-        /**
-        * Using data-i18n attribute to translate according to i18nb files 
-        */
-        let elementsToBeTranslated = containerElem.querySelectorAll('[data-i18n]');
-        elementsToBeTranslated.forEach(element => {
-            const key = element.getAttribute('data-i18n');
-            if (translationMap[key]) {
-                element.innerHTML = translationMap[key];
-            }
-            else {
-                if(!pollin.utils.isProduction()){
-                    console.error(`pollin-i18n: No translation found for key: ${key} in translation file:`, translationMap);
+            /**
+            * Using data-i18n attribute to translate according to i18nb files 
+            */
+            let elementsToBeTranslated = containerElem.querySelectorAll('[data-i18n]');
+            elementsToBeTranslated.forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translationMap[key]) {
+                    element.innerHTML = translationMap[key];
                 }
-            }
-        });
-
-        if(!pollin.utils.isProduction()){
-            console.debug("pollin-i18n: Successfully applied translation to elements: ", elementsToBeTranslated)
-        }
-
-        /**
-        Adding to all internal links the lang= query parameter with selected values and maintaining all current search params
-        */
-        if (currentLanguage === defaultLanguage) return; // skip if default language is being used
-        let rewroteCount = 0;
-        containerElem.querySelectorAll('a[href]').forEach(link => {
-            try {
-                const url = new URL(link.href, window.location.origin);
-                if (url.origin !== window.location.origin) return;
-                url.searchParams.set(LANG_QUERY_PARAMETER, currentLanguage);
-                link.href = url.toString();
-                rewroteCount++;
-            } catch(e) { 
-                if(!pollin.utils.isProduction()){
-                    console.warn("Found malformed href  in link: ", link)
+                else {
+                    if(!pollin.utils.isProduction()){
+                        console.error(`pollin-i18n: No translation found for key: ${key} in translation file:`, translationMap);
+                    }
                 }
-             }
-        });
+            });
 
-        if(!pollin.utils.isProduction()){
-            console.debug("pollin-i18n: Successfully rewrote internal links to maintain current url query parameters (with lang): ", rewroteCount)
+            if(!pollin.utils.isProduction()){
+                console.debug("pollin-i18n: Successfully applied translation to elements: ", elementsToBeTranslated)
+            }
+
+            /**
+            Adding to all internal links the lang= query parameter with selected values and maintaining all current search params
+            */
+            if (currentLanguage === defaultLanguage) return; // skip if default language is being used
+            let rewroteCount = 0;
+            containerElem.querySelectorAll('a[href]').forEach(link => {
+                try {
+                    const url = new URL(link.href, window.location.origin);
+                    if (url.origin !== window.location.origin) return;
+                    url.searchParams.set(LANG_QUERY_PARAMETER, currentLanguage);
+                    link.href = url.toString();
+                    rewroteCount++;
+                } catch(e) { 
+                    if(!pollin.utils.isProduction()){
+                        console.warn("Found malformed href  in link: ", link)
+                    }
+                }
+            });
+
+            if(!pollin.utils.isProduction()){
+                console.debug("pollin-i18n: Successfully rewrote internal links to maintain current url query parameters (with lang): ", rewroteCount)
+            }
+
         }
 
-    }
+    })();
+
+    
 
 </script>
 
