@@ -48,7 +48,7 @@
         let searchParams = new URLSearchParams(window.location.search);
         const currentLanguage = searchParams.get(LANG_QUERY_PARAMETER) || defaultLanguage;
 
-        let i18nTranslationFileUrl = `/pub/{{context.project.projectAbbr}}/static/i18n/${currentLanguage}.json`;
+        let i18nTranslationFileUrl = `{{context._root_path}}/static/i18n/${currentLanguage}.json`;
         
         let response;
         await fetch(i18nTranslationFileUrl)
