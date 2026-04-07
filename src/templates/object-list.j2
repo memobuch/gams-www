@@ -21,7 +21,7 @@
                 <th>Vorname</th>
                 <th>Nachname</th>
                 <th>Beschreibung</th>
-                <th>Schlagworte</th>
+                <th>Opferkategorie</th>
             </tr>
         </thead>
         <tbody>
@@ -53,7 +53,7 @@
         let dataTableContainer = document.getElementById('example');
         let dataTable = new DataTable('#example', {
             language: {
-                search: "Suchen",
+                search: "Volltextsuche",
                 lengthMenu: "Zeige _MENU_ Einträge",
                 info: "Zeige _START_ bis _END_ von _TOTAL_ Einträgen",
                 infoEmpty: "Keine Einträge vorhanden",
@@ -67,13 +67,13 @@
             },
             initComplete: function () {
                 let api = this.api();
-                let column = api.column(3); // Index 3 is the "Schlagworte" column
+                let column = api.column(3); // Index 3 is the "Opferkategorie" column
 
                 // 1. Create the select element
                 let select = document.createElement('select');
                 select.className = 'dt-input'; // Matches some of DataTables default styling
                 select.style.marginRight = '10px';
-                select.add(new Option('Alle Schlagworte filtern', ''));
+                select.add(new Option('Opferkategorie filtern', ''));
 
                 // 2. Insert the select element next to the search box
                 let searchContainer = document.querySelector('.dt-search');
