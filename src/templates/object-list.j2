@@ -1,3 +1,5 @@
+{% from '_variables.j2' import get_excluded_object_tags %}
+
 {% extends "parents/base.j2" %}
 {% block content %}
 
@@ -8,17 +10,16 @@
         crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
 
-    <h1 class="h3 fw-light">Personenregister</h1>
+    <h1 class="h3 fw-light">Biographien der Grazer NS-Opfer</h1>
     <p>Personen erfassst im MEMO Projekt. Wohnhafte oder ansässige Personen in Graz ermordert durch das NS-Regime.</p>
 
     {# <pre>{{ context | tojson(indent=2) }}</pre> #}
     <table id="example" class="display">
         <thead>
             <tr>
-                <th>#</th>
-                <th>ID</th>
-                <th>Nachname</th>
+                {# <th>#</th> #}
                 <th>Vorname</th>
+                <th>Nachname</th>
                 <th>Beschreibung</th>
                 <th>Schlagworte</th>
             </tr>
@@ -28,20 +29,21 @@
                 {# show only objects of tag person #}
                 {% if 'person' in object.tags %}
                     <tr>
-                        <td>
+                        {# <td>
                             <img loading="lazy" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{context.project.projectAbbr}}%2f{{object.id}}%2f1.jpg/full/,100/0/default.jpg" alt="Person 369">
-                        </td>
-                        <td>
-                            <a href="{{context._root_path}}/objects/{{object.id}}/">{{ object.id }}</a>
-                        </td>
-                        <td>
-                            {{ object.baseMetadata.title.split(' ', 1)[-1] }}    
-                        </td>
+                        </td> #}
                         <td>
                         {{ object.baseMetadata.title.split(' ')[0] }}
                         </td>
-                        <td>{{ object.baseMetadata.description }}</td>
-                        <td>{{ object.tags }}</td>
+                        <td>
+                            <a href="{{context._root_path}}/objects/{{object.id}}/">{{ object.baseMetadata.title.split(' ', 1)[-1] | replace("(person description)", "") }}</a>    
+                        </td>
+                        <td><small>{{ object.baseMetadata.description }}</small></td>
+                        <td>
+                            {% for tag in object.tags | reject('in', get_excluded_object_tags()) %}
+                                <li><a data-i18n="{{tag}}" target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/v1/projects/{{context.project.projectAbbr}}/objects?tags={{tag}}">{{ tag }}</a></li>
+                            {% endfor %}
+                        </td>
                     </tr>
                 {% endif %}
             {% endfor %}
