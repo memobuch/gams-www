@@ -18,10 +18,109 @@
 
 <script>
 
+    // first some global variables
+    window.pollin.i18n = {};
+    window.pollin.i18n.defaultISOLanguage = '{{defaultISOLanguage}}';
+
     (() => {
 
-        window.pollin.i18n = {};
-        window.pollin.i18n.defaultISOLanguage = '{{defaultISOLanguage}}';
+        // then function definitions
+
+
+        /**
+        * Parses a data-i18n value into translation targets.
+        * Syntax: 
+        *   "some.key"                        → innerHTML
+        *   "[alt]some.key"                   → attribute
+        *   "[alt]some.key;[title]other.key"  → multiple attributes
+        *   "[alt]some.key;content.key"       → attribute + innerHTML
+        * 
+        * @param {string} raw - the data-i18n attribute value
+        * @returns {Array<{attr: string|null, key: string}>}
+        */
+        function parseI18nValue(raw) {
+            const targets = [];
+            for (const part of raw.split(';')) {
+                const trimmed = part.trim();
+                if (!trimmed) continue;
+
+                const match = trimmed.match(/^\[(.+?)\](.+)$/);
+                if (match) {
+                    targets.push({ attr: match[1], key: match[2] });
+                } else if (trimmed.includes('[')) {
+                    // likely malformed — bracket present but didn't match pattern
+                    if(!pollin.utils.isProduction()){
+                        console.warn(`pollin-i18n: Malformed data-i18n value: "${trimmed}"`);
+                    }
+                } else {
+                    targets.push({ attr: null, key: trimmed });
+                }
+            }
+            return targets;
+        }
+
+
+        //i18n whitelist
+        const ALLOWED_I18N_ATTRS = new Set([
+        'alt', 'title', 'placeholder', 'aria-label', 'aria-description'
+        ]);
+
+        /**
+        * Applies i18n translation for given data-i18n attribute value
+        * and value stored in correspondent translation file.
+        *
+        */
+        function applyTranslationToElement(element, translationMap) {
+            const targets = parseI18nValue(element.getAttribute('data-i18n'));
+            
+            for (const target of targets) {
+                const value = translationMap[target.key];
+                if (!value) {
+                    if (!pollin.utils.isProduction()) {
+                        console.error(`pollin-i18n: No translation for key: "${target.key}"`, element);
+                    }
+                    continue;
+                }
+
+                if (target.attr === null) {
+                    element.innerHTML = value;
+                } else if (ALLOWED_I18N_ATTRS.has(target.attr)) {
+                    element.setAttribute(target.attr, value);
+                } else {
+                    if(!pollin.utils.isProduction()){
+                        console.warn(`pollin-i18n: Attribute "${target.attr}" not allowed. Skipping.`);
+                    }
+                }
+            }
+        }
+
+
+        let cachedTranslations = null;
+        let translationPromise = null;
+
+        async function loadTranslations(language) {
+            if (cachedTranslations) return cachedTranslations;
+            if (translationPromise) return translationPromise;
+
+            const url = `${pollin._root_path}/static/i18n/${language}.json`;
+            
+            translationPromise = (async () => {
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        console.error(`pollin-i18n: Failed to fetch ${url} (HTTP ${response.status})`);
+                        return null;
+                    }
+                    cachedTranslations = await response.json();
+                    return cachedTranslations;
+                } catch (error) {
+                    console.error(`pollin-i18n: Failed to fetch ${url}`, error);
+                    return null;
+                }
+            })();
+
+            return translationPromise;
+        }
 
         /**
         * Translates all elements with the data-i18n attribute according
@@ -34,81 +133,49 @@
         * 4. internal links will be rewritten to keep current query parameters (like lang)
         */
         window.pollin.i18n.translate = async (containerElem) => {
+            if (!containerElem) containerElem = document;
 
-            if(!containerElem){
-                containerElem = document;
-            }
+            const defaultLanguage = window.pollin.i18n.defaultISOLanguage || 'de';
+            const currentLanguage = new URLSearchParams(window.location.search).get('lang') || defaultLanguage;
 
-            const LANG_QUERY_PARAMETER = "lang"
-
-            let defaultLanguage = window.pollin.i18n.defaultISOLanguage;
-            if(defaultLanguage.length == 0){
-                defaultLanguage = 'de';
-            }
-
-            // use value from url query parameter
-            let searchParams = new URLSearchParams(window.location.search);
-            const currentLanguage = searchParams.get(LANG_QUERY_PARAMETER) || defaultLanguage;
-
-            let i18nTranslationFileUrl = `{{context._root_path}}/static/i18n/${currentLanguage}.json`;
-            
-            let translationMap;
-            try {
-                const response = await fetch(i18nTranslationFileUrl);
-                if (!response.ok) {
-                    console.error("pollin-i18n: Failed to fetch translation file for language:", currentLanguage ," at url: ",i18nTranslationFileUrl);
-                    return;
+            const translationMap = await loadTranslations(currentLanguage);
+            if (!translationMap) {
+                if (!pollin.utils.isProduction()) {
+                    console.error("No translations for language '" + currentLanguage + " found!");
                 }
-                translationMap = await response.json();
-            } catch (error) {
-                console.error("pollin-i18n: Failed to fetch or parse translation file for language:", currentLanguage ," at url: ",i18nTranslationFileUrl);
                 return;
+            };
+
+            // translate elements
+            const elements = containerElem.querySelectorAll('[data-i18n]');
+            elements.forEach(el => applyTranslationToElement(el, translationMap));
+
+            if (!pollin.utils.isProduction()) {
+                console.debug("pollin-i18n: Translated elements:", elements.length);
             }
 
-            /**
-            * Using data-i18n attribute to translate according to i18nb files 
-            */
-            let elementsToBeTranslated = containerElem.querySelectorAll('[data-i18n]');
-            elementsToBeTranslated.forEach(element => {
-                const key = element.getAttribute('data-i18n');
-                if (translationMap[key]) {
-                    element.innerHTML = translationMap[key];
-                }
-                else {
-                    if(!pollin.utils.isProduction()){
-                        console.error(`pollin-i18n: No translation found for key: ${key} in translation file:`, translationMap);
-                    }
-                }
-            });
+            // rewrite internal links to maintain lang parameter
+            if (currentLanguage === defaultLanguage) return;
 
-            if(!pollin.utils.isProduction()){
-                console.debug("pollin-i18n: Successfully applied translation to elements: ", elementsToBeTranslated)
-            }
-
-            /**
-            Adding to all internal links the lang= query parameter with selected values and maintaining all current search params
-            */
-            if (currentLanguage === defaultLanguage) return; // skip if default language is being used
             let rewroteCount = 0;
             containerElem.querySelectorAll('a[href]').forEach(link => {
                 try {
                     const url = new URL(link.href, window.location.origin);
                     if (url.origin !== window.location.origin) return;
-                    url.searchParams.set(LANG_QUERY_PARAMETER, currentLanguage);
+                    url.searchParams.set('lang', currentLanguage);
                     link.href = url.toString();
                     rewroteCount++;
-                } catch(e) { 
-                    if(!pollin.utils.isProduction()){
-                        console.warn("Found malformed href  in link: ", link)
+                } catch (e) {
+                    if (!pollin.utils.isProduction()) {
+                        console.warn("pollin-i18n: Malformed href:", link);
                     }
                 }
             });
 
-            if(!pollin.utils.isProduction()){
-                console.debug("pollin-i18n: Successfully rewrote internal links to maintain current url query parameters (with lang): ", rewroteCount)
+            if (!pollin.utils.isProduction()) {
+                console.debug("pollin-i18n: Rewrote internal links:", rewroteCount);
             }
-
-        }
+        };
 
     })();
 
