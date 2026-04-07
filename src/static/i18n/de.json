@@ -1,4 +1,5 @@
 {
+    "victims.all": "Alle Opfergruppen",
     "widerstand_politisch": "Widerstand, politisch",
     "widerstand_religiös": "Widerstand, religiös",
     "widerstand_individuell": "Widerstand, individuell",
@@ -30,6 +31,7 @@
     "nav.imprint": "Impressum",
     "nav.datamodel": "Datenmodell",
     "nav.analysis": "Analyse",
-    "nav.search": "Suche"
+    "nav.search": "Suche",
+    "search.fulltext": "Full-text search"
     
 }
