@@ -18,5 +18,17 @@
     "male": "männlich",
     "female": "weiblich",
     "jugendlich": "jungendliche Opfer",
-    "img.detail.link": "Person anzeigen"
+    "img.detail.link": "Person anzeigen",
+    "header.title": "Das Digitale Gedenkbuch der Grazer NS-Opfer",
+    "header.description": "MEMO ist ein digitales Denkmal, das sich der Dokumentation und Visualisierung der Grazer NS-Opfer widmet.",
+    "nav.map": "Karte",
+    "nav.biographies": "Biographien",
+    "nav.places": "Erinnerungsorte",
+    "nav.project": "Projekt",
+    "nav.about": "Über das Projekt",
+    "nav.imprint": "Impressum",
+    "nav.datamodel": "Datenmodell",
+    "nav.analysis": "Analyse",
+    "nav.search": "Suche"
+    
 }

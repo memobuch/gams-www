@@ -13,33 +13,33 @@
           <a data-active-template="project" class="nav-link" aria-current="page" href="{{context._root_path}}">MEMO</a>
         </li>
         <li class="nav-item">
-          <a data-active-template="pages/map" class="nav-link" aria-current="page" href="{{context._root_path}}/map.html">Karte</a>
+          <a data-i18n="nav.map" data-active-template="pages/map" class="nav-link" aria-current="page" href="{{context._root_path}}/map.html">Karte</a>
         </li>
         <li class="nav-item">
-          <a data-active-template="object-list" class="nav-link" aria-current="page" href="{{context._root_path}}/objects/">Biographien</a>
+          <a data-i18n="nav.biographies" data-active-template="object-list" class="nav-link" aria-current="page" href="{{context._root_path}}/objects/">Biographien</a>
         </li>
         <li class="nav-item">
-          <a data-active-template="object-list" class="nav-link disabled" aria-current="page" href="{{context._root_path}}/objects/">Erinnerungsorte</a>
+          <a data-i18n="nav.places" data-active-template="object-list" class="nav-link disabled" aria-current="page" href="{{context._root_path}}/objects/">Erinnerungsorte</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a data-i18n="nav.project" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Projekt
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{{context._root_path}}/about.html">About</a></li>
-            <li><a class="dropdown-item" href="{{context._root_path}}/imprint.html">Impressum</a></li>
+            <li><a data-i18n="nav.about" class="dropdown-item" href="{{context._root_path}}/about.html">About</a></li>
+            <li><a data-i18n="nav.imprint" class="dropdown-item" href="{{context._root_path}}/imprint.html">Impressum</a></li>
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="{{context._root_path}}/datamodel.html">Datenmodell</a></li>
+            <li><a data-i18n="nav.datamodel" class="dropdown-item" href="{{context._root_path}}/datamodel.html">Datenmodell</a></li>
           </ul>
         </li>
          <li class="nav-item">
-          <a data-active-template="pages/geobrowser" class="nav-link disabled" aria-current="page" href="{{context._root_path}}/geobrowser.html">Analyse</a>
+          <a data-i18n="nav.analysis" data-active-template="pages/geobrowser" class="nav-link disabled" aria-current="page" href="{{context._root_path}}/geobrowser.html">Analyse</a>
         </li>
       </ul>
       <div class="d-flex" role="search" method="get" action="{{context._root_path}}/search.html">
-        <a class="btn btn-light" href="{{context._root_path}}/objects/" disabled>Suche</a>
+        <a data-i18n="nav.search" class="btn btn-light" href="{{context._root_path}}/objects/" disabled>Suche</a>
       </div>
     </div>
   </div>
