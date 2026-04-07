@@ -38,6 +38,14 @@
           <a data-i18n="nav.analysis" data-active-template="pages/geobrowser" class="nav-link disabled" aria-current="page" href="{{context._root_path}}/geobrowser.html">Analyse</a>
         </li>
       </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link lang-switch" data-lang="de" href="#">DE</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link lang-switch" data-lang="en" href="#">EN</a>
+        </li>
+      </ul>
       <div class="d-flex" role="search" method="get" action="{{context._root_path}}/search.html">
         <a data-i18n="nav.search" class="btn btn-light" href="{{context._root_path}}/objects/" disabled>Suche</a>
       </div>
@@ -46,6 +54,8 @@
 </nav>
 
 <script>
+
+  // set active nav link
   (() => {
     let selector = `nav a[data-active-template='${pollin._template_name}']`
     let navLink = document.querySelector(selector);
@@ -59,5 +69,26 @@
       return;
     }
     document.querySelector(selector).classList.add("active");
+  })();
+
+  // set active language
+  (() => {
+    const currentLang = new URLSearchParams(window.location.search).get('lang') 
+                        || '{{ defaultISOLanguage | default("de") }}';
+    
+    document.querySelectorAll('.lang-switch').forEach(link => {
+      const targetLang = link.dataset.lang;
+      
+      // build href preserving current path and other params
+      const params = new URLSearchParams(window.location.search);
+      params.set('lang', targetLang);
+      link.href = window.location.pathname + '?' + params.toString();
+      
+      // mark the active language
+      if (targetLang === currentLang) {
+        link.classList.add('active', 'fw-bold');
+        link.setAttribute('aria-current', 'true');
+      }
+    });
   })();
 </script>
