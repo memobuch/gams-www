@@ -60,6 +60,11 @@
                 infoFiltered: "(gefiltert von _MAX_ Einträgen)",
                 zeroRecords: "Keine passenden Einträge gefunden"
             },
+            drawCallback: function(settings) {
+                // This replaces the non-standard onPageChange to ensure 
+                // translation runs on every redraw (pagination, search, sort)
+                pollin.i18n.translate(dataTableContainer);
+            },
             initComplete: function () {
                 let api = this.api();
                 let column = api.column(3); // Index 3 is the "Schlagworte" column
