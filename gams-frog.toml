@@ -14,15 +14,15 @@ GAMS5_PRODUCTION_ORIGIN = "https://gams.uni-graz.at" # gams5 potential unstable 
 
 
 #
-# Following properties are directly connected to the pollin tool commands 
+# Following properties are directly connected to gams-frog commands 
 # (handles environment specific configuration: development / staging / production etc.)
 #
 
 [dev]
 GAMS_API_ORIGIN = "https://ginko.uni-graz.at" # origin of the gams-api (might be somewhere else)
 IIIF_IMAGE_SERVER_ORIGIN = "https://ginko.uni-graz.at" # adress of the IIIF server to be used (might be somewhere else)
-# allows to configure a path to where pollin tool produces it's files
-# OUTPUT_PATH = "C:\\Users\\sebas\\Documents\\programming\\gams\\pollin-tool\\1"
+# allows to configure a path to where gams-frog produces it's files
+# OUTPUT_PATH = "C:\\Users\\sebas\\Documents\\programming\\gams\\gams-frog\\1"
 
 [stage]
 GAMS_API_ORIGIN = "https://it030021.uni-graz.at"
