@@ -21,7 +21,7 @@
                 <th>Vorname</th>
                 <th>Nachname</th>
                 <th>Beschreibung</th>
-                <th>Schlagworte</th>
+                <th>Opferkategorie</th>
             </tr>
         </thead>
         <tbody>
@@ -50,14 +50,74 @@
         </tbody>
     </table>
     <script>
+        let dataTableContainer = document.getElementById('example');
         let dataTable = new DataTable('#example', {
             language: {
-                search: "Suchen",
+                search: "Volltextsuche",
                 lengthMenu: "Zeige _MENU_ Einträge",
                 info: "Zeige _START_ bis _END_ von _TOTAL_ Einträgen",
                 infoEmpty: "Keine Einträge vorhanden",
                 infoFiltered: "(gefiltert von _MAX_ Einträgen)",
                 zeroRecords: "Keine passenden Einträge gefunden"
+            },
+            drawCallback: function(settings) {
+                // This replaces the non-standard onPageChange to ensure 
+                // translation runs on every redraw (pagination, search, sort)
+                pollin.i18n.translate(dataTableContainer);
+            },
+            initComplete: function () {
+                let api = this.api();
+                let column = api.column(3); // Index 3 is the "Opferkategorie" column
+
+                console.log(column);
+
+
+                // 1. Create the select element
+                let select = document.createElement('select');
+                select.className = 'dt-input'; // Matches some of DataTables default styling
+                select.style.marginRight = '10px';
+                let allOption = new Option('Alle Opferkategorien', '')
+                allOption.setAttribute('data-i18n', 'victims.all');
+                select.add(allOption);
+
+                // 2. Insert the select element next to the search box
+                let searchContainer = document.querySelector('.dt-search');
+                if (searchContainer) {
+                    searchContainer.prepend(select);
+                }
+
+                // 3. Apply the filter on change
+                select.addEventListener('change', function () {
+                    // Use exact match regex for tags to avoid matching substrings
+                    let val = this.value ? `(?=.*\\b${DataTable.util.escapeRegex(this.value)}\\b)` : '';
+                    
+                    column
+                        .search(val, true, false)
+                        .draw();
+                });
+
+                // 4. Extract unique tags from the column data
+                let uniqueTags = new Set();
+                column.data().unique().each(function (cellHtml, j) {
+                    // Parse the HTML content of the cell to get just the text of the tags
+                    let tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = cellHtml;
+                    let links = tempDiv.querySelectorAll('li a');
+                    links.forEach(link => {
+                        let tagValue = link.getAttribute('data-i18n');
+                        if (tagValue) uniqueTags.add(tagValue);
+                    });
+                });
+
+                // 5. Populate the dropdown with sorted tags
+                Array.from(uniqueTags).sort().forEach(function (tag) {
+                    let option = new Option(tag, tag);
+                    option.setAttribute('data-i18n', tag);
+                    select.add(option);
+                });
+
+                // run translation last?
+                pollin.i18n.translate(dataTableContainer);
             }
         });
 

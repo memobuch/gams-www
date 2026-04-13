@@ -1,5 +1,6 @@
 {
-    "politischer Widerstand": "Widerstand, politisch",
+    "victims.all": "Alle Opfergruppen",
+    "widerstand_politisch": "Widerstand, politisch",
     "widerstand_religiös": "Widerstand, religiös",
     "widerstand_individuell": "Widerstand, individuell",
     "widerstand_deserteure": "Widerstand, Deserteure",
@@ -17,7 +18,7 @@
     "zivileopfer": "Zivile Opfer",
     "male": "männlich",
     "female": "weiblich",
-    "jugendlich": "jungendliche Opfer",
+    "jugendlich": "jugendliche Opfer",
     "img.detail.link": "Person anzeigen",
     "img.detail.title": "Zur Detailseite",
     "header.title": "Das Digitale Gedenkbuch der Grazer NS-Opfer",
@@ -30,6 +31,7 @@
     "nav.imprint": "Impressum",
     "nav.datamodel": "Datenmodell",
     "nav.analysis": "Analyse",
-    "nav.search": "Suche"
+    "nav.search": "Suche",
+    "search.fulltext": "Full-text search"
     
 }
