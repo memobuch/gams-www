@@ -63,7 +63,7 @@
             drawCallback: function(settings) {
                 // This replaces the non-standard onPageChange to ensure 
                 // translation runs on every redraw (pagination, search, sort)
-                pollin.i18n.translate(dataTableContainer);
+                gams_frog.i18n.translate(dataTableContainer);
             },
             initComplete: function () {
                 let api = this.api();
@@ -117,7 +117,7 @@
                 });
 
                 // run translation last?
-                pollin.i18n.translate(dataTableContainer);
+                gams_frog.i18n.translate(dataTableContainer);
             }
         });
 

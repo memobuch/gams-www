@@ -57,11 +57,11 @@
 
   // set active nav link
   (() => {
-    let selector = `nav a[data-active-template='${pollin._template_name}']`
+    let selector = `nav a[data-active-template='${gams_frog._template_name}']`
     let navLink = document.querySelector(selector);
 
     // Debugging information only if in development using jinja2 conditionals
-    {% if "dev" in context.env.POLLIN_MODE %}
+    {% if "dev" in context.env.GAMS_FROG_MODE %}
       console.debug("Setting active nav a element to selection: ", selector, " Selected element: ", navLink);
     {% endif %}
 
