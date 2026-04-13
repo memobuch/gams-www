@@ -1,5 +1,6 @@
 {
-    "politischer Widerstand": "resistance, political",
+    "victims.all": "all victim groups",
+    "widerstand_politisch": "resistance, political",
     "widerstand_religiös": "resistance, religious",
     "widerstand_individuell": "resistance, individual",
     "widerstand_deserteure": "resistance, deserters",
@@ -11,7 +12,7 @@
     "homosexuelleopfer": "homosexual victims",
     "opfernsjustiz": "Victims of the NS justice system",
     "asoziale": "Anti-social",
-    "spanienkämpfer": "SpanienkämpferInnen",
+    "spanienkämpfer": "Spain fighter",
     "zwangsarbeiter": "forced laborers",
     "alliierte": "allied soldiers",
     "zivileopfer": "civilian casualties",
@@ -30,5 +31,6 @@
     "nav.imprint": "Imprint",
     "nav.datamodel": "Data model",
     "nav.analysis": "Analysis",
-    "nav.search": "Search"
+    "nav.search": "Search",
+    "search.fulltext": "Volltextsuche"
 }

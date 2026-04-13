@@ -33,140 +33,50 @@
     <p>{{ context.project.projectDesc }}</p>
 
     <div class="gallery-container">
-        <div class="image-grid">
-            <a href="{{context._root_path}}/objects/memo.person.99/" class="image-card">
-                <img src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2fmemo.person.99%2f1.jpg/full/,300/0/default.jpg" alt="Person 99">
+        <div class="image-grid" id="randomImageGrid">
+            {% set image_pool = range(1, 801) %}
+            
+            {% for person_id in image_pool %}
+            <a href="{{context._root_path}}/objects/memo.person.{{ person_id }}/" class="image-card random-image-item" style="display: none;">
+                <!-- Use loading="lazy" to prevent downloading all images on initial load -->
+                <img loading="lazy" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2fmemo.person.{{ person_id }}%2f1.jpg/full/,300/0/default.jpg" alt="Person {{ person_id }}">
                 <div class="image-overlay">
                     <div class="overlay-content">
                         <div data-i18n="img.detail.link;[title]img.detail.title;" class="view-icon">View person</div>
                     </div>
                 </div> 
             </a>
-            
-            <a href="{{context._root_path}}/objects/memo.person.30/" class="image-card">
-                <img src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2fmemo.person.30%2f1.jpg/full/,300/0/default.jpg" alt="Person 30 - Image 1">
-                <div class="image-overlay">
-                    <div class="overlay-content">
-                         <div data-i18n="img.detail.link;[title]img.detail.title;" class="view-icon">View person</div>
-                    </div>
-                </div>
-            </a>
-            
-            <a href="{{context._root_path}}/objects/memo.person.30/" class="image-card">
-                <img src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2fmemo.person.30%2f2.jpg/full/,300/0/default.jpg" alt="Person 30 - Image 2">
-                <div class="image-overlay">
-                    <div class="overlay-content">
-                         <div data-i18n="img.detail.link;[title]img.detail.title;" class="view-icon">View person</div>
-                    </div>
-                </div>
-            </a>
-            
-            <a href="{{context._root_path}}/objects/memo.person.19/" class="image-card">
-                <img src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2fmemo.person.19%2f1.jpg/full/,300/0/default.jpg" alt="Person 19">
-                <div class="image-overlay">
-                    <div class="overlay-content">
-                         <div data-i18n="img.detail.link;[title]img.detail.title;" class="view-icon">View person</div>
-                    </div>
-                </div>
-            </a>
-            
-            <a href="{{context._root_path}}/objects/memo.person.84/" class="image-card">
-                <img src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2fmemo.person.84%2f2.jpg/full/,300/0/default.jpg" alt="Person 84 - Image 2">
-                <div class="image-overlay">
-                    <div class="overlay-content">
-                         <div data-i18n="img.detail.link;[title]img.detail.title;" class="view-icon">View person</div>
-                    </div>
-                </div>
-            </a>
-            
-            <a href="{{context._root_path}}/objects/memo.person.81/" class="image-card">
-                <img src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2fmemo.person.81%2f1.jpg/full/,300/0/default.jpg" alt="Person 81 - Image 1">
-                <div class="image-overlay">
-                    <div class="overlay-content">
-                         <div data-i18n="img.detail.link;[title]img.detail.title;" class="view-icon">View person</div>
-                    </div>
-                </div>
-            </a>
-            
-            <a href="{{context._root_path}}/objects/memo.person.81/" class="image-card">
-                <img src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2fmemo.person.81%2f2.jpg/full/,300/0/default.jpg" alt="Person 81 - Image 2">
-                <div class="image-overlay">
-                    <div class="overlay-content">
-                         <div data-i18n="img.detail.link;[title]img.detail.title;" class="view-icon">View person</div>
-                    </div>
-                </div>
-            </a>
-            
-            <a href="{{context._root_path}}/objects/memo.person.47/" class="image-card">
-                <img src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2fmemo.person.47%2f1.jpg/full/,300/0/default.jpg" alt="Person 47 - Image 1">
-                <div class="image-overlay">
-                    <div class="overlay-content">
-                         <div data-i18n="img.detail.link;[title]img.detail.title;" class="view-icon">View person</div>
-                    </div>
-                </div>
-            </a>
-            
-            <a href="{{context._root_path}}/objects/memo.person.47/" class="image-card">
-                <img src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2fmemo.person.47%2f2.jpg/full/,300/0/default.jpg" alt="Person 47 - Image 2">
-                <div class="image-overlay">
-                    <div class="overlay-content">
-                         <div data-i18n="img.detail.link;[title]img.detail.title;" class="view-icon">View person</div>
-                    </div>
-                </div>
-            </a>
-            
-            <a href="{{context._root_path}}/objects/memo.person.16/" class="image-card">
-                <img src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2fmemo.person.16%2f1.jpg/full/,300/0/default.jpg" alt="Person 16">
-                <div class="image-overlay">
-                    <div class="overlay-content">
-                         <div data-i18n="img.detail.link;[title]img.detail.title;" class="view-icon">View person</div>
-                    </div>
-                </div>
-            </a>
-            
-            <a href="{{context._root_path}}/objects/memo.person.36/" class="image-card">
-                <img src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2fmemo.person.36%2f1.jpg/full/,300/0/default.jpg" alt="Person 36">
-                <div class="image-overlay">
-                    <div class="overlay-content">
-                         <div data-i18n="img.detail.link;[title]img.detail.title;" class="view-icon">View person</div>
-                    </div>
-                </div>
-            </a>
-            
-            <a href="{{context._root_path}}/objects/memo.person.21/" class="image-card">
-                <img src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2fmemo.person.21%2f1.jpg/full/,300/0/default.jpg" alt="Person 21">
-                <div class="image-overlay">
-                    <div class="overlay-content">
-                         <div data-i18n="img.detail.link;[title]img.detail.title;" class="view-icon">View person</div>
-                    </div>
-                </div>
-            </a>
-            
-            <a href="{{context._root_path}}/objects/memo.person.369/" class="image-card">
-                <img src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2fmemo.person.369%2f1.jpg/full/,300/0/default.jpg" alt="Person 369">
-                <div class="image-overlay">
-                    <div class="overlay-content">
-                         <div data-i18n="img.detail.link;[title]img.detail.title;" class="view-icon">View person</div>
-                    </div>
-                </div>
-            </a>
-            
-            <a href="{{context._root_path}}/objects/memo.person.15/" class="image-card">
-                <img src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2fmemo.person.15%2f1.jpg/full/,300/0/default.jpg" alt="Person 15">
-                <div class="image-overlay">
-                    <div class="overlay-content">
-                         <div data-i18n="img.detail.link;[title]img.detail.title;" class="view-icon">View person</div>
-                    </div>
-                </div>
-            </a>
+            {% endfor %}
         </div>
     </div>
 
     <script>
-        // Remove loading animation once images are loaded
-        document.querySelectorAll('.image-card img').forEach(img => {
-            img.addEventListener('load', function() {
-                this.classList.add('loaded');
+        document.addEventListener("DOMContentLoaded", function() {
+            const allImages = Array.from(document.querySelectorAll('.random-image-item'));
+            
+            // Shuffle the array of image elements
+            for (let i = allImages.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [allImages[i], allImages[j]] = [allImages[j], allImages[i]];
+            }
+            
+            // Select how many random images to show
+            const numToShow = 14; 
+            
+            // Show the randomly selected images
+            for (let i = 0; i < numToShow && i < allImages.length; i++) {
+                allImages[i].style.display = ''; // Remove display: none
+            }
+
+            // Remove loading animation once displayed images are loaded
+            document.querySelectorAll('.image-card img').forEach(img => {
+                if (img.complete) {
+                    img.classList.add('loaded');
+                } else {
+                    img.addEventListener('load', function() {
+                        this.classList.add('loaded');
+                    });
+                }
             });
         });
     </script>
