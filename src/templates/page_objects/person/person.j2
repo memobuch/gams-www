@@ -75,7 +75,8 @@
                                     </a>
                                 </div>
                                 <div class="card-footer">
-                                    <small class="text-body-secondary">&copy; {{datastream.baseMetadata.creator}}</small>
+                                    {# Display substring after '|' #}
+                                    <small class="text-body-secondary">Quelle: {{datastream.baseMetadata.description.split('|')[1]}}</small>
                                 </div>
                             </div>
                         </div>
