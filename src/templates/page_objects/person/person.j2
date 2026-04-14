@@ -69,7 +69,7 @@
                             <div class="card border">
                                 <div class="card-body">
                                     <h5 class="card-title">{{datastream.baseMetadata.title}} ({{loop.index}})</h5>
-                                    <p class="card-text">{{datastream.baseMetadata.description}}</p>
+                                    <p class="card-text">{{datastream.baseMetadata.description.split('|')[0]}}</p>
                                     <a href="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{context.project.projectAbbr}}%2f{{context.object.id}}%2f{{datastream.dsid}}/full/full/0/default.jpg" target="blank">
                                         <img alt="Kein Bild vorhanden" class="border bg-white rounded" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2f{{context.object.id}}%2f{{datastream.dsid}}/full/,250/0/default.jpg"/>
                                     </a>
