@@ -75,8 +75,7 @@
                                     </a>
                                 </div>
                                 <div class="card-footer">
-                                    {# Display substring after '|' #}
-                                    <small class="text-body-secondary">Quelle: {{datastream.baseMetadata.description.split('|')[1]}}</small>
+                                    <small class="text-body-secondary">Quelle: {{ datastream.baseMetadata.description.split('|')[1] if datastream.baseMetadata.description and '|' in datastream.baseMetadata.description else "MEMO project" }}</small>
                                 </div>
                             </div>
                         </div>
