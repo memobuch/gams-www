@@ -36,11 +36,14 @@
             let td1 = document.createElement("td");
             let td2 = document.createElement("td");
             td1.innerText = binding.country.value;
+            td1.setAttribute("data-i18n", binding.country.value.toLowerCase());
             td2.innerText = binding.deaths.value;
             tr.appendChild(td1);
             tr.appendChild(td2);
             tbody.appendChild(tr);
         });
+
+        gams_frog.i18n.translate(divContainer);
 
         divContainer.classList.remove("d-none");
 
