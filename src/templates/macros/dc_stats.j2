@@ -23,7 +23,7 @@
             let searchQueryDisplay = document.createElement("p");
             statsContainer.appendChild(searchQueryDisplay);
 
-            let requestUrl = new URL("https://gams-staging.uni-graz.at/api/v1/integration/search/facets?projects={{ context.project.projectAbbr }}");
+            let requestUrl = new URL("{{context._root_path}}/api/v1/integration/search/facets?projects={{ context.project.projectAbbr }}");
 
             let resp = await fetch(requestUrl.toString());
             let body = await resp.json();
