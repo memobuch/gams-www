@@ -1,0 +1,74 @@
+# ==============================================================================
+# SPARQL: Count MEMO death events per European country
+# ==============================================================================
+#
+# Counts bio:Death events grouped by country. Each death is assigned to at
+# most one country using a priority-ordered BIND chain over rough bounding
+# boxes — no GeoSPARQL extension required.
+#
+# Why a BIND chain instead of VALUES: rectangular bounding boxes for European
+# countries with curved borders overlap at corners (e.g. Bavaria sits inside
+# both an "Austria box" and a "Germany box"). A VALUES table would double-
+# count deaths in those overlap regions. The nested IF() below checks the
+# tightest, most specific boxes first and falls through to looser ones,
+# guaranteeing each death gets exactly one country label (or "other").
+#
+# Boxes are deliberately conservative in the overlap zones:
+#   - Poland box excludes the Czech/Slovak corridor (west edge pushed to 14.75)
+#   - Austria box excludes Bavaria (west edge pushed to 12.00)
+#
+# Countries covered are those most relevant for Holocaust-victim research
+# from the Graz/Styria region: death-camp locations, deportation destinations,
+# and sites of war-related deaths.
+# ==============================================================================
+
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX bio: <http://purl.org/vocab/bio/0.1/>
+PREFIX wgs84_pos: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+
+SELECT ?country (COUNT(DISTINCT ?death) AS ?deaths)
+WHERE {
+  ?death a bio:Death ;
+         wgs84_pos:lat  ?latRaw ;
+         wgs84_pos:long ?lonRaw .
+
+  BIND(xsd:float(?latRaw) AS ?lat)
+  BIND(xsd:float(?lonRaw) AS ?lon)
+
+  # Assign each death to exactly one country.
+  # The IF() chain order encodes priority: the first matching box wins.
+  # Countries with smaller extent — or whose natural territory protrudes
+  # into a larger neighbour's bounding box — must be checked first:
+  #
+  #   France before Germany — Alsace (Natzweiler) sits east of Germany's
+  #                           western box edge.
+  #   Italy before Croatia  — Trieste sits inside Croatia's bounding box.
+  #   Netherlands before Germany — small footprint inside Germany's box.
+  #   Croatia/Serbia before Italy/Hungary — curved Adriatic / Pannonian borders.
+  #
+  # Countries not in the chain are labelled "other" and filtered out.
+  BIND(
+    IF(?lat >= 49.00 && ?lat <= 54.84 && ?lon >= 14.75 && ?lon <= 24.15, "Poland",
+    IF(?lat >= 48.55 && ?lat <= 51.06 && ?lon >= 12.09 && ?lon <= 18.87, "Czechia",
+    IF(?lat >= 47.73 && ?lat <= 49.61 && ?lon >= 16.83 && ?lon <= 22.57, "Slovakia",
+    IF(?lat >= 45.74 && ?lat <= 48.59 && ?lon >= 16.11 && ?lon <= 22.90, "Hungary",
+    IF(?lat >= 46.37 && ?lat <= 49.02 && ?lon >= 12.00 && ?lon <= 17.17, "Austria",
+    IF(?lat >= 50.75 && ?lat <= 53.55 && ?lon >=  3.36 && ?lon <=  7.23, "Netherlands",
+    IF(?lat >= 41.33 && ?lat <= 51.09 && ?lon >=  0.00 && ?lon <=  7.60, "France",
+    IF(?lat >= 36.62 && ?lat <= 47.10 && ?lon >=  6.62 && ?lon <= 14.00, "Italy",
+    IF(?lat >= 42.39 && ?lat <= 46.55 && ?lon >= 13.50 && ?lon <= 19.45, "Croatia",
+    IF(?lat >= 42.24 && ?lat <= 46.19 && ?lon >= 18.83 && ?lon <= 23.01, "Serbia",
+    IF(?lat >= 53.90 && ?lat <= 56.45 && ?lon >= 20.95 && ?lon <= 26.84, "Lithuania",
+    IF(?lat >= 55.67 && ?lat <= 58.08 && ?lon >= 20.97 && ?lon <= 28.24, "Latvia",
+    IF(?lat >= 51.26 && ?lat <= 56.17 && ?lon >= 23.17 && ?lon <= 32.77, "Belarus",
+    IF(?lat >= 47.27 && ?lat <= 55.06 && ?lon >=  5.87 && ?lon <= 15.04, "Germany",
+    IF(?lat >= 44.39 && ?lat <= 52.38 && ?lon >= 22.14 && ?lon <= 40.23, "Ukraine",
+    "other"
+    )))))))))))))))
+    AS ?country
+  )
+
+  FILTER (?country != "other")
+}
+GROUP BY ?country
+ORDER BY DESC(?deaths)

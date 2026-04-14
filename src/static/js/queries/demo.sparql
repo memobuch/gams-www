@@ -1,0 +1,98 @@
+# ==============================================================================
+# SPARQL Query: All MEMO places with coordinates
+# ==============================================================================
+#
+# Returns every geolocated resource in the MEMO triple store — residences,
+# life events (imprisonment, flight), and deaths — together with enough
+# context to render it on a map.
+#
+# The query unions across the different place-bearing resource types because
+# the MEMO model stores coordinates on several shapes:
+#
+#   1. schema:Place instances (memo:voluntary_residence / memo:forced_residence)
+#   2. bio:Event instances (memo:ImprisonmentEvent, memo:FlightEvent) via MemoEvent
+#   3. bio:Death instances (when death coordinates are known)
+#
+# QLever does not natively serialize GeoJSON, so this query returns flat rows
+# which the client (memo_places_to_geojson.py) assembles into a FeatureCollection.
+# ==============================================================================
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schema: <http://schema.org/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX bio: <http://purl.org/vocab/bio/0.1/>
+PREFIX wgs84_pos: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX memo: <https://www.ns-opfer-graz.at/ontology#>
+
+SELECT DISTINCT
+  ?place
+  ?lon
+  ?lat
+  ?eventType
+  ?label
+  ?address
+  ?date
+  ?person
+  ?personName
+WHERE {
+  # Every geolocated resource must have coordinates
+  ?place wgs84_pos:lat ?lat ;
+         wgs84_pos:long ?lon .
+
+  # ---- Residence places (voluntary / forced) ----
+  {
+    ?person memo:voluntary_residence ?place .
+    ?place  schema:address ?address .
+    OPTIONAL { ?place rdfs:label ?label . }
+    BIND("voluntary_residence" AS ?eventType)
+  }
+  UNION
+  {
+    ?person memo:forced_residence ?place .
+    ?place  schema:address ?address .
+    OPTIONAL { ?place rdfs:label ?label . }
+    BIND("forced_residence" AS ?eventType)
+  }
+
+  # ---- Life events from MemoEvent: imprisonment ----
+  # Match by type and walk back to the person via bio:principal.
+  UNION
+  {
+    ?place a memo:ImprisonmentEvent ;
+           bio:principal ?person .
+    OPTIONAL { ?place rdfs:label ?label . }
+    OPTIONAL { ?place memo:location ?address . }
+    OPTIONAL { ?place memo:date ?date . }
+    BIND("imprisonment" AS ?eventType)
+  }
+
+  # ---- Life events from MemoEvent: flight ----
+  UNION
+  {
+    ?place a memo:FlightEvent ;
+           bio:principal ?person .
+    OPTIONAL { ?place rdfs:label ?label . }
+    OPTIONAL { ?place memo:location ?address . }
+    OPTIONAL { ?place memo:date ?date . }
+    BIND("flight" AS ?eventType)
+  }
+
+  # ---- Death events with coordinates ----
+  # Death events are linked to the person via bio:principal (event -> person)
+  # rather than bio:event (person -> event), so we query from the event side.
+  UNION
+  {
+    ?place a bio:Death ;
+           bio:principal ?person .
+    OPTIONAL { ?place rdfs:label ?label . }
+    OPTIONAL { ?place bio:place ?address . }
+    OPTIONAL { ?place bio:date ?date . }
+    BIND("death" AS ?eventType)
+  }
+
+  # Person display name for popups
+  OPTIONAL { ?person schema:name ?personName . }
+}
+ORDER BY ?person ?eventType
