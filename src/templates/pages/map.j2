@@ -65,7 +65,7 @@
         document.querySelector('#main-heading').scrollIntoView(true, { behavior: 'smooth' });
 
          MEMO.initMap({
-            geoJsonUrl: '{{ context.env.GAMS_API_ORIGIN }}/api/v1/projects/{{context.project.projectAbbr}}/objects/memo.person-register/datastreams/EVENTS.json/content',
+            geoJsonUrl: '{{context._root_path}}/static/apps/map/EVENTS.json',
             personBaseUrl: '/pub/{{context.project.projectAbbr}}/objects'
         });
     </script>
