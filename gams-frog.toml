@@ -29,8 +29,8 @@ GAMS_API_ORIGIN = "https://it030021.uni-graz.at"
 IIIF_IMAGE_SERVER_ORIGIN = "https://it030021.uni-graz.at"
 
 [build]
-GAMS_API_ORIGIN = "https://ginko.uni-graz.at"
-IIIF_IMAGE_SERVER_ORIGIN = "https://ginko.uni-graz.at"
+GAMS_API_ORIGIN = "https://gams-staging.uni-graz.at"
+IIIF_IMAGE_SERVER_ORIGIN = "https://gams-staging.uni-graz.at"
 
 [dev.load]
 OBJECT_COUNT_RESTRICTION = 10 # limits the number of objects loaded (+ used for rendering)
@@ -43,7 +43,7 @@ OBJECTS_REQUIRED = [
 ] # defines which objects are required to be loaded (ignoring the count restriction)
 
 [build.load]
-OBJECT_COUNT_RESTRICTION = 100000
+OBJECT_COUNT_RESTRICTION = 10000000
 OBJECTS_REQUIRED = [
 ]
 
