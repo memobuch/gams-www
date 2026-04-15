@@ -19,8 +19,8 @@ GAMS5_PRODUCTION_ORIGIN = "https://gams.uni-graz.at" # gams5 potential unstable 
 #
 
 [dev]
-GAMS_API_ORIGIN = "https://ginko.uni-graz.at" # origin of the gams-api (might be somewhere else)
-IIIF_IMAGE_SERVER_ORIGIN = "https://ginko.uni-graz.at" # adress of the IIIF server to be used (might be somewhere else)
+GAMS_API_ORIGIN = "http://localhost" # origin of the gams-api (might be somewhere else)
+IIIF_IMAGE_SERVER_ORIGIN = "http://localhost/services" # adress of the IIIF server to be used (might be somewhere else)
 # allows to configure a path to where gams-frog produces it's files
 # OUTPUT_PATH = "C:\\Users\\sebas\\Documents\\programming\\gams\\gams-frog\\1"
 
@@ -30,10 +30,10 @@ IIIF_IMAGE_SERVER_ORIGIN = "https://it030021.uni-graz.at"
 
 [build]
 GAMS_API_ORIGIN = "https://gams-staging.uni-graz.at"
-IIIF_IMAGE_SERVER_ORIGIN = "https://gams-staging.uni-graz.at"
+IIIF_IMAGE_SERVER_ORIGIN = "https://gams-staging.uni-graz.at/services"
 
 [dev.load]
-OBJECT_COUNT_RESTRICTION = 10 # limits the number of objects loaded (+ used for rendering)
+OBJECT_COUNT_RESTRICTION = 100000 # limits the number of objects loaded (+ used for rendering)
 OBJECTS_REQUIRED = [
 ] # defines which objects are required to be loaded (ignoring the count restriction)
 
