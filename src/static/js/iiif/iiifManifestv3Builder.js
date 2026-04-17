@@ -77,14 +77,14 @@ const IIIFManifestBuilder = (
      */
     const build = async (projectAbbr, objectId) => {
 
-        let url = `${GAMS_API_ORIGIN}/api/v1/projects/memo/objects/${objectId}/datastreams`;
+        let url = `${GAMS_API_ORIGIN}/api/curation/v1/projects/memo/objects/${objectId}/datastreams`;
         // fetch datastream info
         let response = await fetch(url);
         let json = await response.json();
 
         const template = {
             "@context": "http://iiif.io/api/presentation/3/context.json",
-            "id": `${gamsProductionOrigin}/api/v1/projects/memo/objects/memo.person.100/datastreams/manifest.json/content`,
+            "id": `${gamsProductionOrigin}/api/curation/v1/projects/memo/objects/memo.person.100/datastreams/manifest.json/content`,
             "type": "Manifest",
             "label": {
                 "de": [

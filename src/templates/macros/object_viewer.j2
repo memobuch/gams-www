@@ -11,7 +11,7 @@ Uses the GAMS search API to get facet counts for dc.subject.
 
     (async () => {
 
-        let manifestUrl = '{{context.env.GAMS_API_ORIGIN}}/api/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/manifest.json/content';
+        let manifestUrl = '{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/manifest.json/content';
 
         // 00. Manifest.json should work as is in production
         let curGamsFrogMode = "{{context.env.GAMS_FROG_MODE}}";

@@ -1,6 +1,6 @@
 {
   "@context": "http://iiif.io/api/presentation/3/context.json",
-  "id": "https://gams.uni-graz.at/api/v1/projects/memo/objects/memo.person.3/datastreams/manifest.json/content",
+  "id": "https://gams.uni-graz.at/api/curation/v1/projects/memo/objects/memo.person.3/datastreams/manifest.json/content",
   "type": "Manifest",
   "label": {
     "de": [
