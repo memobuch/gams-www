@@ -1,9 +1,9 @@
 [project]
-PROJECT_ABBR = "memo" # id of the project to be loaded from the gams-api
+PROJECT_ABBR = "memor" # id of the project to be loaded from the gams-api
 
 [ui]
 VERSION = "0.0.0" # required version of the web app
-TITLE = "MEMO WebUI" # (optional) title of the application
+TITLE = "MEMOR WebUI" # (optional) title of the application
 
 # dangerous variables that point always to production adresses.
 # values are needed in some situations (e.g. rewrites for manifest.json / rdf files using production adresses during development / staging)

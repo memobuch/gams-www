@@ -3,9 +3,9 @@
 {% block content %}
 
     {# <h1>{{ context.project.projectTitle }}</h1> #}
-    <h1>MEMOR</h1>
+    <h1>{{ context.project.projectAbbr | upper }}</h1>
     {# <h2 class="h3 fw-light">{{ context.project.projectSubTitle }}</h2> #}
-    <h2 class="h3 fw-light">Digitales Memobuch der Stadt Graz</h2>
+    <h2 class="h3 fw-light">Digitales Memorbuch der Stadt Graz</h2>
     <hr/>
     {# <pre>{{ context | tojson(indent=2) }}</pre> #}
     <div class="row">
@@ -31,7 +31,7 @@
                 <ol>
                     <li><a class="text-dark" href="{{context._root_path}}/map.html">Karte der letzten Wohnorte</a>  der Grazer Opfer des Nationalsozialismus.</li>
                     <li><a class="text-dark" href="{{context._root_path}}/objects/">Biographie-Übersicht</a> mit Suchfunktion.</li>
-                    <li><a class="text-dark" href="{{context._root_path}}/objects/memo.person.9/">Detailansichten zu einzelnen Personen</a> (Am Beispiel von Abraham Asatanowicz)</li>
+                    <li><a class="text-dark" href="{{context._root_path}}/objects/memor.person.9/">Detailansichten zu einzelnen Personen</a> (Am Beispiel von Abraham Asatanowicz)</li>
                     <li><a class="text-dark" href="{{context._root_path}}/about.html">Allgemeine Projektinformation</a></li>
                 </ol>
             </div>
@@ -46,9 +46,9 @@
             {% set image_pool = range(1, 801) %}
             
             {% for person_id in image_pool %}
-            <a href="{{context._root_path}}/objects/memo.person.{{ person_id }}/" class="image-card random-image-item" style="display: none;">
+            <a href="{{context._root_path}}/objects/memor.person.{{ person_id }}/" class="image-card random-image-item" style="display: none;">
                 <!-- Use loading="lazy" to prevent downloading all images on initial load -->
-                <img loading="lazy" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2fmemo.person.{{ person_id }}%2f1.jpg/full/,300/0/default.jpg" alt="Person {{ person_id }}">
+                <img loading="lazy" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memor%2fmemor.person.{{ person_id }}%2f1.jpg/full/,300/0/default.jpg" alt="Person {{ person_id }}">
                 <div class="image-overlay">
                     <div class="overlay-content">
                         <div data-i18n="img.detail.link;[title]img.detail.title;" class="view-icon">View person</div>
@@ -91,7 +91,7 @@
     </script>
 
 
-    {% include "includes/memo_death_country_box.j2" %}
+    {% include "includes/memor_death_country_box.j2" %}
 
     <br/>
     <br/>

@@ -1,5 +1,5 @@
 # ==============================================================================
-# SPARQL: Count MEMO death events per European country
+# SPARQL: Count MEMOR death events per European country
 # ==============================================================================
 #
 # Counts bio:Death events grouped by country. Each death is assigned to at

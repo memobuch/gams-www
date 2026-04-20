@@ -3,7 +3,7 @@
 
 
 <h1 class="h3 fw-light">{{ context.object.baseMetadata.title | replace("(person description)", "") }}</h1>
-<p class="pb-0 mb-1">Information zu einer einzelnen Person erfasst im MEMO Projekt.</p>
+<p class="pb-0 mb-1">Information zu einer einzelnen Person erfasst im MEMOR Projekt.</p>
 <div>
     <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/RDF.xml/content"><img alt="RDF" height="30" id="rdf" src="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/templates/img/RDF_icon.png" title="RDF"></a> 
     <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/DC.xml/content"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a>
@@ -71,11 +71,11 @@
                                     <h5 class="card-title">{{datastream.baseMetadata.title}} ({{loop.index}})</h5>
                                     <p class="card-text">{{datastream.baseMetadata.description.split('|')[0]}}</p>
                                     <a href="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{context.project.projectAbbr}}%2f{{context.object.id}}%2f{{datastream.dsid}}/full/full/0/default.jpg" target="blank">
-                                        <img alt="Kein Bild vorhanden" class="border bg-white rounded" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2f{{context.object.id}}%2f{{datastream.dsid}}/full/,250/0/default.jpg"/>
+                                        <img alt="Kein Bild vorhanden" class="border bg-white rounded" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memor%2f{{context.object.id}}%2f{{datastream.dsid}}/full/,250/0/default.jpg"/>
                                     </a>
                                 </div>
                                 <div class="card-footer">
-                                    <small class="text-body-secondary">Quelle: {{ datastream.baseMetadata.description.split('|')[1] if datastream.baseMetadata.description and '|' in datastream.baseMetadata.description else "MEMO project" }}</small>
+                                    <small class="text-body-secondary">Quelle: {{ datastream.baseMetadata.description.split('|')[1] if datastream.baseMetadata.description and '|' in datastream.baseMetadata.description else "MEMOR project" }}</small>
                                 </div>
                             </div>
                         </div>
@@ -96,7 +96,7 @@
                 let __initialized = false;
                 tabEl.addEventListener('shown.bs.tab', event => {
                     if (__initialized) return;
-                    initPersonsMap("{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/memo/objects/{{context.object.id}}/datastreams/EVENTS.json/content");
+                    initPersonsMap("{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/memor/objects/{{context.object.id}}/datastreams/EVENTS.json/content");
                 })
             </script>
         </div>
