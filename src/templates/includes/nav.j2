@@ -10,7 +10,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a data-active-template="project" class="nav-link" aria-current="page" href="{{context._root_path}}">MEMO</a>
+          <a data-active-template="project" class="nav-link" aria-current="page" href="{{context._root_path}}">{{context.project.projectAbbr | upper}}</a>
         </li>
         <li class="nav-item">
           <a data-i18n="nav.map" data-active-template="pages/map" class="nav-link" aria-current="page" href="{{context._root_path}}/map.html">Karte der letzten Wohnorte</a>
