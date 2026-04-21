@@ -19,6 +19,7 @@ GAMS5_PRODUCTION_ORIGIN = "https://gams.uni-graz.at" # gams5 potential unstable 
 #
 
 [dev]
+# in dev mode this url is being accessed by a local proxy (using localhost:18090 -> GAMS_API_ORIGIN)
 GAMS_API_ORIGIN = "https://gams-staging.uni-graz.at" # origin of the gams-api (might be somewhere else)
 IIIF_IMAGE_SERVER_ORIGIN = "https://gams-staging.uni-graz.at/services" # adress of the IIIF server to be used (might be somewhere else)
 # allows to configure a path to where gams-frog produces it's files
