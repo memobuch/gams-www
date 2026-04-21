@@ -10,6 +10,10 @@
 
             let statsContainer = document.createElement("div");
 
+            let header = document.createElement("h3");
+            header.textContent = "Vergebene Opferkategorien";
+            statsContainer.appendChild(header);
+
             let searchResultUl = document.createElement("ul");
             statsContainer.appendChild(searchResultUl);
 
@@ -17,7 +21,7 @@
             let resultUl = document.createElement("ul");
             resultUl.classList.add("list-group");
             resultUl.classList.add("list-group-flush");
-            resultUl.classList.add("w-25");
+            resultUl.classList.add("mw-50");
             statsContainer.appendChild(resultUl);
             //let resultSpinner = document.querySelector("#searchSpinner")
             let resultCountElement = document.createElement("p");
@@ -47,7 +51,7 @@
             //resultSpinner.remove();
 
             // append everything to the body
-            document.querySelector(`#{{targetElemId}}`).appendChild(resultUl);
+            document.querySelector(`#{{targetElemId}}`).appendChild(statsContainer);
 
         })();
     
