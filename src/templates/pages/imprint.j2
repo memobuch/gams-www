@@ -1,8 +1,34 @@
 {% extends "parents/base.j2" %}
 {% block content %}
-    <h1 class="h3 fw-light">Impressum</h1>
-    <p>Rechtliches</p>
+    <h1 class="h3 fw-light">Impressum</h2>
 
-    {# <pre>{{ context | tojson(indent=2) }}</pre> #}
+    <div class="mt-4">
+        <h4 class="fw-light">Verantwortlich für den Inhalt</h4>
+        <p><a href="https://juedischestudien.uni-graz.at/de/">Centrum für Jüdische Studien der Universität Graz</a> <br>
+        <a href="http://www.clio-graz.net/">CLIO Verein für Geschichts- und Bildungsarbeit</a>
+        </p>
+    </div>
+
+    <div class="mt-4">
+        <h4>Umsetzung und Publikation</h4>
+        <p><a target="_blank" href="https://schiller-stoff.github.io/">Sebastian David Schiller-Stoff</a></p>
+        <p><a href="https://digital-humanities.uni-graz.at/de/">Institut für Digitale Geisteswissenschaften</a></p>
+    </div>
+
+    <div class="mt-4">
+        <h4 class="fw-light">Technische Infrastruktur</h4>
+        <p>GAMS</p>
+    </div>
+
+    <div class="mt-4">
+        <h4 class="fw-light">Information gemäß § 5 E-Commerce Gesetz</h4>
+        <p>Die Informationen und Dienste auf dieser Seite werden zur Verfügung gestellt von <br> <br>
+        Universität Graz <br>
+        Universitätsplatz 3 <br>
+        8010 Graz, Austria <br>
+        E-Mail: dh@uni-graz.at <br>
+        Tel.: +43-(0)316 380 2292
+        </p>
+    </div>
 
 {% endblock %}

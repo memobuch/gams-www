@@ -1,7 +1,7 @@
 <nav class="navbar bd-navbar navbar-expand-lg mb-3 sticky-top bg-light border border-3 border-start-0 border-end-0">
   <div class="container-fluid">
-    <a class="navbar-brand" href="{{context._root_path}}" style="text-transform:uppercase;">{{context.project.projectAbbr
-      }}</a>
+    {# <a class="navbar-brand" href="{{context._root_path}}" style="text-transform:uppercase;">{{context.project.projectAbbr
+      }}</a> #}
     <button class="navbar-toggler text-light" type="button" data-bs-toggle="collapse"
       data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
       aria-label="Toggle navigation">
@@ -10,55 +10,61 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a data-active-template="project" class="nav-link" aria-current="page" href="{{context._root_path}}">Startseite</a>
+          <a data-active-template="project" class="nav-link" aria-current="page" href="{{context._root_path}}">{{context.project.projectAbbr | upper}}</a>
         </li>
         <li class="nav-item">
-          <a data-active-template="pages/map" class="nav-link" aria-current="page" href="{{context._root_path}}/map.html">Karte</a>
+          <a data-i18n="nav.map" data-active-template="pages/map" class="nav-link" aria-current="page" href="{{context._root_path}}/map.html">Karte der letzten Wohnorte</a>
         </li>
         <li class="nav-item">
-          <a data-active-template="object-list" class="nav-link" aria-current="page" href="{{context._root_path}}/objects/">Personenregister</a>
+          <a data-i18n="nav.map_deaths" data-active-template="pages/map" class="nav-link disabled" aria-current="page" href="{{context._root_path}}/map_deaths.html">Karte der Todesorte</a>
         </li>
         <li class="nav-item">
-          <a data-active-template="pages/geobrowser" class="nav-link" aria-current="page" href="{{context._root_path}}/geobrowser.html">Quantitative Analyse</a>
+          <a data-i18n="nav.biographies" data-active-template="object-list" class="nav-link" aria-current="page" href="{{context._root_path}}/objects/">Biographien</a>
+        </li>
+        <li class="nav-item">
+          <a data-i18n="nav.places" data-active-template="object-list" class="nav-link disabled" aria-current="page" href="{{context._root_path}}/objects/">Erinnerungsorte</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a data-i18n="nav.project" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Projekt
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{{context._root_path}}/about.html">About</a></li>
-            <li><a class="dropdown-item" href="{{context._root_path}}/imprint.html">Impressum</a></li>
+            <li><a data-i18n="nav.about" class="dropdown-item" href="{{context._root_path}}/about.html">About</a></li>
+            <li><a data-i18n="nav.imprint" class="dropdown-item" href="{{context._root_path}}/imprint.html">Impressum</a></li>
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="{{context._root_path}}/datamodel.html">Datenmodell</a></li>
+            <li><a data-i18n="nav.datamodel" class="dropdown-item" href="{{context._root_path}}/datamodel.html">Datenmodell</a></li>
           </ul>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Erweiterte Funktionalitäten
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item disabled" href="{{context._root_path}}/search-xsl.html">Volltextsuche via xsl</a>
-            </li>
-          </ul>
+         <li class="nav-item">
+          <a data-i18n="nav.analysis" data-active-template="pages/geobrowser" class="nav-link disabled" aria-current="page" href="{{context._root_path}}/geobrowser.html">Analyse</a>
         </li>
       </ul>
-      <form class="d-flex" role="search" method="get" action="{{context._root_path}}/search.html">
-        <input class="form-control me-2" type="search" name="q" placeholder="Volltext" aria-label="Suchen" disabled>
-        <button class="btn btn-light" type="submit" disabled>Suche</button>
-      </form>
+      <ul class="navbar-nav me-2">
+        <li class="nav-item">
+          <a class="nav-link lang-switch" data-lang="de" href="#">DE</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link lang-switch" data-lang="en" href="#">EN</a>
+        </li>
+      </ul>
+      <div class="d-flex" role="search" method="get" action="{{context._root_path}}/search.html">
+        <a data-i18n="nav.search" class="btn btn-secondary" href="{{context._root_path}}/objects/" disabled>Suche</a>
+      </div>
     </div>
   </div>
 </nav>
 
 <script>
+
+  // set active nav link
   (() => {
-    let selector = `nav a[data-active-template='${pollin._template_name}']`
+    let selector = `nav a[data-active-template='${gams_frog._template_name}']`
     let navLink = document.querySelector(selector);
 
     // Debugging information only if in development using jinja2 conditionals
-    {% if "dev" in context.env.POLLIN_MODE %}
+    {% if "dev" in context.env.GAMS_FROG_MODE %}
       console.debug("Setting active nav a element to selection: ", selector, " Selected element: ", navLink);
     {% endif %}
 
@@ -66,5 +72,26 @@
       return;
     }
     document.querySelector(selector).classList.add("active");
+  })();
+
+  // set active language
+  (() => {
+    const currentLang = new URLSearchParams(window.location.search).get('lang') 
+                        || '{{ defaultISOLanguage | default("de") }}';
+    
+    document.querySelectorAll('.lang-switch').forEach(link => {
+      const targetLang = link.dataset.lang;
+      
+      // build href preserving current path and other params
+      const params = new URLSearchParams(window.location.search);
+      params.set('lang', targetLang);
+      link.href = window.location.pathname + '?' + params.toString();
+      
+      // mark the active language
+      if (targetLang === currentLang) {
+        link.classList.add('active', 'fw-bold');
+        link.setAttribute('aria-current', 'true');
+      }
+    });
   })();
 </script>

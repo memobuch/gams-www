@@ -10,12 +10,18 @@
 
             let statsContainer = document.createElement("div");
 
+            let header = document.createElement("h3");
+            header.textContent = "Vergebene Opferkategorien";
+            statsContainer.appendChild(header);
+
             let searchResultUl = document.createElement("ul");
             statsContainer.appendChild(searchResultUl);
 
             // some pre selections
             let resultUl = document.createElement("ul");
             resultUl.classList.add("list-group");
+            resultUl.classList.add("list-group-flush");
+            resultUl.classList.add("mw-50");
             statsContainer.appendChild(resultUl);
             //let resultSpinner = document.querySelector("#searchSpinner")
             let resultCountElement = document.createElement("p");
@@ -23,7 +29,7 @@
             let searchQueryDisplay = document.createElement("p");
             statsContainer.appendChild(searchQueryDisplay);
 
-            let requestUrl = new URL("{{context.env.GAMS_API_ORIGIN}}/api/v1/integration/gsearch/facets?projects={{ context.project.projectAbbr }}");
+            let requestUrl = new URL("{{context.env.GAMS_API_ORIGIN}}/api/integration/v1/search/facets?projects={{ context.project.projectAbbr }}");
 
             let resp = await fetch(requestUrl.toString());
             let body = await resp.json();
@@ -32,11 +38,10 @@
             resultCountElement.innerText = body.result.pagination.totalElements;
 
             body.availableFacets["dc.subject"].forEach(facetItem => {
-                console.log(facetItem);
                 let htmlLi = `
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         ${facetItem.value}
-                        <span class="badge bg-primary rounded-pill">${facetItem.count}</span>
+                        <span class="badge bg-dark rounded-pill">${facetItem.count}</span>
                     </li>
                 `;
                 resultUl.insertAdjacentHTML("beforeend", htmlLi);
@@ -46,7 +51,7 @@
             //resultSpinner.remove();
 
             // append everything to the body
-            document.querySelector(`#{{targetElemId}}`).appendChild(resultUl);
+            document.querySelector(`#{{targetElemId}}`).appendChild(statsContainer);
 
         })();
     

@@ -11,8 +11,8 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{context._root_path}}/static/apps/map/map.css">
 
-    <h1 class="h3 fw-light">Opfer der NS-Verfolgung aus Graz</h1>
-    <p>Karte der Opfer erfasst von MEMO</p>
+    <h1 class="h3 fw-light" id="main-heading">Opfer der NS-Verfolgung aus Graz</h1>
+    <p>Diese Karte zeigt die letzten freiwilligen Wohnadressen von 691 Opfern des Nationalsozialismus in Graz zwischen 1938 und 1945. Jeder Punkt repräsentiert den letzten selbstgewählten Wohnort einer verfolgten Person, bevor Verfolgung, Vertreibung oder Deportation einsetzte.</p>
 
     <section>
 
@@ -24,14 +24,6 @@
         <!-- Filter Controls -->
         <div class="controls-panel">
             <div class="controls-content">
-                <!-- Event Type Filters -->
-                <div class="filter-section">
-                    <h3 class="filter-title">Ereignistypen filtern (Formen)</h3>
-                    <div class="filter-grid" id="event-type-filters">
-                        <!-- Dynamically populated from vocab -->
-                    </div>
-                </div>
-
                 <!-- Victim Category Filters -->
                 <div class="filter-section">
                     <h3 class="filter-title">Opferkategorien filtern (Farben)</h3>
@@ -41,7 +33,7 @@
                 </div>
 
                 <!-- Statistics -->
-                <div class="stats-section">
+                <div class="stats-section" style="display: none;">
                     <div class="stat-item">
                         <span class="stat-label">Personen</span>
                         <span class="stat-value" id="total-persons">0</span>
@@ -69,7 +61,13 @@
     <script src="{{context._root_path}}/static/apps/map/map.js"></script>
 
     <script>
-        initMap('{{ context.env.GAMS_API_ORIGIN }}/api/v1/projects/memo/objects/memo.person-register/datastreams/EVENTS.json/content');
+
+        document.querySelector('#main-heading').scrollIntoView(true, { behavior: 'smooth' });
+
+         MEMOR.initMap({
+            geoJsonUrl: '{{context._root_path}}/static/apps/map/EVENTS.json',
+            personBaseUrl: '{{context._root_path}}/objects'
+        });
     </script>
 
     </section>
