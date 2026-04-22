@@ -11,11 +11,11 @@ Uses the GAMS search API to get facet counts for dc.subject.
 
     (async () => {
 
-        let manifestUrl = '{{context.env.GAMS_API_ORIGIN}}/api/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/manifest.json/content';
+        let manifestUrl = '{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/manifest.json/content';
 
         // 00. Manifest.json should work as is in production
-        let curPollinMode = "{{context.env.POLLIN_MODE}}";
-        if (curPollinMode !== "dev") {
+        let curGamsFrogMode = "{{context.env.GAMS_FROG_MODE}}";
+        if (curGamsFrogMode !== "dev") {
             return new Tify({
                 container: '#tify',
                 manifestUrl: manifestUrl,
@@ -23,7 +23,7 @@ Uses the GAMS search API to get facet counts for dc.subject.
         }
 
         // if in development
-        console.warn("Rewriting manifest.json because: pollin tool runs in mode: ", curPollinMode);
+        console.warn("Rewriting manifest.json because: gams-frog runs in mode: ", curGamsFrogMode);
         // 01. prefetch manifest.json
         let resp = await fetch(manifestUrl);
         if (!resp.ok) {

@@ -1,7 +1,7 @@
 {% extends "parents/base.j2" %}
 {% block content %}
 <h1 class="h3 fw-light">Volltext - XSL Suche</h1>
-<p>Personen des MEMO Projekts.</p>
+<p>Personen des MEMOR Projekts.</p>
 
 {# <p>{{context.env}}</p> #}
 
@@ -64,8 +64,8 @@
             SaxonJS.getProcessorInfo().productName + " " + SaxonJS.getProcessorInfo().productVersion + " " + SaxonJS.getProcessorInfo().releaseDate
         );
         SaxonJS.transform({
-            stylesheetLocation: "{{context._root_path}}/static/xsl/memo-fulltext-search.sef.json",
-            sourceLocation: `{{context.env.GAMS_API_ORIGIN}}/api/v1/integration/gsearch/fulltext?format=xml&q=${searchQuery}&pageIndex=${currentPage}`,
+            stylesheetLocation: "{{context._root_path}}/static/xsl/memor-fulltext-search.sef.json",
+            sourceLocation: `{{context.env.GAMS_API_ORIGIN}}/api/integration/v1/gsearch/fulltext?format=xml&q=${searchQuery}&pageIndex=${currentPage}`,
             logLevel: 2,
             destination: "serialized", // we want the result as a string
             stylesheetParams: {

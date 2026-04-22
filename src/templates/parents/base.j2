@@ -20,20 +20,20 @@
     #}
     <script src="{{context._root_path}}/static/js/SaxonJS3-beta-1.rt.js"></script>
 
-    {# Definition of global variables / pollin variable #}
-    {% include "parents/pollin_setup.j2" %}
+    {# Definition of global variables / gams_frog variable #}
+    {% include "parents/gams_frog_setup.j2" %}
 
   </head>
   <body>
     <header class="bg-light">
       <div class="row">
         <div class="col-xl-1">
-          <img width="120" src="{{context._root_path}}/static/img/main_logo.jpg">
+          <a href="{{context._root_path}}"><img width="120" src="{{context._root_path}}/static/img/main_logo.jpg"()></a>
         </div>
         <div class="col-xl-6">
           <div class="mt-4">
-            <h1 data-i18n="header.title" class="h4">Das Digitale Gedenkbuch der Grazer NS-Opfer</h1>
-            <small data-i18n="header.description">MEMO ist ein digitales Denkmal, das sich der Dokumentation und Visualisierung der Grazer NS-Opfer widmet.</small>
+            <h1 data-i18n="header.title" class="h3">Das Digitale Gedenkbuch der Stadt Graz</h1>
+            <small data-i18n="header.description">MEMOR ist ein digitales Denkmal, das sich der Dokumentation und Visualisierung der Grazer NS-Opfer widmet.</small>
           </div>
         </div>
       </div>
@@ -49,7 +49,7 @@
 
 
     <script>
-      window.pollin.i18n.translate();
+      window.gams_frog.i18n.translate();
     </script>
 
 

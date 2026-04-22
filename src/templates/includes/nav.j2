@@ -10,10 +10,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a data-active-template="project" class="nav-link" aria-current="page" href="{{context._root_path}}">MEMO</a>
+          <a data-active-template="project" class="nav-link" aria-current="page" href="{{context._root_path}}">{{context.project.projectAbbr | upper}}</a>
         </li>
         <li class="nav-item">
-          <a data-i18n="nav.map" data-active-template="pages/map" class="nav-link" aria-current="page" href="{{context._root_path}}/map.html">Karte</a>
+          <a data-i18n="nav.map" data-active-template="pages/map" class="nav-link" aria-current="page" href="{{context._root_path}}/map.html">Karte der letzten Wohnorte</a>
+        </li>
+        <li class="nav-item">
+          <a data-i18n="nav.map_deaths" data-active-template="pages/map" class="nav-link disabled" aria-current="page" href="{{context._root_path}}/map_deaths.html">Karte der Todesorte</a>
         </li>
         <li class="nav-item">
           <a data-i18n="nav.biographies" data-active-template="object-list" class="nav-link" aria-current="page" href="{{context._root_path}}/objects/">Biographien</a>
@@ -57,11 +60,11 @@
 
   // set active nav link
   (() => {
-    let selector = `nav a[data-active-template='${pollin._template_name}']`
+    let selector = `nav a[data-active-template='${gams_frog._template_name}']`
     let navLink = document.querySelector(selector);
 
     // Debugging information only if in development using jinja2 conditionals
-    {% if "dev" in context.env.POLLIN_MODE %}
+    {% if "dev" in context.env.GAMS_FROG_MODE %}
       console.debug("Setting active nav a element to selection: ", selector, " Selected element: ", navLink);
     {% endif %}
 
