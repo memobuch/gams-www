@@ -56,6 +56,11 @@
     "estonia": "Estland",
     "netherlands": "Niederlande",
     "turkey": "Türkei",
-    "greece": "Griechenland"
-    
+    "greece": "Griechenland",
+    "memo_title": "Digitales Gedenkbuch der Stadt Graz",
+    "biographies.title": "Biographien der Grazer NS-Opfer",
+    "biographies.subtitle": "Personen erfassst im MEMOR Projekt. Wohnhafte oder ansässige Personen in Graz ermordert durch das NS-Regime.",
+    "about.title": "Über das Projekt",
+    "imprint.title": "Impressum",
+    "data_model.title": "Datenmodell"    
 }

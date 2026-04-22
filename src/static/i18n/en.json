@@ -33,5 +33,11 @@
     "nav.datamodel": "Data model",
     "nav.analysis": "Analysis",
     "nav.search": "Search",
-    "search.fulltext": "Volltextsuche"
+    "search.fulltext": "Volltextsuche",
+    "memo_title": "Digital Memorial Book of the City of Graz",
+    "biographies.title": "Biographies of the victims of the Nazi regime in Graz",
+    "biographies.subtitle": "Individuals recorded in the MEMOR project. Residents or citizens of Graz murdered by the Nazi regime.",
+    "about.title": "About the project",
+    "imprint.title": "Imprint",
+    "data_model.title": "Data model"
 }
