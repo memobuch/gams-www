@@ -174,5 +174,5 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 .idea/
 
-.pollin_cache
-pollin.override.toml
+.gams_frog_cache
+gams-frog.override.toml

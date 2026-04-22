@@ -1,17 +1,17 @@
 // ===================================
-// MEMO Enhanced Map - JavaScript
+// MEMOR Enhanced Map - JavaScript
 // Version 7.0.0 - Environment-Aware Configuration
-// Called via MEMO.initMap({ geoJsonUrl, personBaseUrl })
+// Called via MEMOR.initMap({ geoJsonUrl, personBaseUrl })
 // ===================================
 
-var MEMO = MEMO || {};
+var MEMOR = MEMOR || {};
 
-MEMO.initMap = function(options) {
+MEMOR.initMap = function(options) {
     'use strict';
 
     // ===== Validate Required Options =====
     if (!options || !options.geoJsonUrl) {
-        console.error('MEMO.initMap: "geoJsonUrl" is required. Usage: MEMO.initMap({ geoJsonUrl: "...", personBaseUrl: "..." })');
+        console.error('MEMO.initMap: "geoJsonUrl" is required. Usage: MEMOR.initMap({ geoJsonUrl: "...", personBaseUrl: "..." })');
         return;
     }
 
@@ -27,7 +27,7 @@ MEMO.initMap = function(options) {
         targetEventType: 'voluntary_residence'
     };
 
-    console.log('MEMO.initMap called with:', {
+    console.log('MEMOR.initMap called with:', {
         geoJsonUrl: CONFIG.geoJsonUrl,
         personBaseUrl: CONFIG.personBaseUrl || '(not set — person links disabled)'
     });
@@ -108,7 +108,7 @@ MEMO.initMap = function(options) {
 
     // ===== Initialization =====
     function init() {
-        console.log('Initializing MEMO Map (v7.0.0 - Environment-Aware)...');
+        console.log('Initializing MEMOR Map (v7.0.0 - Environment-Aware)...');
         initializeMap();
         loadGeoJSONData();
     }

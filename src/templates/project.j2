@@ -3,28 +3,37 @@
 {% block content %}
 
     {# <h1>{{ context.project.projectTitle }}</h1> #}
-    <h1>MEMO</h1>
+    <h1>{{ context.project.projectAbbr | upper }}</h1>
     {# <h2 class="h3 fw-light">{{ context.project.projectSubTitle }}</h2> #}
-    <h2 class="h3 fw-light">Digitales Memobuch der Stadt Graz</h2>
+    <h2 class="h3 fw-light">Digitales Memorbuch der Stadt Graz</h2>
     <hr/>
     {# <pre>{{ context | tojson(indent=2) }}</pre> #}
     <div class="row">
         <div class="col-md-4">
             <div class="p-2" style="background: lightblue;">
-                <h2 class="h4">Historischer Kontext und Zielsetzung</h2>
-                <p>Das MEMO Digitale Memobuch ist ein digitales Denkmal, das sich der Dokumentation und Visualisierung der Verfolgung von Opfern des Nationalsozialismus in Graz zwischen 1938 und 1945 widmet. Das Projekt dient sowohl als historisches Archiv als auch als Bildungsinstrument und schafft eine interaktive Plattform, die individuelle Opfergeschichten würdigt und gleichzeitig breitere Verfolgungsmuster sichtbar macht. Durch die Digitalisierung und Kartierung dieses dunklen Kapitels der Geschichte stellt das Projekt sicher, dass diese Geschichten für ein zeitgenössisches Publikum zugänglich und bedeutsam bleiben.</p>
+                <h2 class="h4">Über MEMOR</h2>
+                <p>MEMOR ist das digitale Denkmal für die Grazer Opfer des Nationalsozialismus. Es dokumentiert die Biographien aller Grazer Opfer des Nationalsozialismus zwischen 1938 und 1945 und verzeichnet sie an ihren letzten freiwilligen Wohnadressen in der Stadt Graz. </p>
+                <p>MEMOR dient sowohl als historisches Archiv als auch als Bildungsinstrument und schafft eine interaktive Plattform, die individuelle Opfergeschichten würdigt und gleichzeitig breitere Verfolgungsmuster sichtbar macht. Durch die Digitalisierung der Geschichte der Opfer sowie durch die lokale Verortung der einzelnen Verfolgungsgeschichten im Grazer Stadtraum ist es für alle jederzeit möglich, mehr über einzelne Personen, Personengruppen aber auch über einzelne Bezirke oder Straßen zu erfahren. </p>
             </div>
         </div>
         <div class="col-md-4">
             <div class="p-2">
-                <h2 class="h4">Datensatz und Umfang</h2>
-                <p>Der aktuelle Datensatz umfasst 691 dokumentierte Personen über 1.352 einzelne Ereignisse und zeichnet ein umfassendes Bild der Verfolgung in Graz während der NS-Zeit. Jedes Ereignis ist nach Typ kategorisiert – einschließlich freiwilliger Wohnsitz, Zwangswohnsitz, Inhaftierung, Flucht und Tod – und mit spezifischen Personen verknüpft, für die biografische Informationen vorliegen. Die Daten sind in GAMS (Geisteswissenschaftliches Asset Management System) integriert, das vollständige biografische Details für jedes Opfer bereitstellt und so eine reichhaltige, miteinander verknüpfte historische Dokumentation schafft.</p>
+                <h2 class="h4">Über die Opfer</h2>
+                <p>Aktuell werden xx NS-Opfer, die zum Zeitpunkt der NS-Machtübernahme im Jahr 1938 im Grazer Stadtgebiet ihren Lebensmittelpunkt hatten, in MEMOR dokumentiert und vorgestellt. Sie werden entsprechend den Gründen ihrer Verfolgung vorgestellt.</p>
+                <p>Ziel ist es, alle Grazer NS-Opfer in Erinnerung zu halten und ihnen ihre Geschichte zurückzugeben aber auch ihnen ein „Gesicht“ zu geben. Um das zu erreichen, sind wir auf ihre Mitarbeit angewiesen. Sollten Sie weiterführende Informationen zu den hier verzeichneten Opfern wie auch uns bislang nicht bekannten Opfern haben, so bitten wir Sie um Kontaktaufnahme mit unserem Team.</p>
+                <p>Rückmeldungen: memor.graz@uni-graz.at</p>
             </div>
         </div>
         <div class="col">
             <div class="p-2">
-                <h2 class="h4">Technische Umsetzung</h2>
-                <p>Das Projekt hat sich durch mehrere Iterationen entwickelt und gipfelt in einer ausgefeilten Karten-Visualisierung mit Globe.gl und Three.js. Die Anwendung bietet duale Ansichtsmodi (aggregierte Kreise und individuelle Punkte), umfassende Filterung sowohl nach Ereignistypen als auch nach Opferkategorien sowie intelligentes Clustering, das Ereignisse nach Typ trennt, anstatt sie in generische Cluster zu aggregieren. Die Implementierung priorisiert clientseitige Verarbeitung und arbeitet ohne externe API-Abhängigkeiten, was langfristige Zugänglichkeit und Zuverlässigkeit für dieses öffentliche Denkmal gewährleistet.</p>
+                <h2 class="h4">Kernfunktionalitäten</h2>
+                <p>Beschreibung der Hauptfunktionalitäten von MEMOR:</p>
+                <ol>
+                    <li><a class="text-dark" href="{{context._root_path}}/map.html">Karte der letzten Wohnorte</a>  der Grazer Opfer des Nationalsozialismus.</li>
+                    <li><a class="text-dark" href="{{context._root_path}}/objects/">Biographie-Übersicht</a> mit Suchfunktion.</li>
+                    <li><a class="text-dark" href="{{context._root_path}}/objects/memor.person.9/">Detailansichten zu einzelnen Personen</a> (Am Beispiel von Abraham Asatanowicz)</li>
+                    <li><a class="text-dark" href="{{context._root_path}}/about.html">Allgemeine Projektinformation</a></li>
+                </ol>
             </div>
         </div>
     </div>
@@ -37,9 +46,9 @@
             {% set image_pool = range(1, 801) %}
             
             {% for person_id in image_pool %}
-            <a href="{{context._root_path}}/objects/memo.person.{{ person_id }}/" class="image-card random-image-item" style="display: none;">
+            <a href="{{context._root_path}}/objects/memor.person.{{ person_id }}/" class="image-card random-image-item" style="display: none;">
                 <!-- Use loading="lazy" to prevent downloading all images on initial load -->
-                <img loading="lazy" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memo%2fmemo.person.{{ person_id }}%2f1.jpg/full/,300/0/default.jpg" alt="Person {{ person_id }}">
+                <img loading="lazy" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memor%2fmemor.person.{{ person_id }}%2f1.jpg/full/,300/0/default.jpg" alt="Person {{ person_id }}">
                 <div class="image-overlay">
                     <div class="overlay-content">
                         <div data-i18n="img.detail.link;[title]img.detail.title;" class="view-icon">View person</div>
@@ -81,12 +90,14 @@
         });
     </script>
 
-    <br/>
-    <hr/>
 
-    {# <p>Statistiken zum MEMO Projekt:</p>
+    {% include "includes/memor_death_country_box.j2" %}
+
+    <br/>
+    <br/>
+
     <div id="searchResults"></div>
-    {{ macros.dc_stats('searchResults') }} #}
+    {{ macros.dc_stats('searchResults') }}
 
 
 

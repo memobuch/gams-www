@@ -1,7 +1,7 @@
 {# 
  This macro includes a script block exposing the i18n logic applied to  
- a gams project frontend via pollin variable. 
- Under pollin.i18n (check browser console)
+ a gams project frontend via gams_frog variable. 
+ Under gams_frog.i18n (check browser console)
 
  Supplied functionaloty:
  Translates all elements with the data-i18n attribute according
@@ -19,8 +19,8 @@
 <script>
 
     // first some global variables
-    window.pollin.i18n = {};
-    window.pollin.i18n.defaultISOLanguage = '{{defaultISOLanguage}}';
+    window.gams_frog.i18n = {};
+    window.gams_frog.i18n.defaultISOLanguage = '{{defaultISOLanguage}}';
 
     (() => {
 
@@ -49,8 +49,8 @@
                     targets.push({ attr: match[1], key: match[2] });
                 } else if (trimmed.includes('[')) {
                     // likely malformed — bracket present but didn't match pattern
-                    if(!pollin.utils.isProduction()){
-                        console.warn(`pollin-i18n: Malformed data-i18n value: "${trimmed}"`);
+                    if(!gams_frog.utils.isProduction()){
+                        console.warn(`gams_frog-i18n: Malformed data-i18n value: "${trimmed}"`);
                     }
                 } else {
                     targets.push({ attr: null, key: trimmed });
@@ -76,8 +76,8 @@
             for (const target of targets) {
                 const value = translationMap[target.key];
                 if (!value) {
-                    if (!pollin.utils.isProduction()) {
-                        console.error(`pollin-i18n: No translation for key: "${target.key}"`, element);
+                    if (!gams_frog.utils.isProduction()) {
+                        console.error(`gams_frog-i18n: No translation for key: "${target.key}"`, element);
                     }
                     continue;
                 }
@@ -87,8 +87,8 @@
                 } else if (ALLOWED_I18N_ATTRS.has(target.attr)) {
                     element.setAttribute(target.attr, value);
                 } else {
-                    if(!pollin.utils.isProduction()){
-                        console.warn(`pollin-i18n: Attribute "${target.attr}" not allowed. Skipping.`);
+                    if(!gams_frog.utils.isProduction()){
+                        console.warn(`gams_frog-i18n: Attribute "${target.attr}" not allowed. Skipping.`);
                     }
                 }
             }
@@ -102,19 +102,19 @@
             if (cachedTranslations) return cachedTranslations;
             if (translationPromise) return translationPromise;
 
-            const url = `${pollin._root_path}/static/i18n/${language}.json`;
+            const url = `${gams_frog._root_path}/static/i18n/${language}.json`;
             
             translationPromise = (async () => {
                 try {
                     const response = await fetch(url);
                     if (!response.ok) {
-                        console.error(`pollin-i18n: Failed to fetch ${url} (HTTP ${response.status})`);
+                        console.error(`gams_frog-i18n: Failed to fetch ${url} (HTTP ${response.status})`);
                         return null;
                     }
                     cachedTranslations = await response.json();
                     return cachedTranslations;
                 } catch (error) {
-                    console.error(`pollin-i18n: Failed to fetch ${url}`, error);
+                    console.error(`gams_frog-i18n: Failed to fetch ${url}`, error);
                     return null;
                 }
             })();
@@ -132,15 +132,15 @@
         * 3. additional translation files in i18n folder in static (mus also follow iso code e.g. "de.json")
         * 4. internal links will be rewritten to keep current query parameters (like lang)
         */
-        window.pollin.i18n.translate = async (containerElem) => {
+        window.gams_frog.i18n.translate = async (containerElem) => {
             if (!containerElem) containerElem = document;
 
-            const defaultLanguage = window.pollin.i18n.defaultISOLanguage || 'de';
+            const defaultLanguage = window.gams_frog.i18n.defaultISOLanguage || 'de';
             const currentLanguage = new URLSearchParams(window.location.search).get('lang') || defaultLanguage;
 
             const translationMap = await loadTranslations(currentLanguage);
             if (!translationMap) {
-                if (!pollin.utils.isProduction()) {
+                if (!gams_frog.utils.isProduction()) {
                     console.error("No translations for language '" + currentLanguage + " found!");
                 }
                 return;
@@ -150,8 +150,8 @@
             const elements = containerElem.querySelectorAll('[data-i18n]');
             elements.forEach(el => applyTranslationToElement(el, translationMap));
 
-            if (!pollin.utils.isProduction()) {
-                console.debug("pollin-i18n: Translated elements:", elements.length);
+            if (!gams_frog.utils.isProduction()) {
+                console.debug("gams_frog-i18n: Translated elements:", elements.length);
             }
 
             // rewrite internal links to maintain lang parameter
@@ -168,14 +168,14 @@
                     link.href = url.toString();
                     rewroteCount++;
                 } catch (e) {
-                    if (!pollin.utils.isProduction()) {
-                        console.warn("pollin-i18n: Malformed href:", link);
+                    if (!gams_frog.utils.isProduction()) {
+                        console.warn("gams_frog-i18n: Malformed href:", link);
                     }
                 }
             });
 
-            if (!pollin.utils.isProduction()) {
-                console.debug("pollin-i18n: Rewrote internal links:", rewroteCount);
+            if (!gams_frog.utils.isProduction()) {
+                console.debug("gams_frog-i18n: Rewrote internal links:", rewroteCount);
             }
         };
 
