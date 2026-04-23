@@ -27,7 +27,7 @@
     {# Register the service worker #}
     <script>
       if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register(window.gams_frog._root_path + "sw.js").then(
+        navigator.serviceWorker.register(window.gams_frog._root_path + "/static/sw.js").then(
           (registration) => {
             console.log("Service worker registration successful:", registration);
           },
