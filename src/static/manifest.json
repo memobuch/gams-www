@@ -1,9 +1,18 @@
 {
     "short_name": "memor",
     "name": "Memor GAMS project",
+    "description": "The MEMOR Project...",
     "start_url": ".",
     "display": "standalone",
     "theme_color": "#000000",
-    "background_color": "#ffffff"
+    "background_color": "#ffffff",
+    "icons": [
+      {
+        "src": "img/main_logo.jpg",
+        "sizes": "any",
+        "type": "jpg",
+        "purpose": "maskable"
+      }
+    ] 
   }
   
