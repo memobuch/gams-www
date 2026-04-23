@@ -1,7 +1,16 @@
 /* Service Worker */
 
 const VERSION = "v1";
+let ROOT_PATH = "/";
 const CACHE_NAME = `meomor-${VERSION}`;
+
+// Listen for root path from the main thread
+self.addEventListener("message", (event) => {
+  if (event.data.type === "SET_ROOT_PATH") {
+    ROOT_PATH = event.data.rootPath;
+    console.log("Service worker root path set to:", ROOT_PATH);
+  }
+});
 
 // all the files that need to be cached for offline functionality
 /*
@@ -23,7 +32,8 @@ const APP_STATIC_RESOURCES = [
 ];
 */
 
-const APP_STATIC_RESOURCES = []; 
+const APP_STATIC_RESOURCES = [
+]; 
 
 // Saving the cache on PWA installation
 self.addEventListener("install", (event) => {

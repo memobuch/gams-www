@@ -30,6 +30,19 @@
         navigator.serviceWorker.register(window.gams_frog._root_path + "/static/sw.js").then(
           (registration) => {
             console.log("Service worker registration successful:", registration);
+            
+            // Send the root path to the service worker
+            if (registration.active) {
+              registration.active.postMessage({
+                type: "SET_ROOT_PATH",
+                rootPath: window.gams_frog._root_path
+              });
+            } else if (registration.installing) {
+              registration.installing.postMessage({
+                type: "SET_ROOT_PATH",
+                rootPath: window.gams_frog._root_path
+              });
+            }
           },
           (error) => {
             console.error(`Service worker registration failed: ${error}`);
