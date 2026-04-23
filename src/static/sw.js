@@ -5,11 +5,19 @@ const CACHE_NAME = `meomor-${VERSION}`;
 
 // all the files that need to be cached for offline functionality
 const APP_STATIC_RESOURCES = [
-  "/",
-  "/",
-  "/style.css",
-  "/app.js",
-  "/icons/main_logo.jpg",
+  window.gams_frog._root_path + "/",
+  window.gams_frog._root_path + "/index.html",
+  window.gams_frog._root_path + "/about.html",
+  window.gams_frog._root_path + "/datamodel.html",
+  window.gams_frog._root_path + "/geobrowser.html",
+  window.gams_frog._root_path + "/imprint.html",
+  window.gams_frog._root_path + "/map.html",
+  window.gams_frog._root_path + "/search.html",
+  window.gams_frog._root_path + "/search-xsl.html",
+  window.gams_frog._root_path + "/objects/index.html", // Biographies
+  window.gams_frog._root_path + "/static/css/project.css",
+  window.gams_frog._root_path + "/static/img/main_logo.jpg", 
+  window.gams_frog._root_path + "/static/apps/" //maps, etc.
 ];
 
 
