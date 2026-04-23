@@ -39,5 +39,11 @@
     "biographies.subtitle": "Individuals recorded in the MEMOR project. Residents or citizens of Graz murdered by the Nazi regime.",
     "about.title": "About the project",
     "imprint.title": "Imprint",
-    "data_model.title": "Data model"
+    "data_model.title": "Data model",
+    "map.title": "Victims of Nazi persecution from Graz",
+    "map.description": "This map shows the last voluntary residential addresses of victims of National Socialism in Graz between 1938 and 1945. Each point represents the last self-chosen residence of a persecuted person before persecution, expulsion or deportation began.",
+    "object-list.forename": "Forename",
+    "object-list.surname": "Surname",
+    "object-list.description": "Description",
+    "object-list.category": "Victim category"
 }

@@ -62,5 +62,11 @@
     "biographies.subtitle": "Personen erfassst im MEMOR Projekt. Wohnhafte oder ansässige Personen in Graz ermordert durch das NS-Regime.",
     "about.title": "Über das Projekt",
     "imprint.title": "Impressum",
-    "data_model.title": "Datenmodell"    
+    "data_model.title": "Datenmodell", 
+    "map.title": "Opfer der NS-Verfolgung aus Graz",
+    "map.description": "Diese Karte zeigt die letzten freiwilligen Wohnadressen von Opfern des Nationalsozialismus in Graz zwischen 1938 und 1945. Jeder Punkt repräsentiert den letzten selbstgewählten Wohnort einer verfolgten Person, bevor Verfolgung, Vertreibung oder Deportation einsetzte.",
+    "object-list.forename": "Vorname",
+    "object-list.surname": "Nachname",
+    "object-list.description": "Beschreibung",
+    "object-list.category": "Opferkategorie"
 }
