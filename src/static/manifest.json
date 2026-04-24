@@ -1,7 +1,7 @@
 {
     "short_name": "memor",
-    "name": "Memor GAMS project",
-    "description": "The MEMOR Project...",
+    "name": "Das Digitale Gedenkbuch der Stadt Graz",
+    "description": "MEMOR ist ein digitales Denkmal, das sich der Dokumentation und Visualisierung der Grazer NS-Opfer widmet.",
     "start_url": ".",
     "display": "standalone",
     "theme_color": "#000000",
