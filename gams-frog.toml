@@ -32,7 +32,7 @@ IIIF_IMAGE_SERVER_ORIGIN = "https://it030021.uni-graz.at"
 
 [build]
 GAMS_API_ORIGIN = "https://gams-staging.uni-graz.at"
-GAMS_API_PROTECTED_ORIGIN = "http://it030021.uni-graz.at" # optional: gams-frog will use this endpoint instead for all api endpoints that are behind auth
+GAMS_API_PROTECTED_ORIGIN = "https://it030021.uni-graz.at" # optional: gams-frog will use this endpoint instead for all api endpoints that are behind auth
 IIIF_IMAGE_SERVER_ORIGIN = "https://gams-staging.uni-graz.at/services"
 
 [dev.load]
