@@ -69,5 +69,6 @@
     "object-list.forename": "Vorname",
     "object-list.surname": "Nachname",
     "object-list.description": "Beschreibung",
-    "object-list.category": "Opferkategorie"
+    "object-list.category": "Opferkategorie",
+    "data_protection.title": "Datenschutz"
 }
