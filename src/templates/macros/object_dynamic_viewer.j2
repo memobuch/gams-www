@@ -6,7 +6,7 @@ Displays a image viewer for all images of the current object (using IIIF).
     2. Uses Tipfy IIIF viewer to display the images.    
 #}
 {% macro object_dynamic_viewer() -%}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tify@0.34.4/dist/tify.css">
+<link rel="stylesheet" href="{{context._root_path}}/static/css/tify/tify.css">
 <div id="tify" style="height: 100vh"></div>
 <script src="{{context._root_path}}/static/js/iiif/iiifManifestv3Builder.js"></script>
 <script type="module">
