@@ -38,7 +38,40 @@
         </div>
     </div>
 
-    
+    <br/>
+
+     <!-- Element to contain animated typing -->
+    <div>In Erinnerung an: <h2 style="min-height: 1.1em;"><span id="element"></span></h2></div>
+
+    <!-- Load library from the CDN -->
+    <script src="https://unpkg.com/typed.js@3.0.0/dist/typed.umd.js"></script>
+
+    <!-- Setup and start animation! -->
+    <script>
+
+        (async () => {
+
+            let resp = await fetch("{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.env.PROJECT_ABBR}}/objects?format=json&tag=person");
+            let json = await resp.json();
+
+            let personNames = json.results.map(result => {
+
+                let name = result.baseMetadata.title.replace(" (person description)", "");
+                return name;
+            });
+
+            var typed = new Typed('#element', {
+                strings: personNames,
+                typeSpeed: 100,
+                backSpeed: 100,
+                shuffle: true,
+                loop: true
+            });
+
+        })();
+    </script>
+
+
 
     <div class="gallery-container">
         <div class="image-grid" id="randomImageGrid">
