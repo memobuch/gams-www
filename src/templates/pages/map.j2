@@ -1,12 +1,12 @@
 {% extends "parents/base.j2" %}
 {% block content %}
 
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    {# Leaflet version 1.9.4 #}
+    <link rel="stylesheet" href="{{context._root_path}}/static/css/leaflet/leaflet.css" />
     
-    <!-- Leaflet MarkerCluster CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+    <!-- Leaflet MarkerCluster CSS version 1.5.3 -->
+    <link rel="stylesheet" href="{{context._root_path}}/static/css/leaflet/marker_cluster/MarkerCluster.css" />
+    <link rel="stylesheet" href="{{context._root_path}}/static/css/leaflet/marker_cluster/MarkerCluster.Default.css" />
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{context._root_path}}/static/apps/map/map.css">
