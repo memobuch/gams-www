@@ -3,11 +3,11 @@ Macro to display dc.subject stats for the current project.
 Uses the GAMS search API to get facet counts for dc.subject.
 #}
 {% macro object_viewer() -%}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tify@0.34.4/dist/tify.css">
+<link rel="stylesheet" href="{{context._root_path}}/static/css/tify/tify.css">
 <div id="tify" style="height: 100vh"></div>
 
 <script type="module">
-    import Tify from 'https://cdn.jsdelivr.net/npm/tify@0.34.5/dist/tify.js'
+    import Tify from '{{context._root_path}}/static/js/tify/tify.js'
 
     (async () => {
 
