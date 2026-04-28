@@ -70,5 +70,8 @@
     "object-list.surname": "Nachname",
     "object-list.description": "Beschreibung",
     "object-list.category": "Opferkategorie",
-    "data_protection.title": "Datenschutz"
+    "data_protection.title": "Datenschutz",
+    "help.title": "Hilfe & Rückmeldungen",
+    "help.main": "Sollten Sie Hilfe zur Benutzung von MEMOR benötigen sowie inhaltliche Anliegen, Anregungen oder Fragen haben, so freuen wir uns, wenn Sie mit uns in Kontakt treten.",
+    "help.mail": "Bitte schreiben Sie an:"
 }
