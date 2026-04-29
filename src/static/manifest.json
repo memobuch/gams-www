@@ -2,22 +2,23 @@
     "short_name": "memor",
     "name": "Das Digitale Gedenkbuch der Stadt Graz",
     "description": "MEMOR ist ein digitales Denkmal, das sich der Dokumentation und Visualisierung der Grazer NS-Opfer widmet.",
-    "start_url": ".",
+    "start_url": "./",
+    "scope": "./",
     "display": "standalone",
     "theme_color": "#000000",
     "background_color": "#ffffff",
     "icons": [
     {
-      "src": "/web-app-manifest-192x192.png",
+      "src": "img/favicon/web-app-manifest-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any"
     },
     {
-      "src": "/web-app-manifest-512x512.png",
+      "src": "img/favicon/web-app-manifest-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any"
     }
   ]
   }
