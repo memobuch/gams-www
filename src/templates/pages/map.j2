@@ -1,25 +1,25 @@
 {% extends "parents/base.j2" %}
 {% block content %}
 
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    {# Leaflet version 1.9.4 #}
+    <link rel="stylesheet" href="{{context._root_path}}/static/css/leaflet/leaflet.css" />
     
-    <!-- Leaflet MarkerCluster CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+    <!-- Leaflet MarkerCluster CSS version 1.5.3 -->
+    <link rel="stylesheet" href="{{context._root_path}}/static/css/leaflet/marker_cluster/MarkerCluster.css" />
+    <link rel="stylesheet" href="{{context._root_path}}/static/css/leaflet/marker_cluster/MarkerCluster.Default.css" />
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{context._root_path}}/static/apps/map/map.css">
 
-    <h1 class="h3 fw-light" id="main-heading">Opfer der NS-Verfolgung aus Graz</h1>
-    <p>Diese Karte zeigt die letzten freiwilligen Wohnadressen von 691 Opfern des Nationalsozialismus in Graz zwischen 1938 und 1945. Jeder Punkt repräsentiert den letzten selbstgewählten Wohnort einer verfolgten Person, bevor Verfolgung, Vertreibung oder Deportation einsetzte.</p>
+    <h1 data-i18n="map.title" class="h3 fw-light" id="main-heading">Opfer der NS-Verfolgung aus Graz</h1>
+    <p data-i18n="map.description">Diese Karte zeigt die letzten freiwilligen Wohnadressen von Opfern des Nationalsozialismus in Graz zwischen 1938 und 1945. Jeder Punkt repräsentiert den letzten selbstgewählten Wohnort einer verfolgten Person, bevor Verfolgung, Vertreibung oder Deportation einsetzte.</p>
 
     <section>
 
         <div>
 
         <!-- Map Container -->
-        <div id="map" class="map-container"></div>
+        <div id="map" class="map-container" style="min-height: 90vh;"></div>
 
         <!-- Filter Controls -->
         <div class="controls-panel">
@@ -51,11 +51,11 @@
         </div>
     </div>
 
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Leaflet JS 1.9.4 -->
+    <script src="{{context._root_path}}/static/js/leaflet/leaflet.js"></script>
     
     <!-- Leaflet MarkerCluster JS -->
-    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+    <script src="{{context._root_path}}/static/js/leaflet/marker_cluster/leaflet.markercluster.js"></script>
     
     <!-- Custom JS -->
     <script src="{{context._root_path}}/static/apps/map/map.js"></script>
@@ -71,5 +71,19 @@
     </script>
 
     </section>
+
+    <style>
+
+        /**
+        * Displays legend container only above 1400px width
+        */
+        @media only screen and (max-width: 1400px) {
+            
+            .leaflet-bottom.leaflet-right {
+                display: none;
+            }
+
+        }
+    </style>
 
 {% endblock %}
