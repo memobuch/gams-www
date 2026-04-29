@@ -50,5 +50,6 @@
     "data_protection.title": "Data protection",
     "help.title": "Help",
     "help.main": "If you need help using MEMOR or have any comments, suggestions, or questions regarding its content, please feel free to contact us.",
-    "help.mail": "Please write to:"
+    "help.mail": "Please write to:",
+    "home.typed.tooltip": "A random selection of all individuals recorded by MEMOR is displayed here"
 }

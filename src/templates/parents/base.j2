@@ -15,6 +15,10 @@
     <link rel="manifest" href="{{context._root_path}}/static/manifest.json"/>
     <link href="{{context._root_path}}/static/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="{{context._root_path}}/static/css/project.css" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css" />
+
+
     {#
      Saxon JS is a XSLT 3.0 processor that can be used in the browser.
     #}
@@ -80,7 +84,17 @@
 
 
     <script>
-      window.gams_frog.i18n.translate();
+
+      (async () => {
+
+        // i18n (follow up code must wait for the translations)
+        await window.gams_frog.i18n.translate();
+
+        // bootstrap tooltips needs the translations available
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+      })();
     </script>
 
 
