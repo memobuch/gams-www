@@ -6,11 +6,11 @@ Displays a image viewer for all images of the current object (using IIIF).
     2. Uses Tipfy IIIF viewer to display the images.    
 #}
 {% macro object_dynamic_viewer() -%}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tify@0.34.4/dist/tify.css">
+<link rel="stylesheet" href="{{context._root_path}}/static/css/tify/tify.css">
 <div id="tify" style="height: 100vh"></div>
 <script src="{{context._root_path}}/static/js/iiif/iiifManifestv3Builder.js"></script>
 <script type="module">
-    import Tify from 'https://cdn.jsdelivr.net/npm/tify@0.34.5/dist/tify.js'
+    import Tify from '{{context._root_path}}/static/js/tify/tify.js'
 
     (async () => {
         let manifestBuilder = IIIFManifestBuilder(
@@ -36,9 +36,9 @@ Displays a image viewer for all images of the current object (using IIIF).
 
         // example for tiffy event handling
         tify.ready.then((arg) => {
-            console.log(arg);
+            //console.log(arg);
             tify.viewer.addHandler('open', event => {
-                console.log('Tify ready!', event);
+                //console.log('Tify ready!', event);
             });
         })
 

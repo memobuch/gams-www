@@ -5,7 +5,7 @@
     {# <h1>{{ context.project.projectTitle }}</h1> #}
     <h1>{{ context.project.projectAbbr | upper }}</h1>
     {# <h2 class="h3 fw-light">{{ context.project.projectSubTitle }}</h2> #}
-    <h2 class="h3 fw-light">Digitales Memorbuch der Stadt Graz</h2>
+    <h2 data-i18n="memo_title" class="h3 fw-light">Digitales Gedenkbuch der Stadt Graz</h2>
     <hr/>
     {# <pre>{{ context | tojson(indent=2) }}</pre> #}
     <div class="row">
@@ -19,8 +19,8 @@
         <div class="col-md-4">
             <div class="p-2">
                 <h2 class="h4">Über die Opfer</h2>
-                <p>Aktuell werden xx NS-Opfer, die zum Zeitpunkt der NS-Machtübernahme im Jahr 1938 im Grazer Stadtgebiet ihren Lebensmittelpunkt hatten, in MEMOR dokumentiert und vorgestellt. Sie werden entsprechend den Gründen ihrer Verfolgung vorgestellt.</p>
-                <p>Ziel ist es, alle Grazer NS-Opfer in Erinnerung zu halten und ihnen ihre Geschichte zurückzugeben aber auch ihnen ein „Gesicht“ zu geben. Um das zu erreichen, sind wir auf ihre Mitarbeit angewiesen. Sollten Sie weiterführende Informationen zu den hier verzeichneten Opfern wie auch uns bislang nicht bekannten Opfern haben, so bitten wir Sie um Kontaktaufnahme mit unserem Team.</p>
+                <p>Aktuell werden recherchierte NS-Opfer, die zum Zeitpunkt der NS-Machtübernahme im Jahr 1938 im Grazer Stadtgebiet ihren Lebensmittelpunkt hatten, in MEMOR dokumentiert und vorgestellt. Sie werden entsprechend den Gründen ihrer Verfolgung vorgestellt.</p>
+                <p>Ziel ist es, alle Grazer NS-Opfer in Erinnerung zu halten und ihnen ihre Geschichte zurückzugeben aber auch ihnen ein „Gesicht“ zu geben. Um das zu erreichen, sind wir auf Ihre Mitarbeit angewiesen. Sollten Sie weiterführende Informationen zu den hier verzeichneten Opfern wie auch uns bislang nicht bekannten Opfern haben, so bitten wir Sie um Kontaktaufnahme mit unserem Team.</p>
                 <p>Rückmeldungen: memor.graz@uni-graz.at</p>
             </div>
         </div>
@@ -37,18 +37,50 @@
             </div>
         </div>
     </div>
-    
-    
-    <p>{{ context.project.projectDesc }}</p>
+
+    <br/>
+
+     <!-- Element to contain animated typing -->
+    <div>In Erinnerung an: <i style="font-size: 1.25em;" class="iconoir-chat-bubble-question" data-i18n="[data-bs-title]home.typed.tooltip" data-bs-toggle="tooltip" data-bs-title="Default tooltip"></i><h2 style="min-height: 1.1em;"><span id="element"></span></h2></div>
+
+    <!-- Load library typed.js 3.0.0. -->
+    <script src="{{context._root_path}}/static/js/typed/typed.umd.js"></script>
+
+    <!-- Setup and start animation! -->
+    <script>
+
+        (async () => {
+
+            let resp = await fetch("{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.env.PROJECT_ABBR}}/objects?format=json&tag=person");
+            let json = await resp.json();
+
+            let personNames = json.results.map(result => {
+
+                let name = result.baseMetadata.title.replace(" (person description)", "");
+                return name;
+            });
+
+            var typed = new Typed('#element', {
+                strings: personNames,
+                typeSpeed: 100,
+                backSpeed: 100,
+                shuffle: true,
+                loop: true
+            });
+
+        })();
+    </script>
+
+
 
     <div class="gallery-container">
         <div class="image-grid" id="randomImageGrid">
-            {% set image_pool = range(1, 801) %}
+            {% set image_pool = [10,15,16,17,19,21,22,29,30,36,40,47,48,49,50,54,63,64,65,81,82,83,84,92,99,111,114,330,369,812,1253,1252,1246,1245,1236,1235,1230,1220,1219,1218,1213,1212,1208,1206,1205,1203,1199,1187,1183,1182,1178,1162,1118,1117,1113,1112,1109,1107] %}
             
             {% for person_id in image_pool %}
             <a href="{{context._root_path}}/objects/memor.person.{{ person_id }}/" class="image-card random-image-item" style="display: none;">
                 <!-- Use loading="lazy" to prevent downloading all images on initial load -->
-                <img loading="lazy" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memor%2fmemor.person.{{ person_id }}%2f1.jpg/full/,300/0/default.jpg" alt="Person {{ person_id }}">
+                <img loading="lazy" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/3/memor%2fmemor.person.{{ person_id }}%2f1.jpg/full/max/0/default.jpg" alt="Person {{ person_id }}">
                 <div class="image-overlay">
                     <div class="overlay-content">
                         <div data-i18n="img.detail.link;[title]img.detail.title;" class="view-icon">View person</div>
@@ -70,7 +102,7 @@
             }
             
             // Select how many random images to show
-            const numToShow = 14; 
+            const numToShow = 18; 
             
             // Show the randomly selected images
             for (let i = 0; i < numToShow && i < allImages.length; i++) {

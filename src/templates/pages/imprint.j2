@@ -1,6 +1,6 @@
 {% extends "parents/base.j2" %}
 {% block content %}
-    <h1 class="h3 fw-light">Impressum</h2>
+    <h1 data-i18n="imprint.title" class="h3 fw-light">Impressum</h2>
 
     <div class="mt-4">
         <h4 class="fw-light">Verantwortlich für den Inhalt</h4>
@@ -11,13 +11,14 @@
 
     <div class="mt-4">
         <h4>Umsetzung und Publikation</h4>
-        <p><a target="_blank" href="https://schiller-stoff.github.io/">Sebastian David Schiller-Stoff</a></p>
         <p><a href="https://digital-humanities.uni-graz.at/de/">Institut für Digitale Geisteswissenschaften</a></p>
+        <p><a target="_blank" href="https://schiller-stoff.github.io/">Sebastian David Schiller-Stoff</a></p>
     </div>
 
     <div class="mt-4">
         <h4 class="fw-light">Technische Infrastruktur</h4>
-        <p>GAMS</p>
+        <p><a target="_blank" href="{{context.env.GAMS3_PRODUCTION_ORIGIN}}">GAMS</a></p>
+        <a href="https://pypi.org/project/gams-frog/" target="_blank"><img width="300" loading="lazy" src="{{context._root_path}}/static/img/gams-frog-white.jpg"/></a>
     </div>
 
     <div class="mt-4">

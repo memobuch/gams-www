@@ -34,9 +34,6 @@
             let resp = await fetch(requestUrl.toString());
             let body = await resp.json();
 
-
-            resultCountElement.innerText = body.result.pagination.totalElements;
-
             body.availableFacets["dc.subject"].forEach(facetItem => {
                 let htmlLi = `
                     <li class="list-group-item d-flex justify-content-between align-items-center">
