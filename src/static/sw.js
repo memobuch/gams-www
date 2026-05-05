@@ -8,7 +8,7 @@ const CACHE_NAME = `meomor-${VERSION}`;
 self.addEventListener("message", (event) => {
   if (event.data.type === "SET_ROOT_PATH") {
     ROOT_PATH = event.data.rootPath;
-    console.log("Service worker root path set to:", ROOT_PATH);
+    //console.log("Service worker root path set to:", ROOT_PATH);
   }
 });
 
