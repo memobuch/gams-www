@@ -3,25 +3,22 @@
 {% extends "parents/base.j2" %}
 {% block content %}
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.css" />
-    <script
-        src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
-        integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
+    <link rel="stylesheet" href="{{context._root_path}}/static/css/datatables/dataTables.dataTables_2_3_2.css" />
+    <script src="{{context._root_path}}/static/js/jquery/jquery-3.7.1.slim.min.js"></script>
+    <script src="{{context._root_path}}/static/js/datatables/dataTables.js"></script>
 
-    <h1 class="h3 fw-light">Biographien der Grazer NS-Opfer</h1>
-    <p>Personen erfassst im {{context.project.projectAbbr | upper}} Projekt. Wohnhafte oder ansässige Personen in Graz ermordert durch das NS-Regime.</p>
+    <h1 data-i18n="biographies.title" class="h3 fw-light">Biographien der Grazer NS-Opfer</h1>
+    <p data-i18n="biographies.subtitle">Personen erfassst im {{context.project.projectAbbr | upper}} Projekt. Wohnhafte oder ansässige Personen in Graz ermordert durch das NS-Regime.</p>
 
     {# <pre>{{ context | tojson(indent=2) }}</pre> #}
     <table id="example" class="display">
         <thead>
             <tr>
                 {# <th>#</th> #}
-                <th>Vorname</th>
-                <th>Nachname</th>
-                <th>Beschreibung</th>
-                <th>Opferkategorie</th>
+                <th data-i18n="object-list.forename">Vorname</th>
+                <th data-i18n="object-list.surname">Nachname</th>
+                <th data-i18n="object-list.description" class="d-none d-sm-block">Beschreibung</th>
+                <th data-i18n="object-list.category">Opferkategorie</th>
             </tr>
         </thead>
         <tbody>
@@ -38,10 +35,11 @@
                         <td>
                             <a href="{{context._root_path}}/objects/{{object.id}}/">{{ object.baseMetadata.title.split(' ', 1)[-1] | replace("(person description)", "") }}</a>    
                         </td>
-                        <td><small>{{ object.baseMetadata.description }}</small></td>
+                        <td class="d-none d-sm-block"><small>{{ object.baseMetadata.description }}</small></td>
                         <td>
                             {% for tag in object.tags | reject('in', get_excluded_object_tags()) %}
-                                <li><a data-i18n="{{tag}}" target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects?tags={{tag}}">{{ tag }}</a></li>
+                                {# <li><a data-i18n="{{tag}}" target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects?tags={{tag}}">{{ tag }}</a></li> #}
+                                <li><a data-i18n="{{tag}}" target="_blank">{{ tag }}</a></li>
                             {% endfor %}
                         </td>
                     </tr>
