@@ -68,12 +68,12 @@
 
   <body>
     <header class="bg-light">
-      <div class="row">
-        <div class="col-xl-1">
+      <div class="row py-2 px-3">
+        <div class="col-12 col-xl-1">
           <a href="{{context._root_path}}"><img width="120" src="{{context._root_path}}/static/img/main_logo.jpg" alt="MEMOR Digitales Gedenkbuch – Logo"()></a>
         </div>
-        <div class="col-xl-8">
-          <div class="mt-4">
+        <div class="col-12 col-xl-8">
+          <div class="mt-3 mt-xl-4 ps-0 ps-xl-4">
             <h1 data-i18n="header.title" class="h1">Das Digitale Gedenkbuch der Stadt Graz</h1>
             <small data-i18n="header.description">MEMOR ist ein digitales Denkmal, das sich der Dokumentation und Visualisierung der Grazer NS-Opfer widmet.</small>
           </div>
@@ -81,7 +81,7 @@
       </div>
     </header>
     {% include "includes/nav.j2" %}
-    <main class="container-fluid" id="main-container" style="min-height: 50vh;">
+    <main class="container-fluid px-3" id="main-container" style="min-height: 50vh;">
     {% block content %}
         {% endblock %}
     </main>
