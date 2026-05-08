@@ -1,0 +1,47 @@
+{% extends "parents/base.j2" %}
+{% block content %}
+
+<h1 data-i18n="TODO" class="h3 fw-light">MEMOR Ontology</h1>
+<p>Lorem ipsum....</p>
+
+<div>
+    <iframe 
+        style="min-width: 100%; min-height: 80vh;" 
+        src="https://service.tib.eu/webvowl/#iri={{context.env.DANGEROUS_GAMS5_PRODUCTION_ORIGIN}}/api/curation/v1/projects/memor/objects/memor.ontology/datastreams/ONTOLOGY.ttl/content"></iframe>
+</div>
+
+<div id="turtle"></div>
+
+<script>
+
+    (async () => {
+
+        let turtleContainer = document.querySelector("#turtle");
+
+        //
+        let turtleUrl = "{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/memor/objects/memor.ontology/datastreams/ONTOLOGY.ttl/content";
+
+        let response = await fetch(turtleUrl);
+        let turtle = await response.text();
+
+        console.log(turtle);
+
+        // TODO render turtle to html page
+
+        // 01 parse turtle (maybe library)
+        turtle = turtle.replace("<", " ");
+        turtle = turtle.replace(">", " ");
+        let turtleEntries = turtle.split("\n")
+
+        // 02 write parsed to html
+        //turtleContainer.textContent = turtle;
+
+        turtleEntries.forEach(entry => {
+            turtleContainer.innerHTML += `<pre>${entry}</pre>` 
+        });
+
+    })();
+
+</script>
+
+{% endblock %}
