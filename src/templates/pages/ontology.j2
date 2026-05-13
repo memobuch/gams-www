@@ -12,53 +12,208 @@
 
 <div id="turtle"></div>
 
-<div>
-<h2>TestTest</h2>
-<div class="table-responsive">
-    <table class="table table-bordered">
-        <tbody>
-            <td>Test</td>
-            <td>Test2</td>
-        </tbody>
-    </table>
+<div id="ontology-content">
+    <div class="alert alert-info">Loading ontology table...</div>
 </div>
-</div>
-
-
-<div> 
-<p>TEXT</p>
-</div> 
 
 <script>
+(async () => {
 
-    (async () => {
+    const container = document.querySelector("#ontology-content");
 
-        let turtleContainer = document.querySelector("#turtle");
+    const turtleUrl =
+        "{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/memor/objects/memor.ontology/datastreams/ONTOLOGY.ttl/content";
 
-        //
-        let turtleUrl = "{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/memor/objects/memor.ontology/datastreams/ONTOLOGY.ttl/content";
+    try {
 
-        let response = await fetch(turtleUrl);
-        let turtle = await response.text();
+        const response = await fetch(turtleUrl);
 
-        console.log(turtle);
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
 
-        // TODO render turtle to html page
+        const turtle = await response.text();
 
-        // 01 parse turtle (maybe library)
-        turtle = turtle.replace("<", " ");
-        turtle = turtle.replace(">", " ");
-        let turtleEntries = turtle.split("\n")
+        const classes = [];
+        const objectProperties = [];
+        const datatypeProperties = [];
 
-        // 02 write parsed to html
-        //turtleContainer.textContent = turtle;
+        /*
+            Split TTL into statements.
+            This assumes each ontology entity ends with ".".
+        */
+        const statements = turtle
+            .split(/\n(?=memor:)/)
+            .map(s => s.trim())
+            .filter(s => s.startsWith("memor:"));
 
-        turtleEntries.forEach(entry => {
-            turtleContainer.innerHTML += `<pre>${entry}</pre>` 
+        statements.forEach(statement => {
+
+            const nameMatch = statement.match(/^(memor:[^\s]+)/);
+
+            if (!nameMatch) return;
+
+            const entry = {
+                name: nameMatch[1],
+                label: extractLabels(statement),
+                comment: extractSingle(statement, "rdfs:comment"),
+                subclassOf: extractMultiple(statement, "rdfs:subClassOf"),
+                subpropertyOf: extractMultiple(statement, "rdfs:subPropertyOf"),
+                domain: extractSingle(statement, "rdfs:domain"),
+                range: extractSingle(statement, "rdfs:range")
+            };
+
+            if (statement.includes("owl:Class")) {
+                classes.push(entry);
+            }
+
+            if (statement.includes("owl:ObjectProperty")) {
+                objectProperties.push(entry);
+            }
+
+            if (statement.includes("owl:DatatypeProperty")) {
+                datatypeProperties.push(entry);
+            }
+
         });
 
-    })();
+        container.innerHTML = `
+            ${renderTable("Classes", classes, "class")}
+            ${renderTable("Object Properties", objectProperties, "property")}
+            ${renderTable("Datatype Properties", datatypeProperties, "property")}
+        `;
 
+    } catch (error) {
+
+        console.error(error);
+
+        container.innerHTML = `
+            <div class="alert alert-danger">
+                Failed to load ontology table.<br>
+                <code>${escapeHtml(error.message)}</code>
+            </div>
+        `;
+    }
+
+    function extractSingle(statement, predicate) {
+
+        const regex = new RegExp(
+            predicate.replace(":", "\\:") + "\\s+([^;\\.]+)",
+            "m"
+        );
+
+        const match = statement.match(regex);
+
+        return match ? cleanValue(match[1]) : "";
+    }
+
+    function extractMultiple(statement, predicate) {
+
+        const regex = new RegExp(
+            predicate.replace(":", "\\:") + "\\s+([^;\\.]+)",
+            "gm"
+        );
+
+        const values = [];
+        let match;
+
+        while ((match = regex.exec(statement)) !== null) {
+            values.push(cleanValue(match[1]));
+        }
+
+        return values;
+    }
+
+    function extractLabels(statement) {
+
+        const labelMatch = statement.match(/rdfs:label\s+([\s\S]*?)(?:;|\.)/m);
+
+        if (!labelMatch) return "";
+
+        return labelMatch[1]
+            .split(",")
+            .map(label => cleanValue(label))
+            .join("<br>");
+    }
+
+    function cleanValue(value) {
+
+        return value
+            .trim()
+            .replaceAll('"', "")
+            .replaceAll(";", "")
+            .replaceAll(".", "")
+            .trim();
+    }
+
+    function escapeHtml(value) {
+
+        return String(value || "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+
+    function renderTable(title, entries, type) {
+
+        if (!entries.length) {
+            return `
+                <div class="mb-4">
+                    <h2 class="h4">${escapeHtml(title)}</h2>
+                    <div class="alert alert-warning">No entries found.</div>
+                </div>
+            `;
+        }
+
+        return `
+            <div class="mb-5">
+                <h2 class="h4">${escapeHtml(title)}</h2>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Name</th>
+                                <th>Label</th>
+                                <th>Comment</th>
+                                ${type === "class" ? "<th>Subclass Of</th>" : "<th>Subproperty Of</th>"}
+                                ${type !== "class" ? "<th>Domain</th><th>Range</th>" : ""}
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            ${entries.map(entry => `
+                                <tr>
+                                    <td><code>${escapeHtml(entry.name)}</code></td>
+                                    <td>${entry.label}</td>
+                                    <td>${escapeHtml(entry.comment)}</td>
+
+                                    <td>
+                                        ${type === "class"
+                                            ? entry.subclassOf.map(escapeHtml).join("<br>")
+                                            : entry.subpropertyOf.map(escapeHtml).join("<br>")
+                                        }
+                                    </td>
+
+                                    ${type !== "class"
+                                        ? `
+                                            <td>${escapeHtml(entry.domain)}</td>
+                                            <td>${escapeHtml(entry.range)}</td>
+                                        `
+                                        : ""
+                                    }
+                                </tr>
+                            `).join("")}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+    }
+
+})();
 </script>
 
 {% endblock %}
