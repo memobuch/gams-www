@@ -1,20 +1,72 @@
 {% extends "parents/base.j2" %}
 {% block content %}
 
-<div class="container py-4">
+<style>
+    .ontology-iframe {
+        width: 100%;
+        height: 80vh;
+        border: 1px solid #ccc;
+    }
+
+    .ontology-code {
+        white-space: normal;
+        word-break: break-word;
+    }
+
+    @media (max-width: 767.98px) {
+        .ontology-iframe {
+            height: 55vh;
+        }
+
+        .ontology-table thead {
+            display: none;
+        }
+
+        .ontology-table,
+        .ontology-table tbody,
+        .ontology-table tr,
+        .ontology-table td {
+            display: block;
+            width: 100%;
+        }
+
+        .ontology-table tr {
+            margin-bottom: 1rem;
+            border: 1px solid #dee2e6;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            background: #fff;
+        }
+
+        .ontology-table td {
+            border: 0;
+            padding: 0.4rem 0;
+        }
+
+        .ontology-table td::before {
+            content: attr(data-label);
+            display: block;
+            font-weight: 600;
+            color: #6c757d;
+            margin-bottom: 0.15rem;
+        }
+    }
+</style>
+
+<div class="container py-3 py-md-4">
 
     <h1 data-i18n="TODO" class="h3 fw-light">
-        MEMOR Ontology
+        MEMOR Ontologie
     </h1>
 
-    <p class="text-muted">
-        Interactive documentation of the MEMOR ontology.
+    <p class="text-muted" data-i18n="TODO">
+        Interaktive Dokumentation der MEMOR Ontologie.
     </p>
 
-    <div class="mb-5">
+    <div class="mb-4 mb-md-5">
         <iframe
-            title="MEMOR Ontology Visualization"
-            style="min-width: 100%; min-height: 80vh; border: 1px solid #ccc;"
+            title="MEMOR Ontologie Visualisierung"
+            class="ontology-iframe"
             src="https://service.tib.eu/webvowl/#iri={{context.env.DANGEROUS_GAMS5_PRODUCTION_ORIGIN}}/api/curation/v1/projects/memor/objects/memor.ontology/datastreams/ONTOLOGY.ttl/content">
         </iframe>
     </div>
@@ -28,7 +80,6 @@
 </div>
 
 <script>
-
 (async () => {
 
     const container = document.querySelector("#ontology-content");
@@ -73,13 +124,9 @@
 
             if (statement.includes("owl:Class")) {
                 classes.push(entry);
-            }
-
-            else if (statement.includes("owl:ObjectProperty")) {
+            } else if (statement.includes("owl:ObjectProperty")) {
                 objectProperties.push(entry);
-            }
-
-            else if (statement.includes("owl:DatatypeProperty")) {
+            } else if (statement.includes("owl:DatatypeProperty")) {
                 datatypeProperties.push(entry);
             }
 
@@ -112,9 +159,7 @@
 
         const match = statement.match(regex);
 
-        return match
-            ? cleanValue(match[1])
-            : "";
+        return match ? cleanValue(match[1]) : "";
     }
 
     function extractMultiple(statement, predicate) {
@@ -141,13 +186,10 @@
         let match;
 
         while ((match = regex.exec(statement)) !== null) {
-
             labels.push(`
                 <div class="mb-1">
                     ${escapeHtml(match[1])}
-                    <span class="badge bg-secondary ms-1">
-                        ${escapeHtml(match[2])}
-                    </span>
+                    <span class="badge bg-secondary ms-1">${escapeHtml(match[2])}</span>
                 </div>
             `);
         }
@@ -168,9 +210,7 @@
 
         return `
             ${escapeHtml(match[1])}
-            <span class="badge bg-secondary ms-1">
-                ${escapeHtml(match[2])}
-            </span>
+            <span class="badge bg-secondary ms-1">${escapeHtml(match[2])}</span>
         `;
     }
 
@@ -194,105 +234,73 @@
             .replaceAll("'", "&#039;");
     }
 
+    function codeValue(value) {
+        if (!value) return "";
+        return `<code class="ontology-code">${escapeHtml(value)}</code>`;
+    }
+
+    function codeList(values) {
+        return values
+            .map(v => `<div>${codeValue(v)}</div>`)
+            .join("");
+    }
+
     function renderTable(title, entries, type) {
 
         if (!entries.length) {
-
             return `
                 <div class="mb-4">
-                    <h2 class="h4">
-                        ${escapeHtml(title)}
-                    </h2>
-
-                    <div class="alert alert-warning">
-                        No entries found.
-                    </div>
+                    <h2 class="h4">${escapeHtml(title)}</h2>
+                    <div class="alert alert-warning">No entries found.</div>
                 </div>
             `;
         }
 
-        return `
-            <div class="mb-5">
+        const relationLabel =
+            type === "class" ? "Subclass Of" : "Subproperty Of";
 
-                <h2 class="h4">
-                    ${escapeHtml(title)}
-                </h2>
+        return `
+            <section class="mb-5">
+                <h2 class="h4 mb-3">${escapeHtml(title)}</h2>
 
                 <div class="table-responsive">
-
-                    <table class="table table-bordered table-striped align-middle">
-
+                    <table class="table table-bordered table-striped align-middle ontology-table">
                         <thead class="table-light">
                             <tr>
                                 <th>Name</th>
                                 <th>Label</th>
                                 <th>Comment</th>
-                                <th>
-                                    ${type === "class"
-                                        ? "Subclass Of"
-                                        : "Subproperty Of"
-                                    }
-                                </th>
-
-                                ${type !== "class"
-                                    ? `
-                                        <th>Domain</th>
-                                        <th>Range</th>
-                                    `
-                                    : ""
-                                }
+                                <th>${relationLabel}</th>
+                                ${type !== "class" ? "<th>Domain</th><th>Range</th>" : ""}
                             </tr>
                         </thead>
 
                         <tbody>
                             ${entries.map(entry => `
                                 <tr>
-                                    <td>
-                                        <code>${escapeHtml(entry.name)}</code>
-                                    </td>
-
-                                    <td>
-                                        ${entry.label}
-                                    </td>
-
-                                    <td>
-                                        ${entry.comment}
-                                    </td>
-
-                                    <td>
-                                        ${(type === "class"
-                                            ? entry.subclassOf
-                                            : entry.subpropertyOf
-                                        )
-                                        .map(v => `
-                                            <div>
-                                                <code>${escapeHtml(v)}</code>
-                                            </div>
-                                        `)
-                                        .join("")}
+                                    <td data-label="Name">${codeValue(entry.name)}</td>
+                                    <td data-label="Label">${entry.label}</td>
+                                    <td data-label="Comment">${entry.comment}</td>
+                                    <td data-label="${relationLabel}">
+                                        ${type === "class"
+                                            ? codeList(entry.subclassOf)
+                                            : codeList(entry.subpropertyOf)
+                                        }
                                     </td>
 
                                     ${type !== "class"
                                         ? `
-                                            <td>
-                                                <code>${escapeHtml(entry.domain)}</code>
-                                            </td>
-
-                                            <td>
-                                                <code>${escapeHtml(entry.range)}</code>
-                                            </td>
+                                            <td data-label="Domain">${codeValue(entry.domain)}</td>
+                                            <td data-label="Range">${codeValue(entry.range)}</td>
                                         `
                                         : ""
                                     }
                                 </tr>
                             `).join("")}
                         </tbody>
-
                     </table>
-
                 </div>
-
-            </div>
+            </section>
         `;
     }
 
