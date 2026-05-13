@@ -1,22 +1,33 @@
 {% extends "parents/base.j2" %}
 {% block content %}
 
-<h1 data-i18n="TODO" class="h3 fw-light">MEMOR Ontology</h1>
-<p>Lorem ipsum....</p>
+<div class="container py-4">
 
-<div>
-    <iframe 
-        style="min-width: 100%; min-height: 80vh;" 
-        src="https://service.tib.eu/webvowl/#iri={{context.env.DANGEROUS_GAMS5_PRODUCTION_ORIGIN}}/api/curation/v1/projects/memor/objects/memor.ontology/datastreams/ONTOLOGY.ttl/content"></iframe>
-</div>
+    <h1 data-i18n="TODO" class="h3 fw-light">
+        MEMOR Ontology
+    </h1>
 
-<div id="turtle"></div>
+    <p class="text-muted">
+        Interactive documentation of the MEMOR ontology.
+    </p>
 
-<div id="ontology-content">
-    <div class="alert alert-info">Loading ontology table...</div>
+    <div class="mb-5">
+        <iframe
+            style="min-width: 100%; min-height: 80vh; border: 1px solid #ccc;"
+            src="https://service.tib.eu/webvowl/#iri={{context.env.DANGEROUS_GAMS5_PRODUCTION_ORIGIN}}/api/curation/v1/projects/memor/objects/memor.ontology/datastreams/ONTOLOGY.ttl/content">
+        </iframe>
+    </div>
+
+    <div id="ontology-content">
+        <div class="alert alert-info">
+            Loading ontology table...
+        </div>
+    </div>
+
 </div>
 
 <script>
+
 (async () => {
 
     const container = document.querySelector("#ontology-content");
@@ -38,10 +49,6 @@
         const objectProperties = [];
         const datatypeProperties = [];
 
-        /*
-            Split TTL into statements.
-            This assumes each ontology entity ends with ".".
-        */
         const statements = turtle
             .split(/\n(?=memor:)/)
             .map(s => s.trim())
@@ -56,7 +63,7 @@
             const entry = {
                 name: nameMatch[1],
                 label: extractLabels(statement),
-                comment: extractSingle(statement, "rdfs:comment"),
+                comment: extractLiteralWithLang(statement, "rdfs:comment"),
                 subclassOf: extractMultiple(statement, "rdfs:subClassOf"),
                 subpropertyOf: extractMultiple(statement, "rdfs:subPropertyOf"),
                 domain: extractSingle(statement, "rdfs:domain"),
@@ -67,11 +74,11 @@
                 classes.push(entry);
             }
 
-            if (statement.includes("owl:ObjectProperty")) {
+            else if (statement.includes("owl:ObjectProperty")) {
                 objectProperties.push(entry);
             }
 
-            if (statement.includes("owl:DatatypeProperty")) {
+            else if (statement.includes("owl:DatatypeProperty")) {
                 datatypeProperties.push(entry);
             }
 
@@ -83,7 +90,7 @@
             ${renderTable("Datatype Properties", datatypeProperties, "property")}
         `;
 
-    } catch (error) {
+    } catch(error) {
 
         console.error(error);
 
@@ -104,7 +111,9 @@
 
         const match = statement.match(regex);
 
-        return match ? cleanValue(match[1]) : "";
+        return match
+            ? cleanValue(match[1])
+            : "";
     }
 
     function extractMultiple(statement, predicate) {
@@ -126,14 +135,42 @@
 
     function extractLabels(statement) {
 
-        const labelMatch = statement.match(/rdfs:label\s+([\s\S]*?)(?:;|\.)/m);
+        const labels = [];
+        const regex = /"([^"]+)"@([a-zA-Z-]+)/g;
+        let match;
 
-        if (!labelMatch) return "";
+        while ((match = regex.exec(statement)) !== null) {
 
-        return labelMatch[1]
-            .split(",")
-            .map(label => cleanValue(label))
-            .join("<br>");
+            labels.push(`
+                <div class="mb-1">
+                    ${escapeHtml(match[1])}
+                    <span class="badge bg-secondary ms-1">
+                        ${escapeHtml(match[2])}
+                    </span>
+                </div>
+            `);
+        }
+
+        return labels.join("");
+    }
+
+    function extractLiteralWithLang(statement, predicate) {
+
+        const regex = new RegExp(
+            predicate.replace(":", "\\:") + '\\s+"([^"]+)"@([a-zA-Z-]+)',
+            "m"
+        );
+
+        const match = statement.match(regex);
+
+        if (!match) return "";
+
+        return `
+            ${escapeHtml(match[1])}
+            <span class="badge bg-secondary ms-1">
+                ${escapeHtml(match[2])}
+            </span>
+        `;
     }
 
     function cleanValue(value) {
@@ -159,56 +196,101 @@
     function renderTable(title, entries, type) {
 
         if (!entries.length) {
+
             return `
                 <div class="mb-4">
-                    <h2 class="h4">${escapeHtml(title)}</h2>
-                    <div class="alert alert-warning">No entries found.</div>
+                    <h2 class="h4">
+                        ${escapeHtml(title)}
+                    </h2>
+
+                    <div class="alert alert-warning">
+                        No entries found.
+                    </div>
                 </div>
             `;
         }
 
         return `
             <div class="mb-5">
-                <h2 class="h4">${escapeHtml(title)}</h2>
+
+                <h2 class="h4">
+                    ${escapeHtml(title)}
+                </h2>
 
                 <div class="table-responsive">
+
                     <table class="table table-bordered table-striped align-middle">
+
                         <thead class="table-light">
                             <tr>
                                 <th>Name</th>
                                 <th>Label</th>
                                 <th>Comment</th>
-                                ${type === "class" ? "<th>Subclass Of</th>" : "<th>Subproperty Of</th>"}
-                                ${type !== "class" ? "<th>Domain</th><th>Range</th>" : ""}
+                                <th>
+                                    ${type === "class"
+                                        ? "Subclass Of"
+                                        : "Subproperty Of"
+                                    }
+                                </th>
+
+                                ${type !== "class"
+                                    ? `
+                                        <th>Domain</th>
+                                        <th>Range</th>
+                                    `
+                                    : ""
+                                }
                             </tr>
                         </thead>
 
                         <tbody>
                             ${entries.map(entry => `
                                 <tr>
-                                    <td><code>${escapeHtml(entry.name)}</code></td>
-                                    <td>${entry.label}</td>
-                                    <td>${escapeHtml(entry.comment)}</td>
+                                    <td>
+                                        <code>${escapeHtml(entry.name)}</code>
+                                    </td>
 
                                     <td>
-                                        ${type === "class"
-                                            ? entry.subclassOf.map(escapeHtml).join("<br>")
-                                            : entry.subpropertyOf.map(escapeHtml).join("<br>")
-                                        }
+                                        ${entry.label}
+                                    </td>
+
+                                    <td>
+                                        ${entry.comment}
+                                    </td>
+
+                                    <td>
+                                        ${(type === "class"
+                                            ? entry.subclassOf
+                                            : entry.subpropertyOf
+                                        )
+                                        .map(v => `
+                                            <div>
+                                                <code>${escapeHtml(v)}</code>
+                                            </div>
+                                        `)
+                                        .join("")}
                                     </td>
 
                                     ${type !== "class"
                                         ? `
-                                            <td>${escapeHtml(entry.domain)}</td>
-                                            <td>${escapeHtml(entry.range)}</td>
+                                            <td>
+                                                <code>${escapeHtml(entry.domain)}</code>
+                                            </td>
+
+                                            <td>
+                                                <code>${escapeHtml(entry.range)}</code>
+                                            </td>
                                         `
                                         : ""
                                     }
                                 </tr>
                             `).join("")}
                         </tbody>
+
                     </table>
+
                 </div>
+
             </div>
         `;
     }
