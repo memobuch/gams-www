@@ -48,6 +48,7 @@
     "nav.imprint": "Impressum",
     "nav.datamodel": "Datenmodell",
     "nav.analysis": "Analyse",
+    "nav.ontology": "Ontologie",
     "nav.search": "Suche",
     "search.fulltext": "Full-text search",
     "austria": "Österreich",
@@ -89,5 +90,7 @@
     "help.title": "Hilfe & Rückmeldungen",
     "help.main": "Sollten Sie Hilfe zur Benutzung von MEMOR benötigen sowie inhaltliche Anliegen, Anregungen oder Fragen haben, so freuen wir uns, wenn Sie mit uns in Kontakt treten.",
     "help.mail": "Bitte schreiben Sie an:",
-    "home.typed.tooltip": "Hier wird eine zufällige Auswahl aller von MEMOR erfassten Personen angezeigt"
+    "home.typed.tooltip": "Hier wird eine zufällige Auswahl aller von MEMOR erfassten Personen angezeigt",
+     "ontology.title": "MEMOR Ontologie",
+    "ontology.subtitle": "Interaktive Dokumentation der MEMOR Ontologie."
 }
