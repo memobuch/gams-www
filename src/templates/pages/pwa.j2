@@ -2,6 +2,7 @@
 
 <button
   id="installBtn"
+  class="browser-only"
   style="
     padding: 15px 25px;
     background-color: #244556;
@@ -40,6 +41,22 @@
     margin-top: 12px;
     color: #666;
   }
+
+  /**
+   * Hide install button inside installed PWA
+   */
+
+  @media all and (display-mode: standalone) {
+    .browser-only {
+      display: none !important;
+    }
+  }
+
+  @media all and (display-mode: fullscreen) {
+    .browser-only {
+      display: none !important;
+    }
+  }
 </style>
 
 <script>
@@ -47,6 +64,17 @@ let deferredPrompt = null;
 
 const installBtn = document.getElementById("installBtn");
 const instructions = document.getElementById("installInstructions");
+
+/**
+ * -------------------------------------------------------
+ * iOS standalone detection
+ * -------------------------------------------------------
+ */
+
+if (window.navigator.standalone === true) {
+  installBtn.hidden = true;
+  instructions.hidden = true;
+}
 
 /**
  * -------------------------------------------------------
@@ -129,7 +157,7 @@ function detectPlatform() {
 
 /**
  * -------------------------------------------------------
- * Show OS/browser-specific instructions
+ * Show install instructions
  * -------------------------------------------------------
  */
 
