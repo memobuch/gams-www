@@ -323,8 +323,12 @@ installBtn.addEventListener("click", async () => {
     return;
   }
 
-  // Otherwise show manual instructions
-  showInstructions();
+  // Toggle instructions
+  if (!instructions.hidden) {
+    instructions.hidden = true;
+  } else {
+    showInstructions();
+  }
 });
 
 /**
