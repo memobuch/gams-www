@@ -1,102 +1,348 @@
 {% extends "parents/base.j2" %}
 {% block content %}
 
-<p>Elaborierterer Button; soll zeigen, wenn App schon installiert; oder Installieren nicht möglich</p>
+<h1>MEMOR installieren</h1>
+<p>Alle meine Entchen</p>
 
-    <h1 class="h3 fw-light">Installiere die App</h1>
-    <div class="row mt-3">
-        <div class="col-md-8">
-            <div id="pwa-installed-box" class="alert alert-success d-none" role="status">
-                Die App ist bereits installiert.
-            </div>
-            <div class="mb-3">
-                <button id="pwa-install-button" class="btn btn-primary" type="button">
-                    Installieren
-                </button>
-            </div>
-            <div id="pwa-install-status" class="text-muted" aria-live="polite">
-                Die Installation wird automatisch angeboten, wenn dein Browser die PWA unterstützt.
-            </div>
-        </div>
-    </div>
+<button
+  id="installBtn"
+  style="
+    padding: 10px 20px;
+    background-color: #244556;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+  "
+>
+  Installiere MEMOR als App
+</button>
 
-    <script>
-      (() => {
-        let deferredPrompt = null;
-        const installButton = document.getElementById('pwa-install-button');
-        const statusText = document.getElementById('pwa-install-status');
-        const installedBox = document.getElementById('pwa-installed-box');
+<div id="installInstructions" hidden></div>
 
-        const isAppInstalled = () => {
-          return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-        };
+<style>
+  .install-box {
+    margin-top: 20px;
+    padding: 16px;
+    border-radius: 12px;
+    background: #f4f4f4;
+    line-height: 1.6;
+    max-width: 520px;
+  }
 
-        const showInstalledState = () => {
-          installedBox.classList.remove('d-none');
-          installButton.style.display = 'none';
-          statusText.textContent = 'Die App ist bereits installiert.';
-        };
+  .install-box h3 {
+    margin-top: 0;
+  }
 
-        const setManualFallback = () => {
-          installButton.textContent = 'Installationsanleitung';
-          installButton.disabled = false;
-          statusText.textContent = 'Der automatische Installationsprompt ist nicht verfügbar. Verwende das Browser-Menü und wähle "Zum Home-Bildschirm hinzufügen" oder "Installieren". Bei Apple-Geräten öffne die Seite in Safari und nutze die Teilen-Funktion, um die App zum Home-Bildschirm hinzuzufügen.';
-        };
+  .install-box ol {
+    padding-left: 20px;
+  }
 
-        const updateInstallState = () => {
-          if (isAppInstalled()) {
-            showInstalledState();
-            return true;
-          }
-          return false;
-        };
+  .install-box small {
+    display: block;
+    margin-top: 12px;
+    color: #666;
+  }
+</style>
 
-        if (!updateInstallState()) {
-          installButton.disabled = true;
-          installButton.textContent = 'Warten auf Installationsprompt...';
+<script>
+let deferredPrompt = null;
 
-          window.addEventListener('beforeinstallprompt', (event) => {
-            event.preventDefault();
-            deferredPrompt = event;
-            installButton.textContent = 'PWA installieren';
-            installButton.disabled = false;
-            statusText.textContent = 'Klicke auf den Button, um die PWA zu installieren.';
-          });
+const installBtn = document.getElementById("installBtn");
+const instructions = document.getElementById("installInstructions");
 
-          setTimeout(() => {
-            if (!deferredPrompt && !isAppInstalled()) {
-              setManualFallback();
-            }
-          }, 1000);
-        }
+/**
+ * -------------------------------------------------------
+ * Detect standalone mode
+ * -------------------------------------------------------
+ */
 
-        installButton.addEventListener('click', async () => {
-          if (isAppInstalled()) {
-            showInstalledState();
-            return;
-          }
+function isStandalone() {
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.matchMedia("(display-mode: fullscreen)").matches ||
+    window.navigator.standalone === true
+  );
+}
 
-          if (deferredPrompt) {
-            installButton.disabled = true;
-            deferredPrompt.prompt();
-            const choiceResult = await deferredPrompt.userChoice;
+/**
+ * -------------------------------------------------------
+ * Hide install UI inside installed app
+ * -------------------------------------------------------
+ */
 
-            if (choiceResult.outcome === 'accepted') {
-              showInstalledState();
-            } else {
-              statusText.textContent = 'Installation abgebrochen. Du kannst es erneut versuchen.';
-              installButton.disabled = false;
-            }
+window.addEventListener("DOMContentLoaded", () => {
+  if (isStandalone()) {
+    installBtn.hidden = true;
+    instructions.hidden = true;
+  }
+});
 
-            deferredPrompt = null;
-          } else {
-            setManualFallback();
-          }
-        });
+/**
+ * -------------------------------------------------------
+ * Capture native install prompt
+ * -------------------------------------------------------
+ */
 
-        window.addEventListener('appinstalled', () => {
-          showInstalledState();
-        });
-      })();
-    </script>
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  deferredPrompt = event;
+});
+
+/**
+ * -------------------------------------------------------
+ * Detect platform/browser
+ * -------------------------------------------------------
+ */
+
+function detectPlatform() {
+  const ua = navigator.userAgent;
+
+  const isIOS =
+    /iPad|iPhone|iPod/.test(ua) ||
+    (navigator.platform === "MacIntel" &&
+      navigator.maxTouchPoints > 1);
+
+  const isAndroid = /Android/i.test(ua);
+
+  const isFirefox = /Firefox/i.test(ua);
+
+  const isEdge = /Edg/i.test(ua);
+
+  const isChrome =
+    /Chrome/i.test(ua) &&
+    !isEdge &&
+    !/OPR|Opera/i.test(ua);
+
+  const isSafari =
+    /Safari/i.test(ua) &&
+    !isChrome &&
+    !isEdge &&
+    !/Android/i.test(ua);
+
+  return {
+    isIOS,
+    isAndroid,
+    isFirefox,
+    isEdge,
+    isChrome,
+    isSafari
+  };
+}
+
+/**
+ * -------------------------------------------------------
+ * Show OS/browser-specific instructions
+ * -------------------------------------------------------
+ */
+
+function showInstructions() {
+  const p = detectPlatform();
+
+  let html = "";
+
+  // iPhone / iPad Safari
+  if (p.isIOS && p.isSafari) {
+    html = `
+      <div class="install-box">
+        <h3>MEMOR auf iPhone/iPad installieren</h3>
+
+        <ol>
+          <li>
+            Tippe unten in Safari auf das
+            <strong>Teilen-Symbol</strong>.
+          </li>
+
+          <li>
+            Wähle
+            <strong>„Zum Home-Bildschirm“</strong>.
+          </li>
+
+          <li>
+            Tippe auf
+            <strong>„Hinzufügen“</strong>.
+          </li>
+        </ol>
+      </div>
+    `;
+  }
+
+  // Android Chrome
+  else if (p.isAndroid && p.isChrome) {
+    html = `
+      <div class="install-box">
+        <h3>MEMOR auf Android installieren</h3>
+
+        <ol>
+          <li>
+            Öffne das Chrome-Menü über die
+            <strong>drei Punkte</strong>.
+          </li>
+
+          <li>
+            Wähle
+            <strong>„App installieren“</strong>
+            oder
+            <strong>„Zum Startbildschirm hinzufügen“</strong>.
+          </li>
+
+          <li>
+            Bestätige die Installation.
+          </li>
+        </ol>
+      </div>
+    `;
+  }
+
+  // Android Firefox
+  else if (p.isAndroid && p.isFirefox) {
+    html = `
+      <div class="install-box">
+        <h3>MEMOR in Firefox auf Android installieren</h3>
+
+        <ol>
+          <li>
+            Öffne das Firefox-Menü.
+          </li>
+
+          <li>
+            Wähle
+            <strong>„Installieren“</strong>
+            oder
+            <strong>„Zum Startbildschirm hinzufügen“</strong>.
+          </li>
+
+          <li>
+            Bestätige die Installation.
+          </li>
+        </ol>
+      </div>
+    `;
+  }
+
+  // Desktop Chrome / Edge
+  else if (p.isChrome || p.isEdge) {
+    html = `
+      <div class="install-box">
+        <h3>MEMOR auf dem Desktop installieren</h3>
+
+        <ol>
+          <li>
+            Öffne das Browser-Menü.
+          </li>
+
+          <li>
+            Wähle
+            <strong>„MEMOR installieren“</strong>
+            oder
+            <strong>„App installieren“</strong>.
+          </li>
+
+          <li>
+            Bestätige die Installation.
+          </li>
+        </ol>
+      </div>
+    `;
+  }
+
+  // Safari Desktop
+  else if (p.isSafari) {
+    html = `
+      <div class="install-box">
+        <h3>Installation in Safari</h3>
+
+        <ol>
+          <li>
+            Klicke auf das
+            <strong>„Teilen-Symbol"</strong>.
+          </li>
+
+          <li>
+            Klicke auf
+            <strong>„Zum Dock hinzufügen“</strong>.
+          </li>
+        </ol>
+
+        <small>
+          Safari unterstützt die Installation von Web-Apps
+          nur eingeschränkt.
+          Nutze für die beste Installationserfahrung Chrome.
+        </small>
+      </div>
+    `;
+  }
+
+  // Generic fallback
+  else {
+    html = `
+      <div class="install-box">
+        <h3>MEMOR installieren</h3>
+
+        <ol>
+          <li>
+            Öffne das Menü deines Browsers.
+          </li>
+
+          <li>
+            Suche nach
+            <strong>„App installieren“</strong>,
+            <strong>„Installieren“</strong>
+            oder
+            <strong>„Zum Startbildschirm hinzufügen“</strong>.
+          </li>
+
+          <li>
+            Bestätige die Installation.
+          </li>
+        </ol>
+      </div>
+    `;
+  }
+
+  instructions.innerHTML = html;
+  instructions.hidden = false;
+}
+
+/**
+ * -------------------------------------------------------
+ * Install button click
+ * -------------------------------------------------------
+ */
+
+installBtn.addEventListener("click", async () => {
+
+  // Native Chromium install dialog
+  if (deferredPrompt) {
+
+    deferredPrompt.prompt();
+
+    const result = await deferredPrompt.userChoice;
+
+    console.log("Install result:", result.outcome);
+
+    deferredPrompt = null;
+
+    return;
+  }
+
+  // Otherwise show manual instructions
+  showInstructions();
+});
+
+/**
+ * -------------------------------------------------------
+ * After installation
+ * -------------------------------------------------------
+ */
+
+window.addEventListener("appinstalled", () => {
+  deferredPrompt = null;
+
+  installBtn.hidden = true;
+  instructions.hidden = true;
+});
+</script>
+
 {% endblock %}
