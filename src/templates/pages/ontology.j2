@@ -1,10 +1,36 @@
 {% extends "parents/base.j2" %}
 {% block content %}
 
+
+
+    <h1 data-i18n="ontology.title" class="h3 fw-light">
+        MEMOR Ontologie
+    </h1>
+
+    <p class="text-muted" data-i18n="ontology.subtitle">
+        Interaktive Dokumentation der MEMOR Ontologie.
+    </p>
+
+    <div class="mb-4 mb-md-5">
+        <iframe
+            title="MEMOR Ontologie Visualisierung"
+            class="ontology-iframe"
+            src="https://service.tib.eu/webvowl/#iri={{context.env.DANGEROUS_GAMS5_PRODUCTION_ORIGIN}}/api/curation/v1/projects/memor/objects/memor.ontology/datastreams/ONTOLOGY.ttl/content">
+        </iframe>
+    </div>
+
+    <div id="ontology-content">
+        <div class="alert alert-info">
+            Loading ontology table...
+        </div>
+    </div>
+
+
+
 <style>
     .ontology-iframe {
         width: 100%;
-        height: 80vh;
+        height: 90vh;
         border: 1px solid #ccc;
     }
 
@@ -52,32 +78,6 @@
         }
     }
 </style>
-
-<div class="container py-3 py-md-4">
-
-    <h1 data-i18n="ontology.title" class="h3 fw-light">
-        MEMOR Ontologie
-    </h1>
-
-    <p class="text-muted" data-i18n="ontology.subtitle">
-        Interaktive Dokumentation der MEMOR Ontologie.
-    </p>
-
-    <div class="mb-4 mb-md-5">
-        <iframe
-            title="MEMOR Ontologie Visualisierung"
-            class="ontology-iframe"
-            src="https://service.tib.eu/webvowl/#iri={{context.env.DANGEROUS_GAMS5_PRODUCTION_ORIGIN}}/api/curation/v1/projects/memor/objects/memor.ontology/datastreams/ONTOLOGY.ttl/content">
-        </iframe>
-    </div>
-
-    <div id="ontology-content">
-        <div class="alert alert-info">
-            Loading ontology table...
-        </div>
-    </div>
-
-</div>
 
 <script>
 (async () => {
