@@ -5,9 +5,9 @@
 <h1 class="h3 fw-light">{{ context.object.baseMetadata.title | replace("(person description)", "") }}</h1>
 <p class="pb-0 mb-1">Information zu einer einzelnen Person erfasst im MEMOR Projekt.</p>
 <div>
-    <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/SEMANTIC_STATEMENTS.ttl/content"><img alt="RDF" height="30" id="rdf" src="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/templates/img/RDF_icon.png" title="RDF"></a> 
-    <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/DC.xml/content"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a>
-    <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}"><img alt="RDF" height="30" id="rdf" src="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/templates/img/gams_solo.png" title="Object metadata in the CMS system"></a>
+    <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/SEMANTIC_STATEMENTS.ttl/content" data-bs-toggle="tooltip" data-bs-title="RDF Forschungsdaten zur Person"><img alt="RDF" height="30" id="rdf" src="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/templates/img/RDF_icon.png"></a> 
+    <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/DC.xml/content" data-bs-toggle="tooltip" data-bs-title="Dublin Core Forschungsdaten zum digitalen Objekt"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a>
+    <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}" data-bs-toggle="tooltip" data-bs-title="Metadatenansicht zum digitalen Objekt"><img alt="RDF" height="30" id="rdf" src="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/templates/img/gams_solo.png"></a>
 </div>
 {# <pre>{{ context | tojson(indent=2) }}</pre> #}
 <ul class="mt-2">
