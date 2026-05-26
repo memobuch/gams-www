@@ -12,8 +12,10 @@
     </p>
 
     <div class="mb-md-2">
-        <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.project.projectAbbr}}.ontology/datastreams/ONTOLOGY.ttl/content" class="btn btn-primary">Download RDF-turtle</a>
-        <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.project.projectAbbr}}.ontology/datastreams/ONTOLOGY.ttl" class="btn btn-primary">Metadata</a>
+        <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.project.projectAbbr}}.ontology/datastreams/ONTOLOGY.ttl/content" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-title="MEMOR Ontologie als turtle RDF downloaden."><i class="iconoir-download mt-1 me-2"></i>Ontologie (turtle)</a>
+        <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.project.projectAbbr}}.ontology/datastreams/ONTOLOGY.ttl" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-title="Metadaten zur MEMOR Ontologie."><i class="iconoir-database mt-1 me-2"></i>Ontologie Metadaten</a>
+        <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.project.projectAbbr}}.person-register/datastreams/REGISTER.ttl/content" class="btn btn-primary ms-3" data-bs-toggle="tooltip" data-bs-title="Vollständigen MEMOR Datensatz als RDF turtle herunterladen."><i class="iconoir-download mt-1 me-2"></i>RDF-Datensatz</a>
+        <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.project.projectAbbr}}.person-register/datastreams/REGISTER.ttl/content" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-title="Metadaten zum RDF Datensatz."><i class="iconoir-database mt-1 me-2"></i>Metadaten (zu RDF-Daten)</a>
     </div>
 
     <div class="mb-4 mb-md-5">
