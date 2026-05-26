@@ -50,6 +50,12 @@
     "nav.analysis": "Analyse",
     "nav.ontology": "Ontologie",
     "nav.search": "Suche",
+
+    "sidebar.gams": "Geisteswissenschaftliches Asset Management System GAMS",
+    "sidebar.ddh": "Institut für Digitale Geistewissenschaften (ehemals ZIM)",
+    "sidebar.cjs": "Centrum für Jüdische Studien",
+    "sidebar.unigraz": "Universität Graz",
+
     "search.fulltext": "Full-text search",
     "austria": "Österreich",
     "germany": "Deutschland",

@@ -50,6 +50,12 @@
     "nav.ontology": "Ontology",
     "nav.analysis": "Analysis",
     "nav.search": "Search",
+
+    "sidebar.gams": "Humanities Asset Management System (GAMS)",
+    "sidebar.ddh": "Department of Digital Humanities (former ZIM)",
+    "sidebar.cjs": "Center for Jewish Studies",
+    "sidebar.unigraz": "University of Graz",
+
     "search.fulltext": "Volltextsuche",
     "memo_title": "Digital Memorial Book of the City of Graz",
     "biographies.title": "Biographies of the victims of the Nazi regime in Graz",
