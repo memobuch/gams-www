@@ -12,7 +12,12 @@
     <link rel="stylesheet" href="{{context._root_path}}/static/apps/map/map.css">
 
     <h1 data-i18n="map.title" class="h3 fw-light" id="main-heading">Opfer der NS-Verfolgung aus Graz</h1>
-    <p data-i18n="map.description">Diese Karte zeigt die letzten freiwilligen Wohnadressen von Opfern des Nationalsozialismus in Graz zwischen 1938 und 1945. Jeder Punkt repräsentiert den letzten selbstgewählten Wohnort einer verfolgten Person, bevor Verfolgung, Vertreibung oder Deportation einsetzte.</p>
+    <p id="description" data-i18n="map.description">Diese Karte zeigt die letzten freiwilligen Wohnadressen von Opfern des Nationalsozialismus in Graz zwischen 1938 und 1945. Jeder Punkt repräsentiert den letzten selbstgewählten Wohnort einer verfolgten Person, bevor Verfolgung, Vertreibung oder Deportation einsetzte.</p>
+
+    <div class="mb-md-2">
+        <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.project.projectAbbr}}.person-register/datastreams/EVENTS.json/content" class="btn btn-outline-secondary text-dark" data-bs-toggle="tooltip" data-bs-title="Forschungsdaten der Karte als GEOJSON downloaden."><i class="iconoir-download mt-1 me-2"></i>Download GEOJSON</a>
+        <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.project.projectAbbr}}.person-register/datastreams/EVENTS.json" class="btn btn-outline-secondary text-dark" data-bs-toggle="tooltip" data-bs-title="Metadatan zum GEOJSON der Kartenanwendung."><i class="iconoir-database mt-1 me-2"></i>Metadaten</a>
+    </div>
 
     <section>
 
@@ -62,7 +67,7 @@
 
     <script>
 
-        document.querySelector('#main-heading').scrollIntoView(true, { behavior: 'smooth' });
+        document.querySelector('#description').scrollIntoView(true, { behavior: 'smooth' });
 
          MEMOR.initMap({
             geoJsonUrl: '{{context._root_path}}/static/apps/map/EVENTS.json',
