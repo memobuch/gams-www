@@ -2,55 +2,39 @@
 {% block content %}
     <h1 data-i18n="data_model.title" class="h3 fw-light">Datenmodell</h1>
     <br>
-    <div class="row">
-        <div class="col-md-9 col-lg-6" style="border-radius: 1px; padding: 25px; align-items: center; background-color: lightblue;">
-            <h4 id="ueberblick">Überblick</h4>
-            <p>Warum Edition, warum FAIR, was wollen wir damit</p>
-        </div>
 
-        <div class="col-md-4 d-none d-md-block ms-md-5" style="border-radius: 1px; padding: 20px; display: flex; justify-content: center; align-items: center; background-color: lightblue;">
-            <ul>
-                <p>Interne Navigation</p>
-                <li><a href="{{context._root_path}}/datamodel.html#ueberblick">Überblick</a></li>
-                <li><a href="{{context._root_path}}/datamodel.html#historische_kategorien">Historische Kategorien</a></li>
-                <li><a href="{{context._root_path}}/datamodel.html#fair">FAIR Prinzipien (Forschungsdaten) und MEMOR</a>
-                    <ul>
-                        <li><a href="{{context._root_path}}/datamodel.html#findable">Findable</a></li>
-                        <li><a href="{{context._root_path}}/datamodel.html#accessible">Accessible</a></li>
-                        <li><a href="{{context._root_path}}/datamodel.html#interoperable">Interoperable</a></li>
-                        <li><a href="{{context._root_path}}/datamodel.html#reusable">Reusable</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <br>
     <div class="row">
         <div class="col-md-9 col-lg-6">
-            <h4 id="historische_kategorien">Historische Kateogorien</h4>
-            <p>In {{ context.project.projectAbbr | upper }} Graz sind Opfer des Nationalsozialismus verzeichnet, die zum Zeitpunkt der NS-Machtübernahme im Jahr 1938 im Grazer Stadtgebiet ihren Lebensmittelpunkt hatten. Sie werden in MEMOR Graz an ihren letzten freiwilligen Wohnadresse erfasst und biographisch vorgestellt. Weiters werden sie entsprechend der Gründe ihrer Verfolgung in Gruppen unterteilt. Auf Grund der Tatsache, dass Menschen teils mehrfach vom nationalsozialistischen Terror betroffen waren, werden manche NS-Opfer mehreren Kategorien zugeordnet.</p>
-            <br>
-            <h5 class="h5">Widerstand</h5>
-            <p>Es handelt sich um Personen, die aus nachfolgenden Gründen Widerstand gegen den Nationalsozialismus leisteten und ermordet wurden:</p>
-            <ul>
-                <li>Politisch: auf Grund ihrer politischen Überzeugun</li>
-                <li>Religiös: auf Grund ihrer religiösen Überzeugung</li>
-                <li>Individuell: auf Grund individueller moralischer oder ethischer Überzeugungen</li>
-            </ul>
-            <br>
-            <h5 class="h5">NS-Gegner</h5>
-            <p>Es handelt sich um Personen, die von den Nationalsozialisten als politische Gegner vor 1938 unmittelbar nach der NS-Machtübernahme verfolgt wurden oder die während der NS-Zeit als politisch Verdächtige in Konzentrationslager kamen.</p>
-            <h5 class="h5">Jüdische Opfer</h5>
-            <p>Es handelt sich um Personen, die von den Nationalsozialisten auf Basis der „Nürnberger Rassengesetze“ verfolgt wurden</p>
-            <h5 class="h5">Roma/Romnija und Sinti/Sintize</h5>
-            <p>Es handelt sich um Personen, die als sogenannte „Zigeuner“ verfolgt wurden.</p>
-            <h5 class="h5">Opfer der NS-Euthanasie</h5>
-            <p>Es handelt sich um Personen, die im Rahmen der NS-Euthanasie ermordet wurden.</p>
-            <h5 class="h5">Als homosexuell verfolgt</h5>
-            <p>Es handelt sich um Personen, die aufgrund ihrer sexuellen Orientierung in Konzentrationslager kamen und dort ermordet wurden.</p>
-            <h5 class="h5">Als „asozial“ Verfolgte</h5>
-            <p>Es handelt sich um Personen, die als sogenannte „Asoziale“ ermordet wurden.</p>
+            <div class="py-5" style="border-radius: 1px; padding: 25px; align-items: center; background-color: lightblue;">
+                <h4 id="ueberblick">Überblick</h4>
+                <p>Warum Edition, warum FAIR, was wollen wir damit</p>
+            </div>
 
+            <div class="py-5">
+                <h4 id="historische_kategorien">Historische Kateogorien</h4>
+                <p>In {{ context.project.projectAbbr | upper }} Graz sind Opfer des Nationalsozialismus verzeichnet, die zum Zeitpunkt der NS-Machtübernahme im Jahr 1938 im Grazer Stadtgebiet ihren Lebensmittelpunkt hatten. Sie werden in MEMOR Graz an ihren letzten freiwilligen Wohnadresse erfasst und biographisch vorgestellt. Weiters werden sie entsprechend der Gründe ihrer Verfolgung in Gruppen unterteilt. Auf Grund der Tatsache, dass Menschen teils mehrfach vom nationalsozialistischen Terror betroffen waren, werden manche NS-Opfer mehreren Kategorien zugeordnet.</p>
+                <br>
+                <h5 class="h5">Widerstand</h5>
+                <p>Es handelt sich um Personen, die aus nachfolgenden Gründen Widerstand gegen den Nationalsozialismus leisteten und ermordet wurden:</p>
+                <ul>
+                    <li>Politisch: auf Grund ihrer politischen Überzeugun</li>
+                    <li>Religiös: auf Grund ihrer religiösen Überzeugung</li>
+                    <li>Individuell: auf Grund individueller moralischer oder ethischer Überzeugungen</li>
+                </ul>
+                <br>
+                <h5 class="h5">NS-Gegner</h5>
+                <p>Es handelt sich um Personen, die von den Nationalsozialisten als politische Gegner vor 1938 unmittelbar nach der NS-Machtübernahme verfolgt wurden oder die während der NS-Zeit als politisch Verdächtige in Konzentrationslager kamen.</p>
+                <h5 class="h5">Jüdische Opfer</h5>
+                <p>Es handelt sich um Personen, die von den Nationalsozialisten auf Basis der „Nürnberger Rassengesetze“ verfolgt wurden</p>
+                <h5 class="h5">Roma/Romnija und Sinti/Sintize</h5>
+                <p>Es handelt sich um Personen, die als sogenannte „Zigeuner“ verfolgt wurden.</p>
+                <h5 class="h5">Opfer der NS-Euthanasie</h5>
+                <p>Es handelt sich um Personen, die im Rahmen der NS-Euthanasie ermordet wurden.</p>
+                <h5 class="h5">Als homosexuell verfolgt</h5>
+                <p>Es handelt sich um Personen, die aufgrund ihrer sexuellen Orientierung in Konzentrationslager kamen und dort ermordet wurden.</p>
+                <h5 class="h5">Als „asozial“ Verfolgte</h5>
+                <p>Es handelt sich um Personen, die als sogenannte „Asoziale“ ermordet wurden.</p>
+            </div>
 
             <div class="py-5" id="fair">
                 <h4>FAIR Prinzipien (Forschungsdaten) und MEMOR</h4>
@@ -96,8 +80,31 @@
                 <h5 id="reusable">Reusable</h5>
                 <p>LIZENZ (CC-BY_NC) Wiederverwendbarkeit; Langzeitarchivierung. Digitale Objekte im GAMS sind auch beschrieben</p>
                 <br>
+            </div>
         </div>
+
+        <div class="col-md-4 d-none d-md-block ms-md-5">
+            <div class="sticky-top" style="border-radius: 1px; padding: 20px; display: flex; justify-content: center; align-items: center; background-color: lightblue;">
+                <ul>
+                    <p>Interne Navigation</p>
+                    <li><a href="{{context._root_path}}/datamodel.html#ueberblick">Überblick</a></li>
+                    <li><a href="{{context._root_path}}/datamodel.html#historische_kategorien">Historische Kategorien</a></li>
+                    <li><a href="{{context._root_path}}/datamodel.html#fair">FAIR Prinzipien (Forschungsdaten) und MEMOR</a>
+                        <ul>
+                            <li><a href="{{context._root_path}}/datamodel.html#findable">Findable</a></li>
+                            <li><a href="{{context._root_path}}/datamodel.html#accessible">Accessible</a></li>
+                            <li><a href="{{context._root_path}}/datamodel.html#interoperable">Interoperable</a></li>
+                            <li><a href="{{context._root_path}}/datamodel.html#reusable">Reusable</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
+        
     </div>
+    
+
+
+
 
 {% endblock %}
