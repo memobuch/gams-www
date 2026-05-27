@@ -1,12 +1,31 @@
 {% extends "parents/base.j2" %}
 {% block content %}
     <h1 data-i18n="data_model.title" class="h3 fw-light">Datenmodell</h1>
-
+    <br>
     <div class="row">
         <div class="col-md-9 col-lg-6">
+            <h4 id="ueberblick">Überblick</h4>
+            <p>Überblick TEXT TEXT TEXT</p>
+            <h5>TEST</h5>
+        </div>
+        <div class="col">
+            <p>Interne Navigation</p>
+            <ul>
+                <li><a href="{{context._root_path}}/datamodel.html#ueberblick">Überblick</a></li>
+                <li><a href="{{context._root_path}}/datamodel.html#historische_kategorien">Historische Kategorien</a></li>
+                <li><a href="{{context._root_path}}/datamodel.html#fair">FAIR Prinzipien (Forschungsdaten) und MEMOR</a></li>
+                <li>[MEMOR Ontologie (Linked Data / RDF)]</li>
+                <li>test</li>
+                <li><a href="{{context._root_path}}/datamodel.html#test">Test</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9 col-lg-6">
+            <h4 id="historische_kategorien">Historische Kateogorien</h4>
             <p>In MEMOR Graz sind Opfer des Nationalsozialismus verzeichnet, die zum Zeitpunkt der NS-Machtübernahme im Jahr 1938 im Grazer Stadtgebiet ihren Lebensmittelpunkt hatten. Sie werden in MEMOR Graz an ihren letzten freiwilligen Wohnadresse erfasst und biographisch vorgestellt. Weiters werden sie entsprechend der Gründe ihrer Verfolgung in Gruppen unterteilt. Auf Grund der Tatsache, dass Menschen teils mehrfach vom nationalsozialistischen Terror betroffen waren, werden manche NS-Opfer mehreren Kategorien zugeordnet.</p>
             <br>
-            <h3 class="h5">Widerstand</h2>
+            <h5 class="h5">Widerstand</h5>
             <p>Es handelt sich um Personen, die aus nachfolgenden Gründen Widerstand gegen den Nationalsozialismus leisteten und ermordet wurden:</p>
             <ul>
                 <li>Politisch: auf Grund ihrer politischen Überzeugun</li>
@@ -14,26 +33,37 @@
                 <li>Individuell: auf Grund individueller moralischer oder ethischer Überzeugungen</li>
             </ul>
             <br>
-            <h3 class="h5">NS-Gegner</h3>
+            <h5 class="h5">NS-Gegner</h5>
             <p>Es handelt sich um Personen, die von den Nationalsozialisten als politische Gegner vor 1938 unmittelbar nach der NS-Machtübernahme verfolgt wurden oder die während der NS-Zeit als politisch Verdächtige in Konzentrationslager kamen.</p>
-            <h3 class="h5">Jüdische Opfer</h3>
+            <h5 class="h5">Jüdische Opfer</h5>
             <p>Es handelt sich um Personen, die von den Nationalsozialisten auf Basis der „Nürnberger Rassengesetze“ verfolgt wurden</p>
-            <h3 class="h5">Roma/Romnija und Sinti/Sintize</h3>
+            <h5 class="h5">Roma/Romnija und Sinti/Sintize</h5>
             <p>Es handelt sich um Personen, die als sogenannte „Zigeuner“ verfolgt wurden.</p>
-            <h3 class="h5">Opfer der NS-Euthanasie</h3>
+            <h5 class="h5">Opfer der NS-Euthanasie</h5>
             <p>Es handelt sich um Personen, die im Rahmen der NS-Euthanasie ermordet wurden.</p>
-            <h3 class="h5">Als homosexuell verfolgt</h3>
+            <h5 class="h5">Als homosexuell verfolgt</h5>
             <p>Es handelt sich um Personen, die aufgrund ihrer sexuellen Orientierung in Konzentrationslager kamen und dort ermordet wurden.</p>
-            <h3 class="h5">Als „asozial“ Verfolgte</h3>
+            <h5 class="h5">Als „asozial“ Verfolgte</h5>
             <p>Es handelt sich um Personen, die als sogenannte „Asoziale“ ermordet wurden.</p>
         </div>
-        <div class="col">
-            <p>Interne Navigation</p>
+
+        <div class="py-5" id="fair">
+        <h4>FAIR Prinzipien (Forschungsdaten) und MEMOR</h4>
+        <p>TEXT <a href="{{context._root_path}}/ontology.html">MEMOR Ontologie (Linked Data / RDF)</a> TEXT 
+        TEXT TEXT TEXT
+        </p>
             <ul>
-                <li>Überblick</li>
-                <li><a href="{{context._root_path}}/datamodel.html#historische_kategorien">Historische Kategorien</a></li>
-                <li>FAIR Prinzipien (Forschungsdaten) und MEMOR</li>
-                <li>[MEMOR Ontologie (Linked Data / RDF)]</li>
+                <li><a href="https://gams.uni-graz.at/o:konde.7">FAIR</a></li>
+                <li>Test</li>
+                <li>Test</li>
+            </ul>
+        </div>
+        <div class="py-2" id="test">
+        <h4>Test</h4>
+            <ul>
+                <li>Test</li>
+                <li>Test</li>
+                <li>Test</li>
             </ul>
         </div>
     </div>
