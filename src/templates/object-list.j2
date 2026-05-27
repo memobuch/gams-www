@@ -14,10 +14,11 @@
     <table id="example" class="display">
         <thead>
             <tr>
-                <th> </th>
+                <th>#</th>
                 <th><span data-i18n="object-list.forename">Vorname</span></th>
                 <th><span data-i18n="object-list.surname">Nachname</span></th>
                 <th class="d-none d-sm-block"><span data-i18n="object-list.description">Beschreibung</span></th>
+                <th>Zeichen</th>
                 <th><span data-i18n="object-list.category">Opferkategorie</span></th>
             </tr>
         </thead>
@@ -37,7 +38,30 @@
                         <td>
                             <a href="{{context._root_path}}/objects/{{object.id}}/">{{ name_parts[-1] }}</a>    
                         </td>
-                        <td class="d-none d-sm-block"><small>{{ object.baseMetadata.description }}</small></td>
+                        <td class="d-none d-sm-block"><small>{{ object.dublinCore.description[0].value }}</small></td>
+
+                        {# Logic to extract the derla sign number from dc description #}
+                        {% set desc_value = object.dublinCore.description[0].value %}
+                        {% if '| Verbundene DERLA-Zeichen: ' in desc_value %}
+                            {% set derla_signs = desc_value.rsplit('| Verbundene DERLA-Zeichen: ')[1] %}
+                            {% if derla_signs | length > 0 %}
+                                {% set derla_signs_split = derla_signs.split(";") %}
+                                <td>
+                                    <ul>
+                                        {% for derla_sign in derla_signs_split %}
+                                            {% if derla_sign | length > 0 %}
+                                                <li><a target="_blank" href="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/{{ derla_sign | trim }}">{{ derla_sign | trim }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </td>
+                            {% else %} 
+                                <td>-</td>
+                            {% endif %}
+                        {% else %}
+                            <td>-</td>
+                        {% endif %} 
+                        
                         <td>
                             <ul>
                                 {% for tag in object.tags | reject('in', get_excluded_object_tags()) %}
@@ -54,7 +78,7 @@
     <script>
         let dataTableContainer = document.getElementById('example');
         let dataTable = new DataTable('#example', {
-            order: [[1,'asc']],
+            order: [[2,'asc']],
             language: {
                 search: "Volltextsuche",
                 lengthMenu: "Zeige _MENU_ Einträge",
@@ -70,7 +94,7 @@
             },
             initComplete: function () {
                 let api = this.api();
-                let column = api.column(4); // Index 3 is the "Opferkategorie" column
+                let column = api.column(5); // Index 5 is the "Opferkategorie" column
 
                 console.log(column);
 
