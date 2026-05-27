@@ -37,14 +37,25 @@
                     </div>
                 </div>
 
+                <!-- Header -->
+                {# <header class="header">
+                    <div class="header-content">
+                        <h1 class="title">Digitales Memorbuch</h1>
+                        <!-- Subtitle: populated by MEMOR.initMap (CONFIG.ui.subtitle) -->
+                        <p class="subtitle" id="subtitle"></p>
+                        <div class="divider"></div>
+                    </div>
+                </header> #}
+
                 <!-- Statistics -->
-                <div class="stats-section" style="display: none;">
+                <div class="stats-section">
                     <div class="stat-item">
                         <span class="stat-label">Personen</span>
                         <span class="stat-value" id="total-persons">0</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-label">Ereignisse</span>
+                        <!-- Stat label: populated by MEMOR.initMap (CONFIG.ui.statLabel) -->
+                        <span class="stat-label" id="stat-label-events"></span>
                         <span class="stat-value" id="total-events">0</span>
                     </div>
                     <div class="stat-item">
@@ -69,9 +80,23 @@
 
         document.querySelector('#description').scrollIntoView(true, { behavior: 'smooth' });
 
-         MEMOR.initMap({
+        // ===== Voluntary residence mode (default) =====
+        MEMOR.initMap({
             geoJsonUrl: '{{context._root_path}}/static/apps/map/EVENTS.json',
-            personBaseUrl: '{{context._root_path}}/objects'
+            personBaseUrl: '{{context._root_path}}/objects',
+            mode: 'voluntary-residence',
+            mapCenter: [47.0707, 15.4395],
+            mapZoom: 13,
+            ui: {
+                subtitle: 'Letzte Freiwillige Wohnadressen der Opfer des Nationalsozialismus in Graz 1938–1945',
+                statLabel: 'Wohnadressen',
+                infoTitle: 'Über das Projekt',
+                infoText: 'Diese Karte zeigt die letzten freiwilligen Wohnadressen von {personCount} Opfern des Nationalsozialismus in Graz zwischen 1938 und 1945. Jeder Punkt repräsentiert den letzten selbstgewählten Wohnort einer verfolgten Person, bevor Verfolgung, Vertreibung oder Deportation einsetzte.',
+                clusterHeading: 'Wohnadressen-Cluster',
+                clusterMultiPlaceNote: 'Mehrere Adressen in diesem Bereich',
+                personsAtPlaceLabel: 'Personen an dieser Adresse',
+                personsInAreaLabel: 'Personen in diesem Bereich'
+            }
         });
     </script>
 
