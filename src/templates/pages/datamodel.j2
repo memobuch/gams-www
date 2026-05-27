@@ -67,7 +67,14 @@
                 </p>
                 <br>
                 <h5 id="findable">Findable</h5>
-                <p>Daten und Metadaten (maschinenlesbar, mit persistent identifier) auf ZENODO</p>
+                <p>Die im MEMOR-Projekt erfassten Personen sind im <a href="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}" data-bs-toggle="tooltip" data-bs-title="Geisteswissenschaftliches Asset Management System GAMS">GAMS</a>
+                der <a href="https://www.uni-graz.at" data-bs-toggle="tooltip" data-bs-title="Universität Graz">Universität Graz</a> 
+                jeweils als digitale Objekte mit ID angelegt.
+                <br>
+                Die Daten und Metadaten werden zusätzlich zu den unter 
+                <a href="{{context._root_path}}/datamodel.html#accessible">Accessible</a> und <a href="{{context._root_path}}/datamodel.html#interoperable">Interoperable</a> geannten Zugängen auf 
+                <a data-bs-toggle="tooltip" data-bs-title="ZENODO">ZENODO</a> veröffentlicht.
+                </p>
                 <br>
                 <h5 id="accessible">Accessible</h5>
                 <p>MEMOR-Website <strong>"ns-opfer-graz.at"</strong> als Ganzes. <br>
@@ -75,17 +82,20 @@
                 </p>
                 <br>
                 <h5 id="interoperable">Interoperable</h5>
-                <p>Standardisierte Datenformate</p>
+                <p>Um die Interoperabilität zu gewährleisten, nutzt das MEMOR-Projekt standardisierte Datenformate:</p>
                 <ul>
                     <li>XML</li>
                     <li>RDF</li>
                     <li>GeoJSON</li>
                 </ul>
-                <p>Metadaten in RDF, Dublin Core, Anbindung an 
-                <a href="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}" data-bs-toggle="tooltip" data-bs-title="Geisteswissenschaftliches Asset Management System GAMS">GAMS</a>
-                der <a href="https://www.uni-graz.at" data-bs-toggle="tooltip" data-bs-title="Universität Graz">Universität Graz</a>
-                
+                <p>Für jede in MEMOR erfasste Person werden Metadaten in RDF, Dublin Core (XML), 
+                sowie eine Metadatenansicht zum digitalen Objekt im GAMS bereitgestellt.
                 </p>
+                <p>Die Daten der <a href="{{context._root_path}}/map.html">Karte der letzten Wohnorte</a> 
+                sowie der <a href="{{context._root_path}}/map_deaths.html">Karte der Todesorte</a> 
+                stehen gesammelt als <a href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.project.projectAbbr}}.person-register/datastreams/EVENTS.json/content" data-bs-toggle="tooltip" data-bs-title="Forschungsdaten der Karten als GEOJSON downloaden">GeoJSON</a> 
+                zum Download zur Verfügung. Die dazugehörigen Metadaten sind ebenfalls über das <a href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/memor/objects/memor.person-register/datastreams/EVENTS.json" data-bs-toggle="tooltip" data-bs-title="GAMS Digitales Objekt">GAMS</a> abrufbar.
+                </p>    
                 <br>
                 <h5 id="reusable">Reusable</h5>
                 <p>Langzeitarchivierung</p>
