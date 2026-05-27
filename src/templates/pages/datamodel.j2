@@ -3,9 +3,9 @@
     <h1 data-i18n="data_model.title" class="h3 fw-light">Datenmodell</h1>
     <br>
     <div class="row">
-        <div class="col-md-9 col-lg-6">
+        <div class="col-md-9 col-lg-6" style="border-radius: 1px; padding: 25px; align-items: center; background-color: lightblue;">
             <h4 id="ueberblick">Überblick</h4>
-            <p>Die im Zuge des {{ context.project.projectAbbr | upper }}-Projektes erfassten Forschungsdaten folgen einem einheitlichen <strong>Datenmodell</strong>.</p>
+            <p>Beschreibung</p>
             <ul>
                 <li>XML</li>
                 <li>RDF</li>
@@ -16,7 +16,7 @@
             <p>TEXT TEXT TEXT</p>
         </div>
 
-        <div class="col" style="border: 1px solid; border-radius: 3px; padding: 5px; display: flex; justify-content: center; align-items: center;">
+        <div class="col-md-4 d-none d-md-block ms-md-5" style="border-radius: 1px; padding: 20px; display: flex; justify-content: center; align-items: center; background-color: lightblue;">
             <ul>
                 <p>Interne Navigation</p>
                 <li><a href="{{context._root_path}}/datamodel.html#ueberblick">Überblick</a></li>
@@ -54,26 +54,24 @@
             <p>Es handelt sich um Personen, die aufgrund ihrer sexuellen Orientierung in Konzentrationslager kamen und dort ermordet wurden.</p>
             <h5 class="h5">Als „asozial“ Verfolgte</h5>
             <p>Es handelt sich um Personen, die als sogenannte „Asoziale“ ermordet wurden.</p>
-        </div>
 
-        <div class="py-5" id="fair">
-        <h4>FAIR Prinzipien (Forschungsdaten) und MEMOR</h4>
-        <p>TEXT <a href="{{context._root_path}}/ontology.html">MEMOR Ontologie (Linked Data / RDF)</a> TEXT 
-        TEXT TEXT TEXT
-        </p>
-            <ul>
-                <li><a href="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/o:konde.7">FAIR</a></li>
-                <li>Test</li>
-                <li>Test</li>
-            </ul>
+
+            <div class="py-5" id="fair">
+                <h4>FAIR Prinzipien (Forschungsdaten) und MEMOR</h4>
+                <p>Die im Zuge des {{ context.project.projectAbbr | upper }}-Projektes erfassten Forschungsdaten folgen einem 
+                einheitlichen <strong>Datenmodell</strong>, welches sich um Anknüpfung, Verbindung, 
+                aber auch Anlehnung an internationale Datenstandards wie den <a href="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/o:konde.7">FAIR-Prinzipien</a>
+                bemüht.
+                </p>
+                <p><a href="{{context._root_path}}/ontology.html">MEMOR Ontologie</a> (Linked Data / RDF). TEXT 
+                    TEXT TEXT TEXT
+                </p>
+                <ul>
+                    <li>Findable</li>
+                    <li>Accessible</li>
+                    <li>Test</li>
+                </ul>
         </div>
-        <div class="py-2" id="test">
-        <h4>Test</h4>
-            <ul>
-                <li>Test</li>
-                <li>Test</li>
-                <li>Test</li>
-            </ul>
         </div>
     </div>
 
