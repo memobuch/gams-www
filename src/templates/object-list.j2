@@ -14,11 +14,11 @@
     <table id="example" class="display">
         <thead>
             <tr>
-                {# <th>#</th> #}
-                <th data-i18n="object-list.forename">Vorname</th>
-                <th data-i18n="object-list.surname">Nachname</th>
-                <th data-i18n="object-list.description" class="d-none d-sm-block">Beschreibung</th>
-                <th data-i18n="object-list.category">Opferkategorie</th>
+                <th> </th>
+                <th><span data-i18n="object-list.forename">Vorname</span></th>
+                <th><span data-i18n="object-list.surname">Nachname</span></th>
+                <th class="d-none d-sm-block"><span data-i18n="object-list.description">Beschreibung</span></th>
+                <th><span data-i18n="object-list.category">Opferkategorie</span></th>
             </tr>
         </thead>
         <tbody>
@@ -26,9 +26,9 @@
                 {# show only objects of tag person #}
                 {% if 'person' in object.tags %}
                     <tr>
-                        {# <td>
-                            <img loading="lazy" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{context.project.projectAbbr}}%2f{{object.id}}%2f1.jpg/full/,100/0/default.jpg" alt="Person 369">
-                        </td> #}
+                        <td>
+                            <i style="font-size: 1.25em;" class="iconoir-user" ></i>
+                        </td>
                         {% set clean_title = object.baseMetadata.title | replace("(person description)", "") | trim %}
                         {% set name_parts = clean_title.rsplit(' ', 1) %}
                         <td>
@@ -39,10 +39,12 @@
                         </td>
                         <td class="d-none d-sm-block"><small>{{ object.baseMetadata.description }}</small></td>
                         <td>
-                            {% for tag in object.tags | reject('in', get_excluded_object_tags()) %}
-                                {# <li><a data-i18n="{{tag}}" target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects?tags={{tag}}">{{ tag }}</a></li> #}
-                                <li><a data-i18n="{{tag}}" target="_blank">{{ tag }}</a></li>
-                            {% endfor %}
+                            <ul>
+                                {% for tag in object.tags | reject('in', get_excluded_object_tags()) %}
+                                    {# <li><a data-i18n="{{tag}}" target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects?tags={{tag}}">{{ tag }}</a></li> #}
+                                    <li><a data-i18n="{{tag}}" target="_blank">{{ tag }}</a></li>
+                                {% endfor %}
+                            </ul>
                         </td>
                     </tr>
                 {% endif %}
@@ -68,7 +70,7 @@
             },
             initComplete: function () {
                 let api = this.api();
-                let column = api.column(3); // Index 3 is the "Opferkategorie" column
+                let column = api.column(4); // Index 3 is the "Opferkategorie" column
 
                 console.log(column);
 
