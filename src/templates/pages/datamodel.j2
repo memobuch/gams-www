@@ -6,11 +6,6 @@
         <div class="col-md-9 col-lg-6" style="border-radius: 1px; padding: 25px; align-items: center; background-color: lightblue;">
             <h4 id="ueberblick">Überblick</h4>
             <p>Beschreibung</p>
-            <ul>
-                <li>XML</li>
-                <li>RDF</li>
-                <li>GeoJSON</li>
-            </ul>
             <br>
             <h5>TEST</h5>
             <p>TEXT TEXT TEXT</p>
@@ -21,7 +16,14 @@
                 <p>Interne Navigation</p>
                 <li><a href="{{context._root_path}}/datamodel.html#ueberblick">Überblick</a></li>
                 <li><a href="{{context._root_path}}/datamodel.html#historische_kategorien">Historische Kategorien</a></li>
-                <li><a href="{{context._root_path}}/datamodel.html#fair">FAIR Prinzipien (Forschungsdaten) und MEMOR</a></li>
+                <li><a href="{{context._root_path}}/datamodel.html#fair">FAIR Prinzipien (Forschungsdaten) und MEMOR</a>
+                    <ul>
+                        <li><a href="{{context._root_path}}/datamodel.html#findable">Findable</a></li>
+                        <li><a href="{{context._root_path}}/datamodel.html#accessible">Accessible</a></li>
+                        <li><a href="{{context._root_path}}/datamodel.html#interoperable">Interoperable</a></li>
+                        <li><a href="{{context._root_path}}/datamodel.html#reusable">Reusable</a></li>
+                    </ul>
+                </li>
                 <li>[MEMOR Ontologie (Linked Data / RDF)]</li>
                 <li>test</li>
                 <li><a href="{{context._root_path}}/datamodel.html#test">Test</a></li>
@@ -60,17 +62,34 @@
                 <h4>FAIR Prinzipien (Forschungsdaten) und MEMOR</h4>
                 <p>Die im Zuge des {{ context.project.projectAbbr | upper }}-Projektes erfassten Forschungsdaten folgen einem 
                 einheitlichen <strong>Datenmodell</strong>, welches sich um Anknüpfung, Verbindung, 
-                aber auch Anlehnung an internationale Datenstandards wie den <a href="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/o:konde.7">FAIR-Prinzipien</a>
-                bemüht.
+                aber auch Anlehnung an internationale Datenstandards wie den <a href="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/o:konde.7" data-bs-toggle="tooltip" data-bs-title="FAIR-Prinzipien Digitale Edition Weißbuch">FAIR-Prinzipien</a>
+                bemüht:
                 </p>
-                <p><a href="{{context._root_path}}/ontology.html">MEMOR Ontologie</a> (Linked Data / RDF). TEXT 
-                    TEXT TEXT TEXT
+                <br>
+                <h5 id="findable">Findable</h5>
+                <p>Daten und Metadaten (maschinenlesbar, mit persistent identifier) auf ZENODO</p>
+                <br>
+                <h5 id="accessible">Accessible</h5>
+                <p>MEMOR-Website <strong>"ns-opfer-graz.at"</strong> als Ganzes. <br>
+                <a href="{{context._root_path}}/ontology.html">MEMOR Ontologie</a> (Linked Data / RDF).
                 </p>
+                <br>
+                <h5 id="interoperable">Interoperable</h5>
+                <p>Standardisierte Datenformate</p>
                 <ul>
-                    <li>Findable</li>
-                    <li>Accessible</li>
-                    <li>Test</li>
+                    <li>XML</li>
+                    <li>RDF</li>
+                    <li>GeoJSON</li>
                 </ul>
+                <p>Metadaten in RDF, Dublin Core, Anbindung an 
+                <a href="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}" data-bs-toggle="tooltip" data-bs-title="Geisteswissenschaftliches Asset Management System GAMS">GAMS</a>
+                der <a href="https://www.uni-graz.at" data-bs-toggle="tooltip" data-bs-title="Universität Graz">Universität Graz</a>
+                
+                </p>
+                <br>
+                <h5 id="reusable">Reusable</h5>
+                <p>Langzeitarchivierung</p>
+                <br>
         </div>
         </div>
     </div>
