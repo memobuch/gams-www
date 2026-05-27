@@ -80,6 +80,25 @@
                                 </div>
                             </div>
                         </div>
+                    {% elif "pdf" in datastream.mimeType %}
+                        <div class="col">
+                            <div class="card border">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{datastream.baseMetadata.title}} ({{loop.index}})</h5>
+                                    <p class="card-text">{{datastream.baseMetadata.description.split('|')[0]}}</p>
+                                    <ul>
+                                        <li><a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/{{datastream.dsid}}/content">PDF anzeigen</a></li>
+                                        <li><a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/{{datastream.dsid}}">PDF Metadaten</a></li>
+                                    </ul>
+                                    <a href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/{{datastream.dsid}}" target="blank">
+                                        <img alt="Kein Bild vorhanden" class="border bg-white rounded" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memor%2f{{context.object.id}}%2f{{datastream.dsid}}/full/,250/0/default.jpg"/>
+                                    </a>
+                                </div>
+                                <div class="card-footer">
+                                    <small class="text-body-secondary">Quelle: {{ datastream.baseMetadata.description.split('|')[1] if datastream.baseMetadata.description and '|' in datastream.baseMetadata.description else "MEMOR project" }}</small>
+                                </div>
+                            </div>
+                        </div>
                     {% endif %}
                 {% endfor %}
             </div>
@@ -106,7 +125,7 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Name: {{ context.object.baseMetadata.title }}</li>
                     <li class="list-group-item">Datum: {{ context.object.dublinCore.date[0].value}}</li>
-                    <li class="list-group-item"><a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/RDF.xml/content"><img alt="RDF" height="30" id="rdf" src="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/templates/img/RDF_icon.png" title="RDF"></a> RDF</li>
+                    <li class="list-group-item"><a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/SEMANTIC_STATEMENTS.ttl/content"><img alt="RDF" height="30" id="rdf" src="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/templates/img/RDF_icon.png" title="RDF"></a> RDF</li>
                     <li class="list-group-item"><a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/DC.xml/content"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a> Dublin Core</li>
                     <li class="list-group-item"><a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}"><img alt="RDF" height="30" id="rdf" src="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/templates/img/gams_solo.png" title="Object metadata in the CMS system"></a> Metadatenansicht</li>
                 </ul>
