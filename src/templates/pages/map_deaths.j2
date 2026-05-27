@@ -1,0 +1,118 @@
+{% extends "parents/base.j2" %}
+{% block content %}
+
+    {# Leaflet version 1.9.4 #}
+    <link rel="stylesheet" href="{{context._root_path}}/static/css/leaflet/leaflet.css" />
+    
+    <!-- Leaflet MarkerCluster CSS version 1.5.3 -->
+    <link rel="stylesheet" href="{{context._root_path}}/static/css/leaflet/marker_cluster/MarkerCluster.css" />
+    <link rel="stylesheet" href="{{context._root_path}}/static/css/leaflet/marker_cluster/MarkerCluster.Default.css" />
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{context._root_path}}/static/apps/map/map.css">
+
+    <h1 data-i18n="map_deaths.title" class="h3 fw-light" id="main-heading">Todesorte NS-Verfolgter aus Graz</h1>
+    <p id="description" data-i18n="map_deaths.description">Diese Karte zeigt die Todesorte von Opfern des Nationalsozialismus in Graz zwischen 1938 und 1945.</p>
+
+    <div class="mb-md-2">
+        <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.project.projectAbbr}}.person-register/datastreams/EVENTS.json/content" class="btn btn-outline-secondary text-dark" data-bs-toggle="tooltip" data-bs-title="Forschungsdaten der Karte als GEOJSON downloaden."><i class="iconoir-download mt-1 me-2"></i>Download GEOJSON</a>
+        <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.project.projectAbbr}}.person-register/datastreams/EVENTS.json" class="btn btn-outline-secondary text-dark" data-bs-toggle="tooltip" data-bs-title="Metadatan zum GEOJSON der Kartenanwendung."><i class="iconoir-database mt-1 me-2"></i>Metadaten</a>
+    </div>
+
+    <section>
+
+        <div>
+
+        <!-- Map Container -->
+        <div id="map" class="map-container" style="min-height: 90vh;"></div>
+
+        <!-- Filter Controls -->
+        <div class="controls-panel">
+            <div class="controls-content">
+                <!-- Victim Category Filters -->
+                <div class="filter-section">
+                    <h3 class="filter-title">Opferkategorien filtern (Farben)</h3>
+                    <div class="filter-grid" id="victim-category-filters">
+                        <!-- Dynamically populated from vocab -->
+                    </div>
+                </div>
+
+                <!-- Header -->
+                {# <header class="header">
+                    <div class="header-content">
+                        <h1 class="title">Digitales Memorbuch</h1>
+                        <!-- Subtitle: populated by MEMOR.initMap (CONFIG.ui.subtitle) -->
+                        <p class="subtitle" id="subtitle"></p>
+                        <div class="divider"></div>
+                    </div>
+                </header> #}
+
+                <!-- Statistics -->
+                <div class="stats-section">
+                    <div class="stat-item">
+                        <span class="stat-label">Personen</span>
+                        <span class="stat-value" id="total-persons">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <!-- Stat label: populated by MEMOR.initMap (CONFIG.ui.statLabel) -->
+                        <span class="stat-label" id="stat-label-events"></span>
+                        <span class="stat-value" id="total-events">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Sichtbar</span>
+                        <span class="stat-value" id="visible-events">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS 1.9.4 -->
+    <script src="{{context._root_path}}/static/js/leaflet/leaflet.js"></script>
+    
+    <!-- Leaflet MarkerCluster JS -->
+    <script src="{{context._root_path}}/static/js/leaflet/marker_cluster/leaflet.markercluster.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="{{context._root_path}}/static/apps/map/map.js"></script>
+
+    <script>
+
+        document.querySelector('#description').scrollIntoView(true, { behavior: 'smooth' });
+
+        MEMOR.initMap({
+            geoJsonUrl: '{{context._root_path}}/static/apps/map/EVENTS.json',
+                    personBaseUrl: '{{context._root_path}}/objects',
+            mode: 'death',
+            mapCenter: [48.5, 16.5],
+            mapZoom: 5,
+            ui: {
+                subtitle: 'Sterbeorte der Opfer des Nationalsozialismus aus Graz 1938–1945',
+                statLabel: 'Sterbeorte',
+                infoTitle: 'Über das Projekt',
+                infoText: 'Diese Karte zeigt die Sterbeorte von {personCount} Opfern des Nationalsozialismus aus Graz. Jeder Punkt repräsentiert einen dokumentierten Sterbeort — viele davon liegen in Lagern und Tötungsanstalten weit außerhalb von Graz.',
+                clusterHeading: 'Sterbeorte-Cluster',
+                clusterMultiPlaceNote: 'Mehrere Sterbeorte in diesem Bereich',
+                personsAtPlaceLabel: 'Personen, die hier gestorben sind',
+                personsInAreaLabel: 'Personen, die in diesem Bereich gestorben sind'
+            }  
+        });
+    </script>
+
+    </section>
+
+    <style>
+
+        /**
+        * Displays legend container only above 1400px width
+        */
+        @media only screen and (max-width: 1400px) {
+            
+            .leaflet-bottom.leaflet-right {
+                display: none;
+            }
+
+        }
+    </style>
+
+{% endblock %}
