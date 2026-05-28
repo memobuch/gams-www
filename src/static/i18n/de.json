@@ -52,6 +52,7 @@
     "nav.ontology": "Ontologie (RDF/Linked Data)",
     "nav.search": "Suche",
     "nav.cite": "Zitierhilfe",
+    "nav.cite_prompt": "Zitieren",
 
     "sidebar.gams": "Geisteswissenschaftliches Asset Management System GAMS",
     "sidebar.ddh": "Institut für Digitale Geistewissenschaften (ehemals ZIM)",

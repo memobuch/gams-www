@@ -52,6 +52,7 @@
     "nav.analysis": "Analysis",
     "nav.search": "Search",
     "nav.cite": "How to cite",
+    "nav.cite_prompt": "Cite",
 
     "sidebar.gams": "Humanities Asset Management System (GAMS)",
     "sidebar.ddh": "Department of Digital Humanities (former ZIM)",

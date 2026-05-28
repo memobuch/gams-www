@@ -53,6 +53,10 @@
           <a class="nav-link lang-switch" data-lang="en" href="#">EN</a>
         </li>
       </ul>
+      <!-- Button trigger modal -->
+      <button data-i18n="nav.cite_prompt" type="button" class="btn btn-outline-dark d-flex me-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Zitieren
+      </button>
       <div class="d-flex" role="search" method="get" action="{{context._root_path}}/search.html">
         <a data-i18n="nav.search" class="btn btn-outline-dark" href="{{context._root_path}}/objects/" disabled>Suche</a>
       </div>
@@ -98,4 +102,31 @@
       }
     });
   })();
+</script>
+
+<!-- Zitierhilfe -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h3 class="h5">Zitat</h3>
+        <p style="border-radius: 1px; padding: 25px; align-items: center;">Lamprecht, Gerald; Schiller-Stofff Sebastian David; MEMOR - Das Digitale Gedenkbuch der Stadt Graz; 2026 Graz; URL: <span id="citation_help">https://www.ns-opfer-graz.at</span>;  DOI/Permalink zu den Forschungsdaten: -</p>
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Schließen</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+
+  (() => {
+
+    const myModalEl = document.getElementById('staticBackdrop')
+    myModalEl.addEventListener('show.bs.modal', event => {
+      // do something...
+      console.log("bla");
+      document.querySelector('#citation_help').textContent = window.location.href;
+    })
+
+  })();
+
 </script>
