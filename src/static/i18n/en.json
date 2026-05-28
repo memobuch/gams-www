@@ -48,9 +48,10 @@
     "nav.about": "About",
     "nav.imprint": "Imprint",
     "nav.datamodel": "Research data & model",
-    "nav.ontology": "Ontology",
+    "nav.ontology": "Ontology (RDF/Linked Data)",
     "nav.analysis": "Analysis",
     "nav.search": "Search",
+    "nav.cite": "How to cite",
 
     "sidebar.gams": "Humanities Asset Management System (GAMS)",
     "sidebar.ddh": "Department of Digital Humanities (former ZIM)",

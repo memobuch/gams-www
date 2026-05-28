@@ -49,8 +49,9 @@
     "nav.imprint": "Impressum",
     "nav.datamodel": "Forschungsdaten & Datenmodell",
     "nav.analysis": "Analyse",
-    "nav.ontology": "Ontologie",
+    "nav.ontology": "Ontologie (RDF/Linked Data)",
     "nav.search": "Suche",
+    "nav.cite": "Zitierhilfe",
 
     "sidebar.gams": "Geisteswissenschaftliches Asset Management System GAMS",
     "sidebar.ddh": "Institut für Digitale Geistewissenschaften (ehemals ZIM)",
