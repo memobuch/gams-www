@@ -57,10 +57,6 @@
         "label": "Jüdische Opfer",
         "color": "#228B22"
       },
-      "jewish-victims-persecuted-as-jew": {
-        "label": "Jüdische Opfer, als Jude verfolgt",
-        "color": "#228B22"
-      },
       "roma": {
         "label": "Roma/Romnija und Sinti/Sintize",
         "color": "#FF8C00"
@@ -83,7 +79,7 @@
     "project": "MEMOR - Digitales Memorbuch",
     "total_persons": 812,
     "total_location_events": 872,
-    "generated": "2026-05-26T14:24:13.399306"
+    "generated": "2026-05-28T11:13:40.116201"
   },
   "features": [
     {
@@ -192,7 +188,6 @@
         "tags": [
           "death",
           "jewish-victims-jewish",
-          "jewish-victims-persecuted-as-jew",
           "roma"
         ],
         "events": [
@@ -320,7 +315,7 @@
             "person_name": "Johann Wiener",
             "tags": [
               "death",
-              "jewish-victims-persecuted-as-jew"
+              "jewish-victims-jewish"
             ],
             "place_name": "KZ Dachau",
             "date": "13.02.1945",
@@ -930,7 +925,7 @@
         "person_name": "Stefan Barber",
         "tags": [
           "voluntary_residence",
-          "jewish-victims-persecuted-as-jew"
+          "jewish-victims-jewish"
         ],
         "place_name": "Feuerbachgasse 16, 8020 Graz",
         "date": null,
@@ -952,8 +947,7 @@
       "properties": {
         "tags": [
           "death",
-          "jewish-victims-jewish",
-          "jewish-victims-persecuted-as-jew"
+          "jewish-victims-jewish"
         ],
         "events": [
           {
@@ -961,7 +955,7 @@
             "person_name": "Stefan Barber",
             "tags": [
               "death",
-              "jewish-victims-persecuted-as-jew"
+              "jewish-victims-jewish"
             ],
             "place_name": "Bernburg an der Saale, Tötungsanstalt",
             "date": "02.03.1942",
@@ -1109,7 +1103,6 @@
         "tags": [
           "death",
           "jewish-victims-jewish",
-          "jewish-victims-persecuted-as-jew",
           "roma"
         ],
         "events": [
@@ -1237,7 +1230,7 @@
             "person_name": "Erhard Breitner",
             "tags": [
               "death",
-              "jewish-victims-persecuted-as-jew"
+              "jewish-victims-jewish"
             ],
             "place_name": "KZ Auschwitz",
             "date": "28.10.1943",
@@ -1509,7 +1502,7 @@
             "person_name": "Eduard Huppert",
             "tags": [
               "death",
-              "jewish-victims-persecuted-as-jew"
+              "jewish-victims-jewish"
             ],
             "place_name": "KZ Auschwitz",
             "date": "01.01.1945",
@@ -1628,7 +1621,7 @@
             "person_name": "Adele Kurzweil",
             "tags": [
               "death",
-              "jewish-victims-persecuted-as-jew"
+              "jewish-victims-jewish"
             ],
             "place_name": "KZ Auschwitz",
             "date": "1942",
@@ -1645,7 +1638,7 @@
             "person_name": "Bruno Kurzweil",
             "tags": [
               "death",
-              "jewish-victims-persecuted-as-jew"
+              "jewish-victims-jewish"
             ],
             "place_name": "KZ Auschwitz",
             "date": "1942",
@@ -1662,7 +1655,7 @@
             "person_name": "Gisela Kurzweil",
             "tags": [
               "death",
-              "jewish-victims-persecuted-as-jew"
+              "jewish-victims-jewish"
             ],
             "place_name": "KZ Auschwitz",
             "date": "1942",
@@ -1849,7 +1842,7 @@
             "person_name": "Irene Ransburg",
             "tags": [
               "death",
-              "jewish-victims-persecuted-as-jew"
+              "jewish-victims-jewish"
             ],
             "place_name": "KZ Auschwitz",
             "date": "1944",
@@ -4587,8 +4580,7 @@
       "properties": {
         "tags": [
           "death",
-          "jewish-victims-jewish",
-          "jewish-victims-persecuted-as-jew"
+          "jewish-victims-jewish"
         ],
         "events": [
           {
@@ -4681,7 +4673,7 @@
             "person_name": "Margit Frankau",
             "tags": [
               "death",
-              "jewish-victims-persecuted-as-jew"
+              "jewish-victims-jewish"
             ],
             "place_name": "Theresienstadt",
             "date": "19.11.1944",
@@ -5372,8 +5364,7 @@
       "properties": {
         "tags": [
           "death",
-          "jewish-victims-jewish",
-          "jewish-victims-persecuted-as-jew"
+          "jewish-victims-jewish"
         ],
         "events": [
           {
@@ -5398,7 +5389,7 @@
             "person_name": "Hermann Brücklmeier",
             "tags": [
               "death",
-              "jewish-victims-persecuted-as-jew"
+              "jewish-victims-jewish"
             ],
             "place_name": "KZ Buchenwald",
             "date": "18.03.1945",
@@ -6323,7 +6314,7 @@
         "person_name": "Erhard Breitner",
         "tags": [
           "voluntary_residence",
-          "jewish-victims-persecuted-as-jew"
+          "jewish-victims-jewish"
         ],
         "place_name": "Dominikanergrund 3/1, 8043 Graz",
         "date": null,
@@ -6570,7 +6561,7 @@
         "person_name": "Hermann Brücklmeier",
         "tags": [
           "voluntary_residence",
-          "jewish-victims-persecuted-as-jew"
+          "jewish-victims-jewish"
         ],
         "place_name": "Jungferngasse 3, 8010 Graz",
         "date": null,
@@ -6594,7 +6585,7 @@
         "person_name": "Hermann Brücklmeier",
         "tags": [
           "forced_residence",
-          "jewish-victims-persecuted-as-jew"
+          "jewish-victims-jewish"
         ],
         "place_name": "Goldschmiedgasse 5, 1010 Wien",
         "date": null,
@@ -8298,7 +8289,7 @@
         "person_name": "Margit Frankau",
         "tags": [
           "voluntary_residence",
-          "jewish-victims-persecuted-as-jew"
+          "jewish-victims-jewish"
         ],
         "place_name": "Schubertstraße 44, 8010 Graz",
         "date": null,
@@ -10156,7 +10147,7 @@
         "person_name": "Eduard Huppert",
         "tags": [
           "voluntary_residence",
-          "jewish-victims-persecuted-as-jew"
+          "jewish-victims-jewish"
         ],
         "place_name": "Bürgergasse 3, 8010 Graz",
         "date": null,
@@ -11566,7 +11557,7 @@
       },
       "properties": {
         "tags": [
-          "jewish-victims-persecuted-as-jew",
+          "jewish-victims-jewish",
           "voluntary_residence"
         ],
         "events": [
@@ -11575,7 +11566,7 @@
             "person_name": "Adele Kurzweil",
             "tags": [
               "voluntary_residence",
-              "jewish-victims-persecuted-as-jew"
+              "jewish-victims-jewish"
             ],
             "place_name": "Schröttergasse 7, 8010 Graz (ehemals Kirchengasse 15)",
             "date": null,
@@ -11592,7 +11583,7 @@
             "person_name": "Bruno Kurzweil",
             "tags": [
               "voluntary_residence",
-              "jewish-victims-persecuted-as-jew"
+              "jewish-victims-jewish"
             ],
             "place_name": "Schröttergasse 7, 8010 Graz (ehemals Kirchengasse 15)",
             "date": null,
@@ -11609,7 +11600,7 @@
             "person_name": "Gisela Kurzweil",
             "tags": [
               "voluntary_residence",
-              "jewish-victims-persecuted-as-jew"
+              "jewish-victims-jewish"
             ],
             "place_name": "Schröttergasse 7, 8010 Graz (ehemals Kirchengasse 15)",
             "date": null,
@@ -13277,8 +13268,8 @@
         "person_name": "Franz Öhler",
         "tags": [
           "voluntary_residence",
-          "jewish-victims-persecuted-as-jew",
-          "resistance-political"
+          "resistance-political",
+          "jewish-victims-jewish"
         ],
         "place_name": "Weg zum Reinerkogel 14, 8010 Graz",
         "date": null,
@@ -14046,7 +14037,7 @@
         "person_name": "Irene Ransburg",
         "tags": [
           "voluntary_residence",
-          "jewish-victims-persecuted-as-jew"
+          "jewish-victims-jewish"
         ],
         "place_name": "Leonhardstraße 130, 8010 Graz (Odilien-Institut)",
         "date": null,
@@ -17534,7 +17525,7 @@
         "person_name": "Johann Wiener",
         "tags": [
           "voluntary_residence",
-          "jewish-victims-persecuted-as-jew"
+          "jewish-victims-jewish"
         ],
         "place_name": "Wielandgasse 2, 8010 Graz",
         "date": null,
@@ -17944,7 +17935,7 @@
         "person_name": "Walter Guttfeld",
         "tags": [
           "voluntary_residence",
-          "jewish-victims-persecuted-as-jew"
+          "jewish-victims-jewish"
         ],
         "place_name": "Zeillergasse 14/I, 8020 Graz",
         "date": null,
@@ -17968,7 +17959,7 @@
         "person_name": "Walter Guttfeld",
         "tags": [
           "forced_residence",
-          "jewish-victims-persecuted-as-jew"
+          "jewish-victims-jewish"
         ],
         "place_name": "Obere Donaustraße 87, 1020 Wien",
         "date": null,
@@ -20022,7 +20013,7 @@
         "person_name": "Oskar Kral",
         "tags": [
           "voluntary_residence",
-          "jewish-victims-persecuted-as-jew"
+          "jewish-victims-jewish"
         ],
         "place_name": "Harter Straße 169. 8054 Graz",
         "date": null,
@@ -20046,7 +20037,7 @@
         "person_name": "Oskar Kral",
         "tags": [
           "forced_residence",
-          "jewish-victims-persecuted-as-jew"
+          "jewish-victims-jewish"
         ],
         "place_name": "Pazmanitengasse 19, 1020 Wien",
         "date": null,
@@ -20926,7 +20917,6 @@
           "forced_residence",
           "homosexual-victim",
           "jewish-victims-jewish",
-          "jewish-victims-persecuted-as-jew",
           "witnesses-jehovah"
         ],
         "events": [
@@ -21686,7 +21676,7 @@
             "tags": [
               "forced_residence",
               "euthanasia-victim",
-              "jewish-victims-persecuted-as-jew"
+              "jewish-victims-jewish"
             ],
             "place_name": "Landes-Heil- und Pflegeanstalt für Geisteskranke „Am Feldhof“, Wagner-Jauregg-Platz 1, 8053 Graz",
             "date": null,
@@ -25072,7 +25062,6 @@
           "euthanasia-victim",
           "homosexual-victim",
           "jewish-victims-jewish",
-          "jewish-victims-persecuted-as-jew",
           "witnesses-jehovah"
         ],
         "events": [
@@ -25832,7 +25821,7 @@
             "tags": [
               "death",
               "euthanasia-victim",
-              "jewish-victims-persecuted-as-jew"
+              "jewish-victims-jewish"
             ],
             "place_name": "Tötungsanstalt Hartheim",
             "date": "1941",
@@ -30418,7 +30407,7 @@
         "tags": [
           "voluntary_residence",
           "euthanasia-victim",
-          "jewish-victims-persecuted-as-jew"
+          "jewish-victims-jewish"
         ],
         "place_name": "Wormgasse 8, 8010 Graz",
         "date": null,
@@ -36325,7 +36314,7 @@
       "properties": {
         "tags": [
           "death",
-          "jewish-victims-persecuted-as-jew",
+          "jewish-victims-jewish",
           "ns-opposition",
           "resistance-individual",
           "resistance-political"
@@ -36388,7 +36377,7 @@
             "tags": [
               "death",
               "resistance-political",
-              "jewish-victims-persecuted-as-jew"
+              "jewish-victims-jewish"
             ],
             "place_name": "KZ Buchenwald, Deutschland",
             "date": "04.05.1945",
@@ -37682,7 +37671,7 @@
         "tags": [
           "voluntary_residence",
           "resistance-individual",
-          "jewish-victims-persecuted-as-jew"
+          "jewish-victims-jewish"
         ],
         "place_name": "Maigasse 15, 8010 Graz",
         "date": null,
@@ -37704,7 +37693,7 @@
       "properties": {
         "tags": [
           "death",
-          "jewish-victims-persecuted-as-jew",
+          "jewish-victims-jewish",
           "resistance-individual",
           "resistance-political"
         ],
@@ -37715,7 +37704,7 @@
             "tags": [
               "death",
               "resistance-individual",
-              "jewish-victims-persecuted-as-jew"
+              "jewish-victims-jewish"
             ],
             "place_name": "Zuchthaus München-Stadelheim, Deutschland",
             "date": "16.05.1943",
@@ -40384,7 +40373,7 @@
         "tags": [
           "voluntary_residence",
           "resistance-political",
-          "jewish-victims-persecuted-as-jew"
+          "jewish-victims-jewish"
         ],
         "place_name": "Weg zum Reinerkogel 14",
         "date": null,
