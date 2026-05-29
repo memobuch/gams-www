@@ -1,6 +1,11 @@
 {% extends "parents/base.j2" %}
 {% block content %}
-    <h1 class="h3 fw-light">Quantitative Analyse</h1>
-    <p>Alle von MEMOR erfassten Personen (Orte ohne Datum sind dabei nicht sichtbar) können auf dieser Kartenanwendung interaktiv betrachtet werden. Die Anwendung kann gescrollt und der Datensatz zeitlich und inhaltlich gefiltert werden. !Cookies müssen aktiviert sein um dieses Tool verwenden zu können</p>
-    <embed style="width:100%; height:200vh; border:none;" class="frame" type="text/html" src="//geobrowser.de.dariah.eu/embed/index.html?csv={{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/archive/objects/context:derlageo/datastreams/PLACES_CSV/content">
+    <h1 class="h3 fw-light">Räumlich-zeitliche Analyse</h1>
+    <div class="row">
+        <div class="col-lg-6">
+            <p>Diese Karte zeigt alle personenbezogenen Ereignisse erfasst durch das MEMOR-Projekt: Freiwillige Wohnhaftigkeit, erzwungene Wohnhaftigkeit und Todesfälle.</p>
+            <p>Die Anwendung kann gescrollt und der Datensatz zeitlich und inhaltlich gefiltert werden.</p>
+        </div>
+    </div>
+    <embed style="width:100%; height:200vh; border:none;" class="frame" type="text/html" src="//geobrowser.de.dariah.eu/embed/index.html?csv={{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.project.projectAbbr}}.person-register/datastreams/EVENTS.csv/content"/>
 {% endblock %}
