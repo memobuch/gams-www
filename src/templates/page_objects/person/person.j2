@@ -10,15 +10,15 @@
 {% set desc_value = context.object.dublinCore.description[0].value %}
 {% if 'Letzte freiwillige Wohnadresse: ' in desc_value %}
     {% set string_extract = desc_value.rsplit('Letzte freiwillige Wohnadresse: ')[1] %}
-    <small>Letzte freiwillige Wohnadresse: {{string_extract}}</small>
+    <small class="d-print-none">Letzte freiwillige Wohnadresse: {{string_extract}}</small>
 {% endif %} 
-<div>
+<div class="d-print-none">
     <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/SEMANTIC_STATEMENTS.ttl/content" data-bs-toggle="tooltip" data-bs-title="RDF Forschungsdaten zur Person"><img alt="RDF" height="30" id="rdf" src="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/templates/img/RDF_icon.png"></a> 
     <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/DC.xml/content" data-bs-toggle="tooltip" data-bs-title="Dublin Core Forschungsdaten zum digitalen Objekt"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a>
     <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}" data-bs-toggle="tooltip" data-bs-title="Metadatenansicht zum digitalen Objekt"><img alt="RDF" height="30" id="rdf" src="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/templates/img/gams_solo.png"></a>
 </div>
 {# <pre>{{ context | tojson(indent=2) }}</pre> #}
-<ul class="mt-2 p-0">
+<ul class="mt-2 p-0 d-print-none">
     {% for tag in context.object.tags | reject('in', ['person']) %}
         <li class="badge text-bg-light border" data-i18n="{{tag}}">{{ tag }}</li>
     {% endfor %}
@@ -26,8 +26,8 @@
 
 
 <div>
-    <hr/>
-    <ul class="nav nav-pills nav-fill" id="myTab" role="tablist">
+    <hr class="d-print-none"/>
+    <ul class="nav nav-pills nav-fill d-print-none" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Übersicht</button>
         </li>
@@ -55,12 +55,12 @@
             color: black !important;
         }
     </style>
-    <br/>
-    <div class="tab-content bg-white" id="myTabContent">
+    <br class="d-print-none"/>
+    <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
             <div class="row">
         <div class="col">
-            <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="row justify-content-center row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 d-print-none">
                 <div class="col">
                     <div class="card border">
                         <div class="card-body">
@@ -110,6 +110,47 @@
                         </div>
                     {% endif %}
                 {% endfor %}
+            </div>
+
+            <br class="mt-5 mb-5 d-print-none"/>
+
+            <div class="row mt-4">
+
+                <div class="col-lg-3">
+                    <div class="card border">
+                        <div class="card-body">
+                            <h5 class="card-title d-print-none">QR Code zur Person</h5>
+                            <small></small>
+                            <p class="card-text d-none d-print-block">{{context.object.dublinCore.description[0].value}} | <i>MEMOR Das Digitale Gedenkbuch der Stadt Graz.</i></p>
+                            <script src="{{context._root_path}}/static/js/qrcodejs/qrcode.min.js"></script>
+                            <div id="qrcode"></div>
+                            <script type="text/javascript">
+                            new QRCode(document.getElementById("qrcode"), {
+                                text: window.location.href,
+                                width: 150,
+                                height:150
+                            });
+                            </script>
+                            <br/>
+                            <button
+                                onclick="window.print()"
+                                class="browser-only d-print-none"
+                                style="
+                                    padding: 15px 20px;
+                                    background-color: #244556;
+                                    color: white;
+                                    border: none;
+                                    border-radius: 20px;
+                                    cursor: pointer;
+                                    font-size: 12px;
+                                "
+                            >
+                            EIN ZEICHEN SETZEN
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -163,7 +204,6 @@
         </div>
 
     </div>
-    
 
     <br/>
 
