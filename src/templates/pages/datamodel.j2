@@ -1,8 +1,7 @@
 {% extends "parents/base.j2" %}
 {% block content %}
     <h1 data-i18n="data_model.title" class="h3 fw-light">Datenmodell</h1>
-    <br>
-
+    <p>In MEMOR Graz sind Opfer des Nationalsozialismus verzeichnet, die zum Zeitpunkt der NS-Machtübernahme im Jahr 1938 im Grazer Stadtgebiet ihren Lebensmittelpunkt hatten</p>
     <div class="row">
         <div class="col-md-9 col-lg-6">
             <div class="py-5" style="border-radius: 1px; padding: 25px; align-items: center; background-color: lightblue; margin-bottom: 30px;">
@@ -16,11 +15,11 @@
                 <br>
                 Zugleich orientiert sich das Projekt an den <strong>FAIR-Prinzipien</strong> – also daran, 
                 Daten <strong>auffindbar</strong> (Findable), <strong>zugänglich</strong> (Accessible), <strong>interoperabel</strong> (Interoperable) und <strong>nachnutzbar</strong> (Reusable) zu machen. Die Daten werden strukturiert modelliert, 
-                mit Metadaten versehen und in standardisierten Formaten wie RDF oder XML bereitgestellt. Dadurch können die Inhalte langfristig erhalten, 
+                mit Metadaten versehen und in standardisierten Formaten bereitgestellt. Dadurch können die Inhalte langfristig erhalten, 
                 wissenschaftlich weiterverwendet und mit anderen digitalen Sammlungen oder Forschungsprojekten verknüpft werden.</p>
             </div>
 
-            <div class="py-5">
+            <div>
                 <h4 id="historische_kategorien">Historische Kategorien</h4>
                 <p>In {{ context.project.projectAbbr | upper }} Graz sind Opfer des Nationalsozialismus verzeichnet, die zum Zeitpunkt der NS-Machtübernahme im Jahr 1938 im Grazer Stadtgebiet ihren Lebensmittelpunkt hatten. Sie werden in MEMOR Graz an ihren letzten freiwilligen Wohnadresse erfasst und biographisch vorgestellt. Weiters werden sie entsprechend der Gründe ihrer Verfolgung in Gruppen unterteilt. Auf Grund der Tatsache, dass Menschen teils mehrfach vom nationalsozialistischen Terror betroffen waren, werden manche NS-Opfer mehreren Kategorien zugeordnet.</p>
                 <br>
@@ -46,7 +45,7 @@
                 <p>Es handelt sich um Personen, die als sogenannte „Asoziale“ ermordet wurden.</p>
             </div>
 
-            <div class="py-5" id="fair">
+            <div class="py-2" id="fair">
                 <h4>FAIR Prinzipien (Forschungsdaten) und {{ context.project.projectAbbr | upper }}</h4>
                 <p>Die im Zuge des {{ context.project.projectAbbr | upper }}-Projektes erfassten Forschungsdaten folgen einem 
                 einheitlichen <strong>Datenmodell</strong>, welches sich um Anknüpfung, Verbindung, 
@@ -57,7 +56,7 @@
                 <h5 id="findable">Findable</h5>
                 <p>Alle erfassten Personen sind im <a href="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}" data-bs-toggle="tooltip" data-bs-title="Geisteswissenschaftliches Asset Management System GAMS">GAMS</a>
                 der <a href="https://www.uni-graz.at" data-bs-toggle="tooltip" data-bs-title="Universität Graz">Universität Graz</a> 
-                jeweils als digitales Objekt mitsamt der zugehörigen Informationen und einem <strong>persistenten Identifikator</strong> (ID) angelegt.
+                jeweils als digitales Objekt mitsamt der zugehörigen Informationen und einem Identifikator(ID) angelegt.
                 Diese Daten und Metadaten sind dadurch sowohl menschen- als auch maschinenlesbar.
                 <br>
                 Zusätzlich zu den unter 
@@ -96,7 +95,7 @@
                 <p>Die Daten des {{ context.project.projectAbbr | upper }}-Projekts sind unter der <strong>CC-BY-NC Lizenz</strong> verfügbar, 
                 und somit für nicht-kommerzielle Zwecke frei nutzbar. <br>
                 Die technische Infrastruktur für die Langzeitarchivierung, also den Erhalt der Daten über einen möglichst langen Zeitaum, wird
-                durch das GAMS gewährleistet. Alle digitale Objekte im GAMS enthalten auch eine Beschreibung, um Ambiguitäten im Sinne der <strong>Nachnutzbarkeit</strong> zu vermeiden.</p>
+                durch Zenodo gewährleistet. Alle digitalen Objekte im GAMS enthalten auch eine Beschreibung, um Ambiguitäten im Sinne der <strong>Nachnutzbarkeit</strong> zu vermeiden.</p>
                 <br>
             </div>
         </div>
