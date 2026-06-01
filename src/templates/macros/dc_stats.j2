@@ -11,8 +11,12 @@
             let statsContainer = document.createElement("div");
 
             let header = document.createElement("h3");
-            header.textContent = "Vergebene Opferkategorien";
+            header.textContent = "Grazer NS-Opfer und ihre Opferkategorien";
             statsContainer.appendChild(header);
+
+            let subHeading = document.createElement("small");
+            subHeading.innerHTML = `<span>Die folgende Tabelle zeigt die Verteilung der Opferkategorien der Grazer NS-Opfer.</span> (<a href="{{context._root_path}}/datamodel.html#historische_kategorien">Historische Kategorien MEMOR</a>)`
+            statsContainer.append(subHeading);
 
             let searchResultUl = document.createElement("ul");
             statsContainer.appendChild(searchResultUl);
@@ -35,6 +39,9 @@
             let body = await resp.json();
 
             body.availableFacets["dc.subject"].forEach(facetItem => {
+
+                if(facetItem.value === "datamodel" || facetItem.value === "Register" || facetItem.value === "jugendliche Opfer")return;
+
                 let htmlLi = `
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         ${facetItem.value}

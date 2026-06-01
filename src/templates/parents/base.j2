@@ -68,20 +68,36 @@
 
   <body>
     <header class="bg-light">
-      <div class="row">
-        <div class="col-xl-1">
-          <a href="{{context._root_path}}"><img width="120" src="{{context._root_path}}/static/img/main_logo.jpg"()></a>
-        </div>
-        <div class="col-xl-8">
-          <div class="mt-4">
-            <h1 data-i18n="header.title" class="h1">Das Digitale Gedenkbuch der Stadt Graz</h1>
-            <small data-i18n="header.description">MEMOR ist ein digitales Denkmal, das sich der Dokumentation und Visualisierung der Grazer NS-Opfer widmet.</small>
-          </div>
+  <div class="container-fluid px-4">
+    <div class="d-flex align-items-center justify-content-between py-1 gap-3">
+
+      <a href="{{context._root_path}}" class="flex-shrink-0">
+        <img width="120"
+             src="{{context._root_path}}/static/img/main_logo.jpg"
+             alt="MEMOR Digitales Gedenkbuch – Logo">
+      </a>
+
+      <div class="flex-grow-1 d-none d-md-block">
+        <div class="mt-xl-4 ps-3 ps-md-4">
+          <h1 data-i18n="header.title" class="h1">
+            Das Digitale Gedenkbuch der Stadt Graz
+          </h1>
+          <small data-i18n="header.description">
+            MEMOR ist ein digitales Denkmal, das sich der Dokumentation und Visualisierung der Grazer NS-Opfer widmet.
+          </small>
         </div>
       </div>
-    </header>
+      {#  
+      <div class="text-end flex-shrink-0">
+        {% include "pages/pwa.j2" %}
+      </div>
+      #} 
+    </div>
+  </div>
+</header>
     {% include "includes/nav.j2" %}
-    <main class="container-fluid" id="main-container" style="min-height: 50vh;">
+    {% include "parents/sidebar.j2" %}
+    <main class="container-fluid px-3" id="main-container" style="min-height: 50vh;">
     {% block content %}
         {% endblock %}
     </main>

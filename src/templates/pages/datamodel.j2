@@ -1,30 +1,128 @@
 {% extends "parents/base.j2" %}
 {% block content %}
     <h1 data-i18n="data_model.title" class="h3 fw-light">Datenmodell</h1>
-
+    <p>In MEMOR Graz sind Opfer des Nationalsozialismus verzeichnet, die zum Zeitpunkt der NS-Machtübernahme im Jahr 1938 im Grazer Stadtgebiet ihren Lebensmittelpunkt hatten</p>
     <div class="row">
-        <div class="col-md-9">
-            <p>In MEMOR Graz sind Opfer des Nationalsozialismus verzeichnet, die zum Zeitpunkt der NS-Machtübernahme im Jahr 1938 im Grazer Stadtgebiet ihren Lebensmittelpunkt hatten. Sie werden in MEMOR Graz an ihren letzten freiwilligen Wohnadresse erfasst und biographisch vorgestellt. Weiters werden sie entsprechend der Gründe ihrer Verfolgung in Gruppen unterteilt. Auf Grund der Tatsache, dass Menschen teils mehrfach vom nationalsozialistischen Terror betroffen waren, werden manche NS-Opfer mehreren Kategorien zugeordnet.</p>
-            <h3 class="h5">Widerstand</h2>
-            <p>Es handelt sich um Personen, die aus nachfolgenden Gründen Widerstand gegen den Nationalsozialismus leisteten und ermordet wurden:</p>
-            <ul>
-                <li>Politisch: auf Grund ihrer politischen Überzeugun</li>
-                <li>Religiös: auf Grund ihrer religiösen Überzeugung</li>
-                <li>Individuell: auf Grund individueller moralischer oder ethischer Überzeugungen</li>
-            </ul>
-            <h3 class="h5">NS-Gegner</h3>
-            <p>Es handelt sich um Personen, die von den Nationalsozialisten als politische Gegner vor 1938 unmittelbar nach der NS-Machtübernahme verfolgt wurden oder die während der NS-Zeit als politisch Verdächtige in Konzentrationslager kamen.</p>
-            <h3 class="h5">Jüdische Opfer</h3>
-            <p>Es handelt sich um Personen, die von den Nationalsozialisten auf Basis der „Nürnberger Rassengesetze“ verfolgt wurden</p>
-            <h3 class="h5">Roma/Romnija und Sinti/Sintize</h3>
-            <p>Es handelt sich um Personen, die als sogenannte „Zigeuner“ verfolgt wurden.</p>
-            <h3 class="h5">Opfer der NS-Euthanasie</h3>
-            <p>Es handelt sich um Personen, die im Rahmen der NS-Euthanasie ermordet wurden.</p>
-            <h3 class="h5">Als homosexuell verfolgt</h3>
-            <p>Es handelt sich um Personen, die aufgrund ihrer sexuellen Orientierung in Konzentrationslager kamen und dort ermordet wurden.</p>
-            <h3 class="h5">Als „asozial“ Verfolgte</h3>
-            <p>Es handelt sich um Personen, die als sogenannte „Asoziale“ ermordet wurden.</p>
+        <div class="col-md-9 col-lg-6">
+            <div class="py-5" style="border-radius: 1px; padding: 25px; align-items: center; background-color: lightblue; margin-bottom: 30px;">
+                <h4 id="ueberblick">{{ context.project.projectAbbr | upper }} als Digitale Edition</h4>
+                <br>
+                <p><strong>{{ context.project.projectAbbr | upper }} – Das Digitale Gedenkbuch der Stadt Graz</strong> kann als sogenannte <strong>Digitale Edition</strong> verstanden werden,
+                 da historische Quellen wie Biografien und Forschungsdaten systematisch gesammelt, wissenschaftlich erschlossen, digital aufbereitet und (auf mehreren Wegen) öffentlich zugänglich gemacht werden. 
+                 Die Plattform verbindet einzelne Dokumente, Bilder, Karten und Metadaten zu einer vernetzten Forschungs- und Erinnerungsumgebung. Dabei werden nicht nur Informationen archiviert, 
+                sondern historische Zusammenhänge sichtbar und digital erforschbar gemacht.
+                <br>
+                <br>
+                Zugleich orientiert sich das Projekt an den <strong>FAIR-Prinzipien</strong> – also daran, 
+                Daten <strong>auffindbar</strong> (Findable), <strong>zugänglich</strong> (Accessible), <strong>interoperabel</strong> (Interoperable) und <strong>nachnutzbar</strong> (Reusable) zu machen. Die Daten werden strukturiert modelliert, 
+                mit Metadaten versehen und in standardisierten Formaten bereitgestellt. Dadurch können die Inhalte langfristig erhalten, 
+                wissenschaftlich weiterverwendet und mit anderen digitalen Sammlungen oder Forschungsprojekten verknüpft werden.</p>
+            </div>
+
+            <div>
+                <h4 id="historische_kategorien">Historische Kategorien</h4>
+                <p>In {{ context.project.projectAbbr | upper }} Graz sind Opfer des Nationalsozialismus verzeichnet, die zum Zeitpunkt der NS-Machtübernahme im Jahr 1938 im Grazer Stadtgebiet ihren Lebensmittelpunkt hatten. Sie werden in MEMOR Graz an ihren letzten freiwilligen Wohnadresse erfasst und biographisch vorgestellt. Weiters werden sie entsprechend der Gründe ihrer Verfolgung in Gruppen unterteilt. Auf Grund der Tatsache, dass Menschen teils mehrfach vom nationalsozialistischen Terror betroffen waren, werden manche NS-Opfer mehreren Kategorien zugeordnet.</p>
+                <br>
+                <h5 class="h5">Widerstand</h5>
+                <p>Es handelt sich um Personen, die aus nachfolgenden Gründen Widerstand gegen den Nationalsozialismus leisteten und ermordet wurden:</p>
+                <ul>
+                    <li>Politisch: auf Grund ihrer politischen Überzeugun</li>
+                    <li>Religiös: auf Grund ihrer religiösen Überzeugung</li>
+                    <li>Individuell: auf Grund individueller moralischer oder ethischer Überzeugungen</li>
+                </ul>
+                <br>
+                <h5 class="h5">NS-Gegner</h5>
+                <p>Es handelt sich um Personen, die von den Nationalsozialisten als politische Gegner vor 1938 unmittelbar nach der NS-Machtübernahme verfolgt wurden oder die während der NS-Zeit als politisch Verdächtige in Konzentrationslager kamen.</p>
+                <h5 class="h5">Jüdische Opfer</h5>
+                <p>Es handelt sich um Personen, die von den Nationalsozialisten auf Basis der „Nürnberger Rassengesetze“ verfolgt wurden</p>
+                <h5 class="h5">Roma/Romnija und Sinti/Sintize</h5>
+                <p>Es handelt sich um Personen, die als sogenannte „Zigeuner“ verfolgt wurden.</p>
+                <h5 class="h5">Opfer der NS-Euthanasie</h5>
+                <p>Es handelt sich um Personen, die im Rahmen der NS-Euthanasie ermordet wurden.</p>
+                <h5 class="h5">Als homosexuell verfolgt</h5>
+                <p>Es handelt sich um Personen, die aufgrund ihrer sexuellen Orientierung in Konzentrationslager kamen und dort ermordet wurden.</p>
+                <h5 class="h5">Als „asozial“ Verfolgte</h5>
+                <p>Es handelt sich um Personen, die als sogenannte „Asoziale“ ermordet wurden.</p>
+            </div>
+
+            <div class="py-2" id="fair">
+                <h4>FAIR Prinzipien (Forschungsdaten) und {{ context.project.projectAbbr | upper }}</h4>
+                <p>Die im Zuge des {{ context.project.projectAbbr | upper }}-Projektes erfassten Forschungsdaten folgen einem 
+                einheitlichen <strong>Datenmodell</strong>, welches sich um Anknüpfung, Verbindung, 
+                aber auch Anlehnung an internationale Datenstandards wie den <a href="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/o:konde.7" data-bs-toggle="tooltip" data-bs-title="FAIR-Prinzipien Digitale Edition Weißbuch">FAIR Guiding Principles for scientific data management and stewardship</a> 
+                (FAIR-Prinzipien) bemüht:
+                </p>
+                <br>
+                <h5 id="findable">Findable</h5>
+                <p>Alle erfassten Personen sind im <a href="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}" data-bs-toggle="tooltip" data-bs-title="Geisteswissenschaftliches Asset Management System GAMS">GAMS</a>
+                der <a href="https://www.uni-graz.at" data-bs-toggle="tooltip" data-bs-title="Universität Graz">Universität Graz</a> 
+                jeweils als digitales Objekt mitsamt der zugehörigen Informationen und einem Identifikator(ID) angelegt.
+                Diese Daten und Metadaten sind dadurch sowohl menschen- als auch maschinenlesbar.
+                <br>
+                Zusätzlich zu den unter 
+                <a href="{{context._root_path}}/datamodel.html#accessible">Accessible</a> und <a href="{{context._root_path}}/datamodel.html#interoperable">Interoperable</a> geannten Zugängen werden die Daten auch auf 
+                <a data-bs-toggle="tooltip" data-bs-title="ZENODO">ZENODO</a> veröffentlicht. Dadurch soll die <strong>Auffindbarkeit</strong> garantiert werden.
+                </p>
+                <br>
+                <h5 id="accessible">Accessible</h5>
+                <p>Die offizielle {{ context.project.projectAbbr | upper }}-Website (sowie die Links zu den Daten und Metadaten) ist unter <strong>"ns-opfer-graz.at"</strong> erreichbar.
+                Diese kann zudem auch als App installiert werden (Prototyp: <a href="{{context._root_path}}/pwa.html">MEMOR als App</a>).
+                <br>
+                Die eigens entwickelte <a href="{{context._root_path}}/ontology.html">{{ context.project.projectAbbr | upper }} Ontologie</a> beschreibt die dem Projekt zugrunde liegenden Daten: 
+                Sie ist ein ereigniszentriertes semantisches Webmodell, 
+                das dazu dient, die Biografien und Verfolgungsgeschichten von Opfern des Nationalsozialismus zu dokumentieren.
+                Die Daten sind als <a href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.project.projectAbbr}}.ontology/datastreams/ONTOLOGY.ttl/content" data-bs-toggle="tooltip" data-bs-title="MEMOR Ontologie als turtle RDF downloaden.">RDF (turtle)</a> zum Download freigegeben, 
+                die Metadaten über das <a href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.project.projectAbbr}}.ontology/datastreams/ONTOLOGY.ttl" data-bs-toggle="tooltip" data-bs-title="Metadaten zur MEMOR Ontologie.">GAMS</a> verfügbar.
+                </p>
+                <br>
+                <h5 id="interoperable">Interoperable</h5>
+                <p>Um die Interoperabilität zu gewährleisten, nutzt das {{ context.project.projectAbbr | upper }}-Projekt standardisierte Datenformate:</p>
+                <ul>
+                    <li>XML</li>
+                    <li>RDF</li>
+                    <li>GeoJSON</li>
+                </ul>
+                <p>Für jede in {{ context.project.projectAbbr | upper }} erfasste Person werden Metadaten in RDF (turtle), Dublin Core (XML), 
+                sowie eine Metadatenansicht zum digitalen Objekt im GAMS bereitgestellt.
+                </p>
+                <p>Die Daten der <a href="{{context._root_path}}/map.html">Karte der letzten Wohnorte</a> 
+                sowie der <a href="{{context._root_path}}/map_deaths.html">Karte der Todesorte</a> 
+                stehen gesammelt als <a href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.project.projectAbbr}}.person-register/datastreams/EVENTS.json/content" data-bs-toggle="tooltip" data-bs-title="Forschungsdaten der Karten als GEOJSON downloaden">GeoJSON</a> 
+                zum Download zur Verfügung. Die dazugehörigen Metadaten sind ebenfalls über das <a href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/memor/objects/memor.person-register/datastreams/EVENTS.json" data-bs-toggle="tooltip" data-bs-title="GAMS Digitales Objekt">GAMS</a> abrufbar.
+                </p>    
+                <br>
+                <h5 id="reusable">Reusable</h5>
+                <p>Die Daten des {{ context.project.projectAbbr | upper }}-Projekts sind unter der <strong>CC-BY-NC Lizenz</strong> verfügbar, 
+                und somit für nicht-kommerzielle Zwecke frei nutzbar. <br>
+                Die technische Infrastruktur für die Langzeitarchivierung, also den Erhalt der Daten über einen möglichst langen Zeitaum, wird
+                durch Zenodo gewährleistet. Alle digitalen Objekte im GAMS enthalten auch eine Beschreibung, um Ambiguitäten im Sinne der <strong>Nachnutzbarkeit</strong> zu vermeiden.</p>
+                <br>
+            </div>
         </div>
+
+        <div class="col-md-4 d-none d-md-block ms-md-5">
+            <div class="sticky-top" style="border: solid 1px darkgray;  border-radius: 1px; padding: 20px; display: flex; justify-content: center; align-items: center; background-color: white; z-index: 10;">
+                <ul style="list-style-type: circle;">
+                    <h5 style="color: rgb(36, 69, 90)">Interne Navigation</h5>
+                    <br>
+                    <li><a href="{{context._root_path}}/datamodel.html#ueberblick" class="link-secondary">{{ context.project.projectAbbr | upper }} als Digitale Edition</a></li>
+                    <li><a href="{{context._root_path}}/datamodel.html#historische_kategorien" class="link-secondary">Historische Kategorien</a> </li>
+                    <li><a href="{{context._root_path}}/datamodel.html#fair" class="link-secondary">FAIR Prinzipien (Forschungsdaten) und MEMOR</a>
+                        <ul style="list-style-type: circle;">
+                            <li><a href="{{context._root_path}}/datamodel.html#findable" class="link-secondary">Findable</a></li>
+                            <li><a href="{{context._root_path}}/datamodel.html#accessible" class="link-secondary">Accessible</a></li>
+                            <li><a href="{{context._root_path}}/datamodel.html#interoperable" class="link-secondary">Interoperable</a></li>
+                            <li><a href="{{context._root_path}}/datamodel.html#reusable" class="link-secondary">Reusable</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
     </div>
+    
+
+
+
 
 {% endblock %}
