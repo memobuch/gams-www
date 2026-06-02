@@ -104,6 +104,7 @@
     "home.typed.tooltip": "Hier wird eine zufällige Auswahl aller von MEMOR erfassten Personen angezeigt",
      "ontology.title": "MEMOR Ontologie",
     "ontology.subtitle": "Interaktive Dokumentation der MEMOR Ontologie.",
+    "citation.description": "Für die Zitation von MEMOR ist die Angabe des Permalinks der Forschungsdaten (MEMOR benutzt DOIs) essentiell - zum Beispiel:",
     "geobrowser.title": "Räumlich-zeitliche Analyse",
     "geobrowser.description": "Diese Karte zeigt die gesamten personenbezogenen Ereignisse erfasst durch das MEMOR-Projekt: Freiwillige Wohnhaftigkeit, erzwungene Wohnhaftigkeit und Todesfälle. Die Anwendung kann gescrollt und der Datensatz zeitlich und inhaltlich gefiltert werden."
 }

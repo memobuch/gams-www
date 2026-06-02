@@ -81,6 +81,7 @@
     "home.typed.tooltip": "A random selection of all individuals recorded by MEMOR is displayed here",
     "ontology.title": "MEMOR Ontology",
     "ontology.subtitle": "Interactive documentation of the MEMOR ontology.",
+    "citation.description": "When citing MEMOR, it is essential to include the permalink for the research data (MEMOR uses DOIs)—for example:",
     "geobrowser.title": "Spatio-temporal analysis",
     "geobrowser.description": "This map displays all personal events recorded by the MEMOR project: voluntary residence, forced residence, and deaths. The map can be scrolled, and the dataset can be filtered by date and content."
 }
