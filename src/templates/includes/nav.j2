@@ -1,7 +1,5 @@
 <nav class="navbar bd-navbar navbar-expand-lg mb-3 sticky-top bg-light border border-3 border-start-0 border-end-0 d-print-none">
   <div class="container-fluid px-4">
-    {# <a class="navbar-brand" href="{{context._root_path}}" style="text-transform:uppercase;">{{context.project.projectAbbr
-      }}</a> #}
     <button class="navbar-toggler text-light" type="button" data-bs-toggle="collapse"
       data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
       aria-label="Toggle navigation">
@@ -61,7 +59,7 @@
         <span data-i18n="nav.cite_prompt">Zitieren</span><i class="iconoir-quote-message ms-1"></i>
       </button>
       <div class="d-flex" role="search" method="get" action="{{context._root_path}}/search.html">
-        <a class="btn btn-outline-dark" href="{{context._root_path}}/objects/" disabled><span data-i18n="nav.search">Suche</span><i class="iconoir-search-engine ms-1"></i></a>
+        <a class="btn btn-outline-dark" href="{{context._root_path}}/objects/" disabled><span data-i18n="nav.search">Suche</span></a>
       </div>
     </div>
   </div>
@@ -113,7 +111,7 @@
     <div class="modal-content">
       <div class="modal-body">
         <h3 class="h5">Zitat <i class="iconoir-quote-message"></i></h3>
-        <p style="border-radius: 1px; padding: 25px; align-items: center;">Lamprecht, Gerald; Schiller-Stofff Sebastian David; MEMOR - Das Digitale Gedenkbuch der Stadt Graz; 2026 Graz; GAMS-Geisteswissenschaftliches Asset Management System | Universität Graz; URL: <span id="citation_help">https://www.ns-opfer-graz.at</span>;  DOI/Permalink zu den Forschungsdaten: -</p>
+        <p style="border-radius: 1px; padding: 25px; align-items: center;">Lamprecht, Gerald; Schiller-Stofff Sebastian David; MEMOR - Das Digitale Gedenkbuch der Stadt Graz; 2026 Graz; GAMS-Geisteswissenschaftliches Asset Management System | Universität Graz; URL: <span id="citation_help">https://www.ns-opfer-graz.at</span>;  DOI/Permalink zu den Forschungsdaten: <a class="text-dark" href="https://doi.org/10.5281/zenodo.20510043" target="_blank">10.5281/zenodo.20510043</a></p>
         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Schließen</button>
       </div>
     </div>

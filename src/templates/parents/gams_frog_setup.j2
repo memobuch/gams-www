@@ -5,25 +5,46 @@
 
     // TODO move to template include? / macro?
     window.gams_frog = {
-    "_root_path": "{{context._root_path}}",
-    "_template_name": "{{context._template_name}}",
-    "_template_file_name": "{{context._template_file_name}}",
-    "env": {
-        "DANGEROUS_GAMS3_PRODUCTION_ORIGIN": "{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}",
-        "DANGEROUS_GAMS5_PRODUCTION_ORIGIN": "{{context.env.DANGEROUS_GAMS5_PRODUCTION_ORIGIN}}",
-        "GAMS_API_ORIGIN": "{{context.env.GAMS_API_ORIGIN}}",
-        "IIIF_IMAGE_SERVER_ORIGIN": "{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}",
-        "GAMS_FROG_MODE": "{{context.env.GAMS_FROG_MODE}}",
-        "PROJECT_ABBR": "{{context.project.projectAbbr}}",
-        "UI_TITLE": "{{context.env.UI_TITLE}}",
-        "UI_VERSION": "{{context.env.UI_VERSION}}"
-    }
+        "_root_path": "{{context._root_path}}",
+        "_template_name": "{{context._template_name}}",
+        "_template_file_name": "{{context._template_file_name}}",
+        "env": {
+            "DANGEROUS_GAMS3_PRODUCTION_ORIGIN": "{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}",
+            "DANGEROUS_GAMS5_PRODUCTION_ORIGIN": "{{context.env.DANGEROUS_GAMS5_PRODUCTION_ORIGIN}}",
+            "GAMS_API_ORIGIN": "{{context.env.GAMS_API_ORIGIN}}",
+            "IIIF_IMAGE_SERVER_ORIGIN": "{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}",
+            "GAMS_FROG_MODE": "{{context.env.GAMS_FROG_MODE}}",
+            "PROJECT_ABBR": "{{context.project.projectAbbr}}",
+            "UI_TITLE": "{{context.env.UI_TITLE}}",
+            "UI_VERSION": "{{context.env.UI_VERSION}}"
+        },
+        "assetMapping": {{context.manifest}}
+
     }
 
     // utility function for gams-frog
     window.gams_frog.utils = {}
+
+    /*
+    * Checks if current build is being performed for production (build command was used)
+    *
+    */
     window.gams_frog.utils.isProduction = () => {
-    return window.gams_frog.env.GAMS_FROG_MODE === "build";
+        return window.gams_frog.env.GAMS_FROG_MODE === "build";
+    }
+
+    /**
+    * Maps asset / static filepaths to it's hashed production paths.
+    * E.g. de.json --> will be de.712393.json in production / build process.
+    * @return {String} Mapped path 
+    */
+    window.gams_frog.utils.mapAsset = (filePath) => {
+        let mappedFilePath = gams_frog.assetMapping[filePath];
+        if (!mappedFilePath){
+            console.error("StaticAssetFileMappingError: Cannot find expected file:", filePath,"In assetMapping:", gams_frog.assetMapping);
+            return "";
+        }
+        return mappedFilePath;
     }
 
 </script>
