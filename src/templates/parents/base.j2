@@ -13,16 +13,16 @@
 
     <title>{{context.project.projectAbbr}} project</title>
 
-    <link rel="icon" type="image/png" href="{{context.asset('raw/favicon/favicon-96x96.png')}}" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="{{context.asset('raw/favicon/favicon.svg')}}" />
-    <link rel="shortcut icon" href="{{context.asset('raw/favicon/favicon.ico')}}" />
-    <link rel="apple-touch-icon" sizes="180x180" href="{{context.asset('raw/favicon/apple-touch-icon.png')}}" />
+    <link rel="icon" type="image/png" href="{{fn.asset('raw/favicon/favicon-96x96.png')}}" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="{{fn.asset('raw/favicon/favicon.svg')}}" />
+    <link rel="shortcut icon" href="{{fn.asset('raw/favicon/favicon.ico')}}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{fn.asset('raw/favicon/apple-touch-icon.png')}}" />
     <meta name="apple-mobile-web-app-title" content="Memor" />
 
-    <link rel="manifest" href="{{context.asset('manifest.json')}}"/>
-    <link href="{{context.asset('lib/bootstrap_5/bootstrap.min.css')}}" rel="stylesheet"/>
-    <link href="{{context.asset('css/project.css')}}" rel="stylesheet"/>
-    <link rel="stylesheet" href="{{context.asset('lib/iconoir/iconoir.css')}}" />
+    <link rel="manifest" href="{{fn.asset('manifest.json')}}"/>
+    <link href="{{fn.asset('lib/bootstrap_5/bootstrap.min.css')}}" rel="stylesheet"/>
+    <link href="{{fn.asset('css/project.css')}}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{fn.asset('lib/iconoir/iconoir.css')}}" />
 
 
     {#
@@ -37,7 +37,7 @@
     {# Register the service worker #}
     <script>
       if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("{{context.asset('sw.js')}}").then(
+        navigator.serviceWorker.register("{{fn.asset('sw.js')}}").then(
           (registration) => {
             //console.log("Service worker registration successful:", registration);
             
@@ -72,7 +72,7 @@
 
       <a href="{{context._root_path}}" class="flex-shrink-0">
         <img width="120"
-             src="{{context.asset('img/main_logo.jpg')}}"
+             src="{{fn.asset('img/main_logo.jpg')}}"
              alt="MEMOR Digitales Gedenkbuch – Logo">
       </a>
 
@@ -101,8 +101,8 @@
         {% endblock %}
     </main>
     {% include "includes/footer.j2" %}
-    <script src="{{context.asset('lib/bootstrap_5/bootstrap.bundle.min.js')}}"></script>
-    <script type="text/javascript" language="javascript" src="{{context.asset('js/project.js')}}"></script>
+    <script src="{{fn.asset('lib/bootstrap_5/bootstrap.bundle.min.js')}}"></script>
+    <script type="text/javascript" language="javascript" src="{{fn.asset('js/project.js')}}"></script>
 
 
     <script>

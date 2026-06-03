@@ -6,11 +6,11 @@ Displays a image viewer for all images of the current object (using IIIF).
     2. Uses Tipfy IIIF viewer to display the images.    
 #}
 {% macro object_dynamic_viewer() -%}
-<link rel="stylesheet" href="{{context.asset('lib/tify/tify.css')}}">
+<link rel="stylesheet" href="{{fn.asset('lib/tify/tify.css')}}">
 <div id="tify" style="height: 100vh"></div>
-<script src="{{context.asset('js/iiif/iiifManifestv3Builder.js')}}"></script>
+<script src="{{fn.asset('js/iiif/iiifManifestv3Builder.js')}}"></script>
 <script type="module">
-    import Tify from '{{context.asset("lib/tify/tify.js")}}'
+    import Tify from '{{fn.asset("lib/tify/tify.js")}}'
 
     (async () => {
         let manifestBuilder = IIIFManifestBuilder(

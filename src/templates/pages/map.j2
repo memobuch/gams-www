@@ -2,14 +2,14 @@
 {% block content %}
 
     {# Leaflet version 1.9.4 #}
-    <link rel="stylesheet" href="{{context.asset('lib/leaflet/leaflet.css')}}" />
+    <link rel="stylesheet" href="{{fn.asset('lib/leaflet/leaflet.css')}}" />
     
     <!-- Leaflet MarkerCluster CSS version 1.5.3 -->
-    <link rel="stylesheet" href="{{context.asset('lib/leaflet/marker_cluster/MarkerCluster.css')}}" />
-    <link rel="stylesheet" href="{{context.asset('lib/leaflet/marker_cluster/MarkerCluster.Default.css')}}" />
+    <link rel="stylesheet" href="{{fn.asset('lib/leaflet/marker_cluster/MarkerCluster.css')}}" />
+    <link rel="stylesheet" href="{{fn.asset('lib/leaflet/marker_cluster/MarkerCluster.Default.css')}}" />
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{context.asset('apps/map/map.css')}}">
+    <link rel="stylesheet" href="{{fn.asset('apps/map/map.css')}}">
 
     <h1 data-i18n="map.title" class="h3 fw-light" id="main-heading">Opfer der NS-Verfolgung aus Graz</h1>
     <p id="description" data-i18n="map.description">Diese Karte zeigt die letzten freiwilligen Wohnadressen von Opfern des Nationalsozialismus in Graz zwischen 1938 und 1945. Jeder Punkt repräsentiert den letzten selbstgewählten Wohnort einer verfolgten Person, bevor Verfolgung, Vertreibung oder Deportation einsetzte.</p>
@@ -68,13 +68,13 @@
     </div>
 
     <!-- Leaflet JS 1.9.4 -->
-    <script src="{{context.asset('lib/leaflet/leaflet.js')}}"></script>
+    <script src="{{fn.asset('lib/leaflet/leaflet.js')}}"></script>
     
     <!-- Leaflet MarkerCluster JS -->
-    <script src="{{context.asset('lib/leaflet/marker_cluster/leaflet.markercluster.js')}}"></script>
+    <script src="{{fn.asset('lib/leaflet/marker_cluster/leaflet.markercluster.js')}}"></script>
     
     <!-- Custom JS -->
-    <script src="{{context.asset('apps/map/map.js')}}"></script>
+    <script src="{{fn.asset('apps/map/map.js')}}"></script>
 
     <script>
 
@@ -82,7 +82,7 @@
 
         // ===== Voluntary residence mode (default) =====
         MEMOR.initMap({
-            geoJsonUrl: '{{context.asset('apps/map/EVENTS.json')}}',
+            geoJsonUrl: '{{fn.asset('apps/map/EVENTS.json')}}',
             personBaseUrl: '{{context._root_path}}/objects',
             mode: 'voluntary-residence',
             mapCenter: [47.0707, 15.4395],

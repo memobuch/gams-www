@@ -122,7 +122,7 @@
                                     <h5 class="card-title d-print-none">QR Code zur Person</h5>
                                     <small></small>
                                     <p class="card-text d-none d-print-block">{{context.object.dublinCore.description[0].value}} | <i>MEMOR Das Digitale Gedenkbuch der Stadt Graz.</i></p>
-                                    <script src="{{context.asset('lib/qrcodejs/qrcode.min.js')}}"></script>
+                                    <script src="{{fn.asset('lib/qrcodejs/qrcode.min.js')}}"></script>
                                     <div id="qrcode"></div>
                                     <script type="text/javascript">
                                     new QRCode(document.getElementById("qrcode"), {

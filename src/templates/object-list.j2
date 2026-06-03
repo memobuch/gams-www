@@ -3,9 +3,9 @@
 {% extends "parents/base.j2" %}
 {% block content %}
 
-    <link rel="stylesheet" href="{{context.asset('lib/datatables/dataTables.dataTables_2_3_2.css')}}" />
-    <script src="{{context.asset('lib/jquery/jquery-3.7.1.slim.min.js')}}"></script>
-    <script src="{{context.asset('lib/datatables/dataTables.js')}}"></script>
+    <link rel="stylesheet" href="{{fn.asset('lib/datatables/dataTables.dataTables_2_3_2.css')}}" />
+    <script src="{{fn.asset('lib/jquery/jquery-3.7.1.slim.min.js')}}"></script>
+    <script src="{{fn.asset('lib/datatables/dataTables.js')}}"></script>
 
     <h1 data-i18n="biographies.title" class="h3 fw-light">Biographien der Grazer NS-Opfer</h1>
     <p data-i18n="biographies.subtitle">Personen erfassst im {{context.project.projectAbbr | upper}} Projekt. Wohnhafte oder ansässige Personen in Graz ermordert durch das NS-Regime.</p>
