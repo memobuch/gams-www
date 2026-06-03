@@ -3,9 +3,9 @@
 {% extends "parents/base.j2" %}
 {% block content %}
 
-    <link rel="stylesheet" href="{{context._root_path}}/static/css/datatables/dataTables.dataTables_2_3_2.css" />
-    <script src="{{context._root_path}}/static/js/jquery/jquery-3.7.1.slim.min.js"></script>
-    <script src="{{context._root_path}}/static/js/datatables/dataTables.js"></script>
+    <link rel="stylesheet" href="{{context.asset('lib/datatables/dataTables.dataTables_2_3_2.css')}}" />
+    <script src="{{context.asset('lib/jquery/jquery-3.7.1.slim.min.js')}}"></script>
+    <script src="{{context.asset('lib/datatables/dataTables.js')}}"></script>
 
     <h1 data-i18n="biographies.title" class="h3 fw-light">Biographien der Grazer NS-Opfer</h1>
     <p data-i18n="biographies.subtitle">Personen erfassst im {{context.project.projectAbbr | upper}} Projekt. Wohnhafte oder ansässige Personen in Graz ermordert durch das NS-Regime.</p>
@@ -14,11 +14,12 @@
     <table id="example" class="display">
         <thead>
             <tr>
-                {# <th>#</th> #}
-                <th data-i18n="object-list.forename">Vorname</th>
-                <th data-i18n="object-list.surname">Nachname</th>
-                <th data-i18n="object-list.description" class="d-none d-sm-block">Beschreibung</th>
-                <th data-i18n="object-list.category">Opferkategorie</th>
+                <th>#</th>
+                <th><span data-i18n="object-list.forename">Vorname</span></th>
+                <th><span data-i18n="object-list.surname">Nachname</span></th>
+                <th class="d-none d-sm-block"><span data-i18n="object-list.description">Beschreibung</span></th>
+                <th>Zeichen</th>
+                <th><span data-i18n="object-list.category">Opferkategorie</span></th>
             </tr>
         </thead>
         <tbody>
@@ -26,21 +27,48 @@
                 {# show only objects of tag person #}
                 {% if 'person' in object.tags %}
                     <tr>
-                        {# <td>
-                            <img loading="lazy" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{context.project.projectAbbr}}%2f{{object.id}}%2f1.jpg/full/,100/0/default.jpg" alt="Person 369">
-                        </td> #}
                         <td>
-                        {{ object.baseMetadata.title.split(' ')[0] }}
+                            <i style="font-size: 1.25em;" class="iconoir-user" ></i>
+                        </td>
+                        {% set clean_title = object.baseMetadata.title | replace("(person description)", "") | trim %}
+                        {% set name_parts = clean_title.rsplit(' ', 1) %}
+                        <td>
+                            {{ name_parts[0] if name_parts|length > 1 else '' }}
                         </td>
                         <td>
-                            <a href="{{context._root_path}}/objects/{{object.id}}/">{{ object.baseMetadata.title.split(' ', 1)[-1] | replace("(person description)", "") }}</a>    
+                            <a href="{{context._root_path}}/objects/{{object.id}}/">{{ name_parts[-1] }}</a>    
                         </td>
-                        <td class="d-none d-sm-block"><small>{{ object.baseMetadata.description }}</small></td>
+                        <td class="d-none d-sm-block"><small>{{ object.dublinCore.description[0].value }}</small></td>
+
+                        {# Logic to extract the derla sign number from dc description #}
+                        {% set desc_value = object.dublinCore.description[0].value %}
+                        {% if '| Verbundene DERLA-Zeichen: ' in desc_value %}
+                            {% set derla_signs = desc_value.rsplit('| Verbundene DERLA-Zeichen: ')[1] %}
+                            {% if derla_signs | length > 0 %}
+                                {% set derla_signs_split = derla_signs.split(";") %}
+                                <td>
+                                    <ul>
+                                        {% for derla_sign in derla_signs_split %}
+                                            {% if derla_sign | length > 0 %}
+                                                <li><a target="_blank" href="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/{{ derla_sign | trim }}">{{ derla_sign | trim }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </td>
+                            {% else %} 
+                                <td>-</td>
+                            {% endif %}
+                        {% else %}
+                            <td>-</td>
+                        {% endif %} 
+                        
                         <td>
-                            {% for tag in object.tags | reject('in', get_excluded_object_tags()) %}
-                                {# <li><a data-i18n="{{tag}}" target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects?tags={{tag}}">{{ tag }}</a></li> #}
-                                <li><a data-i18n="{{tag}}" target="_blank">{{ tag }}</a></li>
-                            {% endfor %}
+                            <ul>
+                                {% for tag in object.tags | reject('in', get_excluded_object_tags()) %}
+                                    {# <li><a data-i18n="{{tag}}" target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects?tags={{tag}}">{{ tag }}</a></li> #}
+                                    <li><a data-i18n="{{tag}}" target="_blank">{{ tag }}</a></li>
+                                {% endfor %}
+                            </ul>
                         </td>
                     </tr>
                 {% endif %}
@@ -50,6 +78,7 @@
     <script>
         let dataTableContainer = document.getElementById('example');
         let dataTable = new DataTable('#example', {
+            order: [[2,'asc']],
             language: {
                 search: "Volltextsuche",
                 lengthMenu: "Zeige _MENU_ Einträge",
@@ -65,7 +94,7 @@
             },
             initComplete: function () {
                 let api = this.api();
-                let column = api.column(3); // Index 3 is the "Opferkategorie" column
+                let column = api.column(5); // Index 5 is the "Opferkategorie" column
 
                 console.log(column);
 

@@ -13,17 +13,16 @@
 
     <title>{{context.project.projectAbbr}} project</title>
 
-    <link rel="icon" type="image/png" href="{{context._root_path}}/static/img/favicon/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="{{context._root_path}}/static/img/favicon/favicon.svg" />
-    <link rel="shortcut icon" href="{{context._root_path}}/static/img/favicon/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="{{context._root_path}}/static/img/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" href="{{context.asset('raw/favicon/favicon-96x96.png')}}" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="{{context.asset('raw/favicon/favicon.svg')}}" />
+    <link rel="shortcut icon" href="{{context.asset('raw/favicon/favicon.ico')}}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{context.asset('raw/favicon/apple-touch-icon.png')}}" />
     <meta name="apple-mobile-web-app-title" content="Memor" />
-    
-    <link rel="manifest" href="{{context._root_path}}/static/manifest.json"/>
-    <link href="{{context._root_path}}/static/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="{{context._root_path}}/static/css/project.css" rel="stylesheet"/>
 
-    <link rel="stylesheet" href="{{context._root_path}}/static/css/iconoir/iconoir.css" />
+    <link rel="manifest" href="{{context.asset('manifest.json')}}"/>
+    <link href="{{context.asset('lib/bootstrap_5/bootstrap.min.css')}}" rel="stylesheet"/>
+    <link href="{{context.asset('css/project.css')}}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{context.asset('lib/iconoir/iconoir.css')}}" />
 
 
     {#
@@ -38,7 +37,7 @@
     {# Register the service worker #}
     <script>
       if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register(window.gams_frog._root_path + "/static/sw.js").then(
+        navigator.serviceWorker.register("{{context.asset('sw.js')}}").then(
           (registration) => {
             //console.log("Service worker registration successful:", registration);
             
@@ -68,26 +67,42 @@
 
   <body>
     <header class="bg-light">
-      <div class="row">
-        <div class="col-xl-1">
-          <a href="{{context._root_path}}"><img width="120" src="{{context._root_path}}/static/img/main_logo.jpg"()></a>
-        </div>
-        <div class="col-xl-8">
-          <div class="mt-4">
-            <h1 data-i18n="header.title" class="h1">Das Digitale Gedenkbuch der Stadt Graz</h1>
-            <small data-i18n="header.description">MEMOR ist ein digitales Denkmal, das sich der Dokumentation und Visualisierung der Grazer NS-Opfer widmet.</small>
-          </div>
+  <div class="container-fluid px-4">
+    <div class="d-flex align-items-center justify-content-between py-1 gap-3">
+
+      <a href="{{context._root_path}}" class="flex-shrink-0">
+        <img width="120"
+             src="{{context.asset('img/main_logo.jpg')}}"
+             alt="MEMOR Digitales Gedenkbuch – Logo">
+      </a>
+
+      <div class="flex-grow-1 d-none d-md-block">
+        <div class="mt-xl-4 ps-3 ps-md-4">
+          <h1 data-i18n="header.title" class="h1">
+            Das Digitale Gedenkbuch der Stadt Graz
+          </h1>
+          <small data-i18n="header.description">
+            MEMOR ist ein digitales Denkmal, das sich der Dokumentation und Visualisierung der Grazer NS-Opfer widmet.
+          </small>
         </div>
       </div>
-    </header>
+      {#  
+      <div class="text-end flex-shrink-0">
+        {% include "pages/pwa.j2" %}
+      </div>
+      #} 
+    </div>
+  </div>
+</header>
     {% include "includes/nav.j2" %}
-    <main class="container-fluid" id="main-container" style="min-height: 50vh;">
+    {% include "parents/sidebar.j2" %}
+    <main class="container-fluid px-3" id="main-container" style="min-height: 50vh;">
     {% block content %}
         {% endblock %}
     </main>
     {% include "includes/footer.j2" %}
-    <script src="{{context._root_path}}/static/js/bootstrap/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript" language="javascript" src="{{context._root_path}}/static/js/project.js"></script>
+    <script src="{{context.asset('lib/bootstrap_5/bootstrap.bundle.min.js')}}"></script>
+    <script type="text/javascript" language="javascript" src="{{context.asset('js/project.js')}}"></script>
 
 
     <script>

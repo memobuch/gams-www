@@ -1,0 +1,46 @@
+
+<script>
+
+  (async () => {
+
+    let sparqlQuery = `
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+      PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+      PREFIX memor: <https://www.ns-opfer-graz.at/ontology.html#>
+      PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+      PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+
+      SELECT ?victim ?personName ?volPlaceName ?deathPlaceName ?distanceKm
+      WHERE {
+        ?victim a memor:victim ;
+                foaf:name ?personName ;
+                memor:hasEvent ?volEvent ;
+                memor:hasEvent ?deathEvent .
+
+        ?volEvent a memor:voluntary-residence ;
+                  memor:took-place-at ?volPlace .
+        ?volPlace rdfs:label ?volPlaceName ;
+                  geo:hasGeometry/geo:asWKT ?volWkt .
+
+        ?deathEvent a memor:death ;
+                    memor:took-place-at ?deathPlace .
+        ?deathPlace rdfs:label ?deathPlaceName ;
+                    geo:hasGeometry/geo:asWKT ?deathWkt .
+
+        # QLever/Blazegraph Workaround: Nur 2 Argumente. Return value ist default km.
+        BIND(geof:distance(?volWkt, ?deathWkt) AS ?distanceKm)
+        
+      }
+      ORDER BY DESC(?distanceKm)
+
+    `;
+
+    let url = `{{context.env.GAMS_API_ORIGIN}}/api/integration/v1/semantic-search/sparql?query=${encodeURIComponent(sparqlQuery)}`;
+    let resp = await fetch(url);
+    let result = await resp.json();
+
+    console.log(result);
+
+  })();
+
+</script>

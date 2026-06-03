@@ -1,0 +1,317 @@
+{% extends "parents/base.j2" %}
+{% block content %}
+
+
+
+    <h1 data-i18n="ontology.title" class="h3 fw-light">
+        MEMOR Ontologie
+    </h1>
+
+    <p class="text-muted" data-i18n="ontology.subtitle">
+        Interaktive Dokumentation der MEMOR Ontologie.
+    </p>
+
+    <div class="mb-md-2">
+        <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.project.projectAbbr}}.ontology/datastreams/ONTOLOGY.ttl/content" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-title="MEMOR Ontologie als turtle RDF downloaden."><i class="iconoir-download mt-1 me-2"></i>Ontologie (turtle)</a>
+        <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.project.projectAbbr}}.ontology/datastreams/ONTOLOGY.ttl" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-title="Metadaten zur MEMOR Ontologie."><i class="iconoir-database mt-1 me-2"></i>Ontologie Metadaten</a>
+        <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.project.projectAbbr}}.person-register/datastreams/REGISTER.ttl/content" class="btn btn-primary ms-3" data-bs-toggle="tooltip" data-bs-title="Vollständigen MEMOR Datensatz als RDF turtle herunterladen."><i class="iconoir-download mt-1 me-2"></i>RDF-Datensatz</a>
+        <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.project.projectAbbr}}.person-register/datastreams/REGISTER.ttl/content" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-title="Metadaten zum RDF Datensatz."><i class="iconoir-database mt-1 me-2"></i>Metadaten (zu RDF-Daten)</a>
+    </div>
+
+    <div class="mb-4 mb-md-5">
+        <iframe
+            title="MEMOR Ontologie Visualisierung"
+            class="ontology-iframe"
+            src="https://service.tib.eu/webvowl/#iri={{context.env.DANGEROUS_GAMS5_PRODUCTION_ORIGIN}}/api/curation/v1/projects/memor/objects/memor.ontology/datastreams/ONTOLOGY.ttl/content">
+        </iframe>
+    </div>
+
+    <div id="ontology-content">
+        <div class="alert alert-info">
+            Loading ontology table...
+        </div>
+    </div>
+
+
+
+<style>
+    .ontology-iframe {
+        width: 100%;
+        height: 90vh;
+        border: 1px solid #ccc;
+    }
+
+    .ontology-code {
+        white-space: normal;
+        word-break: break-word;
+    }
+
+    @media (max-width: 767.98px) {
+        .ontology-iframe {
+            height: 55vh;
+        }
+
+        .ontology-table thead {
+            display: none;
+        }
+
+        .ontology-table,
+        .ontology-table tbody,
+        .ontology-table tr,
+        .ontology-table td {
+            display: block;
+            width: 100%;
+        }
+
+        .ontology-table tr {
+            margin-bottom: 1rem;
+            border: 1px solid #dee2e6;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            background: #fff;
+        }
+
+        .ontology-table td {
+            border: 0;
+            padding: 0.4rem 0;
+        }
+
+        .ontology-table td::before {
+            content: attr(data-label);
+            display: block;
+            font-weight: 600;
+            color: #6c757d;
+            margin-bottom: 0.15rem;
+        }
+    }
+</style>
+
+<script>
+(async () => {
+
+    const container = document.querySelector("#ontology-content");
+
+    const turtleUrl =
+        "{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/memor/objects/memor.ontology/datastreams/ONTOLOGY.ttl/content";
+
+    try {
+
+        const response = await fetch(turtleUrl);
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        const turtle = await response.text();
+
+        const classes = [];
+        const objectProperties = [];
+        const datatypeProperties = [];
+
+        const statements = turtle
+            .split(/\n(?=memor:)/)
+            .map(s => s.trim())
+            .filter(s => s.startsWith("memor:"));
+
+        statements.forEach(statement => {
+
+            const nameMatch = statement.match(/^(memor:[^\s]+)/);
+
+            if (!nameMatch) return;
+
+            const entry = {
+                name: nameMatch[1],
+                label: extractLabels(statement),
+                comment: extractLiteralWithLang(statement, "rdfs:comment"),
+                subclassOf: extractMultiple(statement, "rdfs:subClassOf"),
+                subpropertyOf: extractMultiple(statement, "rdfs:subPropertyOf"),
+                domain: extractSingle(statement, "rdfs:domain"),
+                range: extractSingle(statement, "rdfs:range")
+            };
+
+            if (statement.includes("owl:Class")) {
+                classes.push(entry);
+            } else if (statement.includes("owl:ObjectProperty")) {
+                objectProperties.push(entry);
+            } else if (statement.includes("owl:DatatypeProperty")) {
+                datatypeProperties.push(entry);
+            }
+
+        });
+
+        container.innerHTML = `
+            ${renderTable("Classes", classes, "class")}
+            ${renderTable("Object Properties", objectProperties, "property")}
+            ${renderTable("Datatype Properties", datatypeProperties, "property")}
+        `;
+
+    } catch(error) {
+
+        console.error(error);
+
+        container.innerHTML = `
+            <div class="alert alert-danger">
+                Failed to load ontology table.<br>
+                <code>${escapeHtml(error.message)}</code>
+            </div>
+        `;
+    }
+
+    function extractSingle(statement, predicate) {
+
+        const regex = new RegExp(
+            predicate.replace(":", "\\:") + "\\s+([^;\\.]+)",
+            "m"
+        );
+
+        const match = statement.match(regex);
+
+        return match ? cleanValue(match[1]) : "";
+    }
+
+    function extractMultiple(statement, predicate) {
+
+        const regex = new RegExp(
+            predicate.replace(":", "\\:") + "\\s+([^;\\.]+)",
+            "gm"
+        );
+
+        const values = [];
+        let match;
+
+        while ((match = regex.exec(statement)) !== null) {
+            values.push(cleanValue(match[1]));
+        }
+
+        return values;
+    }
+
+    function extractLabels(statement) {
+
+        const labels = [];
+        const regex = /"([^"]+)"@([a-zA-Z-]+)/g;
+        let match;
+
+        while ((match = regex.exec(statement)) !== null) {
+            labels.push(`
+                <div class="mb-1">
+                    ${escapeHtml(match[1])}
+                    <span class="badge bg-light text-dark ms-1">${escapeHtml(match[2])}</span>
+                </div>
+            `);
+        }
+
+        return labels.join("");
+    }
+
+    function extractLiteralWithLang(statement, predicate) {
+
+        const regex = new RegExp(
+            predicate.replace(":", "\\:") + '\\s+"([^"]+)"@([a-zA-Z-]+)',
+            "m"
+        );
+
+        const match = statement.match(regex);
+
+        if (!match) return "";
+
+        return `
+            ${escapeHtml(match[1])}
+            <span class="badge bg-light text-dark ms-1">${escapeHtml(match[2])}</span>
+        `;
+    }
+
+    function cleanValue(value) {
+
+        return value
+            .trim()
+            .replaceAll('"', "")
+            .replaceAll(";", "")
+            .replaceAll(".", "")
+            .trim();
+    }
+
+    function escapeHtml(value) {
+
+        return String(value || "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+
+    function codeValue(value) {
+        if (!value) return "";
+        return `<code class="ontology-code">${escapeHtml(value)}</code>`;
+    }
+
+    function codeList(values) {
+        return values
+            .map(v => `<div>${codeValue(v)}</div>`)
+            .join("");
+    }
+
+    function renderTable(title, entries, type) {
+
+        if (!entries.length) {
+            return `
+                <div class="mb-4">
+                    <h2 class="h4">${escapeHtml(title)}</h2>
+                    <div class="alert alert-warning">No entries found.</div>
+                </div>
+            `;
+        }
+
+        const relationLabel =
+            type === "class" ? "Subclass Of" : "Subproperty Of";
+
+        return `
+            <section class="mb-5">
+                <h2 class="h4 mb-3">${escapeHtml(title)}</h2>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped align-middle ontology-table">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Name</th>
+                                <th>Label</th>
+                                <th>Comment</th>
+                                <th>${relationLabel}</th>
+                                ${type !== "class" ? "<th>Domain</th><th>Range</th>" : ""}
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            ${entries.map(entry => `
+                                <tr>
+                                    <td data-label="Name">${codeValue(entry.name)}</td>
+                                    <td data-label="Label">${entry.label}</td>
+                                    <td data-label="Comment">${entry.comment}</td>
+                                    <td data-label="${relationLabel}">
+                                        ${type === "class"
+                                            ? codeList(entry.subclassOf)
+                                            : codeList(entry.subpropertyOf)
+                                        }
+                                    </td>
+
+                                    ${type !== "class"
+                                        ? `
+                                            <td data-label="Domain">${codeValue(entry.domain)}</td>
+                                            <td data-label="Range">${codeValue(entry.range)}</td>
+                                        `
+                                        : ""
+                                    }
+                                </tr>
+                            `).join("")}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        `;
+    }
+
+})();
+</script>
+
+{% endblock %}

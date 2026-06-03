@@ -2,23 +2,32 @@
 {% from 'macros/object_dynamic_viewer.j2' import object_dynamic_viewer with context %}
 
 
-<h1 class="h3 fw-light">{{ context.object.baseMetadata.title | replace("(person description)", "") }}</h1>
-<p class="pb-0 mb-1">Information zu einer einzelnen Person erfasst im MEMOR Projekt.</p>
-<div>
-    <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/RDF.xml/content"><img alt="RDF" height="30" id="rdf" src="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/templates/img/RDF_icon.png" title="RDF"></a> 
-    <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/DC.xml/content"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a>
-    <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}"><img alt="RDF" height="30" id="rdf" src="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/templates/img/gams_solo.png" title="Object metadata in the CMS system"></a>
+<h1 class="h3 fw-light mb-0">{{ context.object.baseMetadata.title | replace("(person description)", "") }}
+    <small><i class="iconoir-chat-bubble-question" data-bs-toggle="tooltip" data-bs-title="Hier werden Informationen zu einer einzelnen Person (erfasst im MEMOR Projekt) angezeigt."></i></small>
+</h1>
+
+{# Display of letzte freiwillige Wohnadresse + DERLA signs #}
+{% set desc_value = context.object.dublinCore.description[0].value %}
+{% if 'Letzte freiwillige Wohnadresse: ' in desc_value %}
+    {% set string_extract = desc_value.rsplit('Letzte freiwillige Wohnadresse: ')[1] %}
+    <small class="d-print-none">Letzte freiwillige Wohnadresse: {{string_extract}}</small>
+{% endif %} 
+<div class="d-print-none">
+    <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/SEMANTIC_STATEMENTS.ttl/content" data-bs-toggle="tooltip" data-bs-title="RDF Forschungsdaten zur Person"><img alt="RDF" height="30" id="rdf" src="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/templates/img/RDF_icon.png"></a> 
+    <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/DC.xml/content" data-bs-toggle="tooltip" data-bs-title="Dublin Core Forschungsdaten zum digitalen Objekt"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a>
+    <a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}" data-bs-toggle="tooltip" data-bs-title="Metadatenansicht zum digitalen Objekt"><img alt="RDF" height="30" id="rdf" src="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/templates/img/gams_solo.png"></a>
 </div>
 {# <pre>{{ context | tojson(indent=2) }}</pre> #}
-<ul class="mt-2">
+<ul class="mt-2 p-0 d-print-none">
     {% for tag in context.object.tags | reject('in', ['person']) %}
-    {# <li><a data-i18n="{{tag}}" target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects?tags={{tag}}">{{ tag }}</a></li> #}
-    <li data-i18n="{{tag}}">{{ tag }}</li>
+        <li class="badge text-bg-light border" data-i18n="{{tag}}">{{ tag }}</li>
     {% endfor %}
 </ul>
+
+
 <div>
-    <hr/>
-    <ul class="nav nav-pills nav-fill" id="myTab" role="tablist">
+    <hr class="d-print-none"/>
+    <ul class="nav nav-pills nav-fill d-print-none" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Übersicht</button>
         </li>
@@ -26,7 +35,7 @@
             <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Bild/Quellentext</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Todesort</button>
+            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Wege in die Vernichtung</button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#derla-tab-pane" type="button" role="tab" aria-controls="derla-tab-pane" aria-selected="false">Erinnerungszeichen</button>
@@ -46,43 +55,103 @@
             color: black !important;
         }
     </style>
-    <br/>
-    <div class="tab-content bg-white" id="myTabContent">
+    <br class="d-print-none"/>
+    <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
             <div class="row">
-        <div class="col">
-            <div class="row row-cols-1 row-cols-md-3 g-4">
                 <div class="col">
-                    <div class="card border">
-                        <div class="card-body">
-                            <h5 class="card-title h4">Biografie</h5>
-                            <p class="card-text">{{context.object.baseMetadata.description}}</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-body-secondary">&copy; {{context.object.baseMetadata.creator}}</small>
-                        </div>
-                    </div>
-                </div>
-                {# Display all images via IIIF adress filtered by mimetype #}
-                {% for datastream in context.object.datastreams|sort(attribute='dsid') %}
-                    {% if 'image' in datastream.mimeType %}
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 d-print-none">
                         <div class="col">
                             <div class="card border">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{datastream.baseMetadata.title}} ({{loop.index}})</h5>
-                                    <p class="card-text">{{datastream.baseMetadata.description.split('|')[0]}}</p>
-                                    <a href="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{context.project.projectAbbr}}%2f{{context.object.id}}%2f{{datastream.dsid}}/full/full/0/default.jpg" target="blank">
-                                        <img alt="Kein Bild vorhanden" class="border bg-white rounded" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memor%2f{{context.object.id}}%2f{{datastream.dsid}}/full/,250/0/default.jpg"/>
-                                    </a>
+                                    <h4 class="card-title h4">Biografie</h4>
+                                    <p class="card-text">{{context.object.baseMetadata.description}}</p>
                                 </div>
                                 <div class="card-footer">
-                                    <small class="text-body-secondary">Quelle: {{ datastream.baseMetadata.description.split('|')[1] if datastream.baseMetadata.description and '|' in datastream.baseMetadata.description else "MEMOR project" }}</small>
+                                    <small class="text-body-secondary">&copy; {{context.object.baseMetadata.creator}}</small>
                                 </div>
                             </div>
                         </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
+                        {# Display all images via IIIF adress filtered by mimetype #}
+                        {% for datastream in context.object.datastreams|sort(attribute='dsid') %}
+                            {% if 'image' in datastream.mimeType %}
+                                <div class="col">
+                                    <div class="card border">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{datastream.baseMetadata.title}} ({{loop.index}})</h5>
+                                            <p class="card-text">{{datastream.baseMetadata.description.split('|')[0]}}</p>
+                                            <a href="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/{{context.project.projectAbbr}}%2f{{context.object.id}}%2f{{datastream.dsid}}/full/full/0/default.jpg" target="blank">
+                                                <img alt="Kein Bild vorhanden" class="border bg-white rounded" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memor%2f{{context.object.id}}%2f{{datastream.dsid}}/full/,250/0/default.jpg"/>
+                                            </a>
+                                        </div>
+                                        <div class="card-footer">
+                                            <small class="text-body-secondary">Quelle: {{ datastream.baseMetadata.description.split('|')[1] if datastream.baseMetadata.description and '|' in datastream.baseMetadata.description else "MEMOR project" }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% elif "pdf" in datastream.mimeType %}
+                                <div class="col">
+                                    <div class="card border">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{datastream.baseMetadata.title}} ({{loop.index}})</h5>
+                                            <p class="card-text">{{datastream.baseMetadata.description.split('|')[0]}}</p>
+                                            <ul>
+                                                <li><a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/{{datastream.dsid}}/content">PDF anzeigen</a></li>
+                                                <li><a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/{{datastream.dsid}}">PDF Metadaten</a></li>
+                                            </ul>
+                                            <a href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/{{datastream.dsid}}" target="blank">
+                                                <img alt="Kein Bild vorhanden" class="border bg-white rounded" src="{{context.env.IIIF_IMAGE_SERVER_ORIGIN}}/iiif/2/memor%2f{{context.object.id}}%2f{{datastream.dsid}}/full/,250/0/default.jpg"/>
+                                            </a>
+                                        </div>
+                                        <div class="card-footer">
+                                            <small class="text-body-secondary">Quelle: {{ datastream.baseMetadata.description.split('|')[1] if datastream.baseMetadata.description and '|' in datastream.baseMetadata.description else "MEMOR project" }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    <br class="mt-5 mb-5 d-print-none"/>
+
+                    <div class="row mt-4">
+
+                        <div class="col-lg-3">
+                            <div class="card border">
+                                <div class="card-body">
+                                    <h5 class="card-title d-print-none">QR Code zur Person</h5>
+                                    <small></small>
+                                    <p class="card-text d-none d-print-block">{{context.object.dublinCore.description[0].value}} | <i>MEMOR Das Digitale Gedenkbuch der Stadt Graz.</i></p>
+                                    <script src="{{context.asset('lib/qrcodejs/qrcode.min.js')}}"></script>
+                                    <div id="qrcode"></div>
+                                    <script type="text/javascript">
+                                    new QRCode(document.getElementById("qrcode"), {
+                                        text: window.location.href,
+                                        width: 150,
+                                        height:150
+                                    });
+                                    </script>
+                                    <br/>
+                                    <button
+                                        onclick="window.print()"
+                                        class="browser-only d-print-none"
+                                        style="
+                                            padding: 15px 20px;
+                                            background-color: #244556;
+                                            color: white;
+                                            border: none;
+                                            border-radius: 20px;
+                                            cursor: pointer;
+                                            font-size: 12px;
+                                        "
+                                    >
+                                    EIN ZEICHEN SETZEN
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
         </div>
     </div>
         </div>
@@ -106,7 +175,7 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Name: {{ context.object.baseMetadata.title }}</li>
                     <li class="list-group-item">Datum: {{ context.object.dublinCore.date[0].value}}</li>
-                    <li class="list-group-item"><a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/RDF.xml/content"><img alt="RDF" height="30" id="rdf" src="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/templates/img/RDF_icon.png" title="RDF"></a> RDF</li>
+                    <li class="list-group-item"><a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/SEMANTIC_STATEMENTS.ttl/content"><img alt="RDF" height="30" id="rdf" src="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/templates/img/RDF_icon.png" title="RDF"></a> RDF</li>
                     <li class="list-group-item"><a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}/datastreams/DC.xml/content"><img alt="RDF" height="30" id="rdf" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/DCMI-logo.svg" title="DC"></a> Dublin Core</li>
                     <li class="list-group-item"><a target="_blank" href="{{context.env.GAMS_API_ORIGIN}}/api/curation/v1/projects/{{context.project.projectAbbr}}/objects/{{context.object.id}}"><img alt="RDF" height="30" id="rdf" src="{{context.env.DANGEROUS_GAMS3_PRODUCTION_ORIGIN}}/templates/img/gams_solo.png" title="Object metadata in the CMS system"></a> Metadatenansicht</li>
                 </ul>
@@ -135,7 +204,6 @@
         </div>
 
     </div>
-    
 
     <br/>
 
