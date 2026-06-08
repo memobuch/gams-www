@@ -1,40 +1,29 @@
-{# 
- This macro includes a script block exposing the i18n logic applied to  
- a gams project frontend via gams_frog variable. 
- Under gams_frog.i18n (check browser console)
 
- Supplied functionaloty:
- Translates all elements with the data-i18n attribute according
- to language (lang url parameter) defined in the related i18n file.  
- @param defaultLanguage: default language to be used for translation
 
- 1. data-i18n attribute on any html element will be translated (based on ids)
- 2. query parameter 'lang' (should be ISO code - e.g. 'de', 'en')
- 3. additional translation files in i18n folder in static
- 4. internal links will be rewritten to keep current query parameters (like lang)
-#}
+(() => {
 
-{% macro enable_i18en_logic(defaultISOLanguage) -%}
+        /*
+        *  Supplied functionality:
+        *    Translates all elements with the data-i18n attribute according
+        *    to language (lang url parameter) defined in the related i18n file.
+        *    @param defaultLanguage: default language to be used for translation
 
-<script>
-
-    // first some global variables
-    window.gams_frog.i18n = {};
-    window.gams_frog.i18n.defaultISOLanguage = '{{defaultISOLanguage}}';
-
-    (() => {
-
-        // then function definitions
+        *    1. data-i18n attribute on any html element will be translated (based on ids)
+        *    2. query parameter 'lang' (should be ISO code - e.g. 'de', 'en')
+        *    3. additional translation files in i18n folder in static
+        *    4. internal links will be rewritten to keep current query parameters (like lang)
+        *
+        */
 
 
         /**
         * Parses a data-i18n value into translation targets.
-        * Syntax: 
+        * Syntax:
         *   "some.key"                        → innerHTML
         *   "[alt]some.key"                   → attribute
         *   "[alt]some.key;[title]other.key"  → multiple attributes
         *   "[alt]some.key;content.key"       → attribute + innerHTML
-        * 
+        *
         * @param {string} raw - the data-i18n attribute value
         * @returns {Array<{attr: string|null, key: string}>}
         */
@@ -72,7 +61,7 @@
         */
         function applyTranslationToElement(element, translationMap) {
             const targets = parseI18nValue(element.getAttribute('data-i18n'));
-            
+
             for (const target of targets) {
                 const value = translationMap[target.key];
                 if (!value) {
@@ -102,8 +91,8 @@
             if (cachedTranslations) return cachedTranslations;
             if (translationPromise) return translationPromise;
 
-            // reads  
-            let fileName = `i18n/${language}.json`;
+            // reads
+            let fileName = `js/i18n/${language}.json`;
 
             let mappedAssetPath = gams_frog.utils.mapAsset(fileName);
             // returns empty string on error
@@ -114,7 +103,7 @@
 
             // must be built on client side
             const url = `${gams_frog._root_path}/static/${mappedAssetPath}`;
-            
+
             translationPromise = (async () => {
                 try {
                     const response = await fetch(url);
@@ -135,8 +124,8 @@
 
         /**
         * Translates all elements with the data-i18n attribute according
-        * to language (lang url parameter) defined in the related i18n file. 
-        * @param containerElem All translations / rewritings will happen inside this container defaults to document 
+        * to language (lang url parameter) defined in the related i18n file.
+        * @param containerElem All translations / rewritings will happen inside this container defaults to document
         *
         * 1. data-i18n attribute on any html element will be translated (based on ids)
         * 2. query parameter 'lang' (should be ISO code - e.g. 'de', 'en') is being used to decide for the translation files
@@ -191,9 +180,3 @@
         };
 
     })();
-
-    
-
-</script>
-
-{%- endmacro %}

@@ -1,17 +1,58 @@
+<!-- Load Chart.js from CDN for robust, dependency-free charting -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="memor-dashboard">  
+  <div id="memor-error"></div>
+  <div id="memor-loading">Historische Daten werden geladen...</div>
+  
+  <div id="memor-content" style="display: none;">
+    <!-- Top Level KPIs -->
+    <div style="margin-bottom: 2rem; display: flex; gap: 2rem; background: #f8fafc;">
+      <div>
+        <div style="font-size: 0.9rem; color: #64748b;">Verarbeitete Personen</div>
+        <div id="kpi-total" style="font-size: 2rem; font-weight: bold;">0</div>
+      </div>
+      <div>
+        <div style="font-size: 0.9rem; color: #64748b;">Durchschnittliche Entfernung (km)</div>
+        <div id="kpi-avg-dist" style="font-size: 2rem; font-weight: bold;">0</div>
+      </div>
+    </div>
+
+    <!-- Charts Grid -->
+    <div class="row">
+      <div class="col-md-6">
+        <h4 class="memor-stat-header">Ausmaß der Vertreibung</h4>
+        <p class="memor-caveat">Verteilung der Entfernungen zwischen Wohnort und Sterbeort (Luftlinie in km).</p>
+        <div>
+          <div class="border p-lg-1">
+            <canvas id="distanceHistogram"></canvas>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <h4 class="memor-stat-header">Hauptsterbeorte</h4>
+        <p class="memor-caveat">Die zehn Orte mit den meisten Opfern.</p>
+        <div class="border p-lg-1">
+          <canvas id="topPlacesChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
+(async () => {
+  const query = `
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+    PREFIX memor: <https://www.ns-opfer-graz.at/ontology.html#>
+    PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+    PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
 
-  (async () => {
-
-    let sparqlQuery = `
-      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-      PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-      PREFIX memor: <https://www.ns-opfer-graz.at/ontology.html#>
-      PREFIX geo: <http://www.opengis.net/ont/geosparql#>
-      PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
-
-      SELECT ?victim ?personName ?volPlaceName ?deathPlaceName ?distanceKm
-      WHERE {
+    SELECT ?victim ?personName ?volPlaceName ?deathPlaceName ?distanceKm
+    WHERE {
+      GRAPH <https://${'gams'}.uni-graz.at/pub/memor> {
         ?victim a memor:victim ;
                 foaf:name ?personName ;
                 memor:hasEvent ?volEvent ;
@@ -26,21 +67,127 @@
                     memor:took-place-at ?deathPlace .
         ?deathPlace rdfs:label ?deathPlaceName ;
                     geo:hasGeometry/geo:asWKT ?deathWkt .
-
-        # QLever/Blazegraph Workaround: Nur 2 Argumente. Return value ist default km.
-        BIND(geof:distance(?volWkt, ?deathWkt) AS ?distanceKm)
-        
       }
-      ORDER BY DESC(?distanceKm)
+      BIND(geof:distance(?volWkt, ?deathWkt) AS ?distanceKm)
+    }
+  `;
 
-    `;
+  const url = `{{context.env.GAMS_API_ORIGIN}}/api/integration/v1/semantic-search/sparql?query=${encodeURIComponent(query)}`;
+  
+  const uiLoading = document.getElementById('memor-loading');
+  const uiContent = document.getElementById('memor-content');
+  const uiError = document.getElementById('memor-error');
 
-    let url = `{{context.env.GAMS_API_ORIGIN}}/api/integration/v1/semantic-search/sparql?query=${encodeURIComponent(sparqlQuery)}`;
-    let resp = await fetch(url);
-    let result = await resp.json();
+  try {
+    const response = await fetch(url, { headers: { 'Accept': 'application/sparql-results+json' }});
+    if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+    
+    const json = await response.json();
+    const bindings = json.results.bindings;
 
-    console.log(result);
+    // 1. Sanitize and Transform Data
+    const validData = bindings
+      .filter(b => b.distanceKm && !isNaN(parseFloat(b.distanceKm.value)))
+      .map(b => ({
+        name: b.personName ? b.personName.value : 'Unknown',
+        deathPlace: b.deathPlaceName ? b.deathPlaceName.value : 'Unknown',
+        distance: parseFloat(b.distanceKm.value)
+      }));
 
-  })();
+    if (validData.length === 0) throw new Error("No valid spatial data returned from the graph.");
 
+    // 2. Statistical Analysis: Compute KPIs
+    const totalRecords = validData.length;
+    const avgDist = validData.reduce((sum, d) => sum + d.distance, 0) / totalRecords;
+    
+    document.getElementById('kpi-total').innerText = totalRecords;
+    document.getElementById('kpi-avg-dist').innerText = Math.round(avgDist).toLocaleString();
+
+    // 3. Statistical Analysis: Distance Histogram (Binning)
+    const bins = { '0-250km': 0, '251-500km': 0, '501-1000km': 0, '1001-1500km': 0, '>1500km': 0 };
+    validData.forEach(d => {
+      if (d.distance <= 250) bins['0-250km']++;
+      else if (d.distance <= 500) bins['251-500km']++;
+      else if (d.distance <= 1000) bins['501-1000km']++;
+      else if (d.distance <= 1500) bins['1001-1500km']++;
+      else bins['>1500km']++;
+    });
+
+    // 4. Statistical Analysis: Group by Death Place
+    const placesAgg = {};
+    validData.forEach(d => {
+      if (!placesAgg[d.deathPlace]) {
+        placesAgg[d.deathPlace] = { count: 0, totalDist: 0 };
+      }
+      placesAgg[d.deathPlace].count++;
+      placesAgg[d.deathPlace].totalDist += d.distance;
+    });
+
+    // Sort to get Top 10
+    const topPlaces = Object.entries(placesAgg)
+      .map(([place, stats]) => ({
+        place, 
+        count: stats.count, 
+        avgDist: Math.round(stats.totalDist / stats.count)
+      }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10);
+
+    // 5. Render UI
+    uiLoading.style.display = 'none';
+    uiContent.style.display = 'block';
+
+    // Chart 1: Histogram
+    new Chart(document.getElementById('distanceHistogram'), {
+      type: 'bar',
+      data: {
+        labels: Object.keys(bins),
+        datasets: [{
+          label: 'Opferanzahl',
+          data: Object.values(bins),
+          backgroundColor: '#3b82f6',
+          borderRadius: 4
+        }]
+      },
+      options: { responsive: true, plugins: { legend: { display: false } } }
+    });
+
+    // Chart 2: Top Places Bar Chart
+    new Chart(document.getElementById('topPlacesChart'), {
+      type: 'bar',
+      data: {
+        labels: topPlaces.map(p => p.place),
+        datasets: [{
+          label: 'Opferanzahl',
+          data: topPlaces.map(p => p.count),
+          backgroundColor: '#ef4444',
+          borderRadius: 4
+        }]
+      },
+      options: {
+        indexAxis: 'y', // Horizontal bar chart for readable place names
+        responsive: true,
+        plugins: { 
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              afterLabel: (context) => {
+                const placeData = topPlaces[context.dataIndex];
+                return `Durchschn. Entfernung: ${placeData.avgDist} km`;
+              }
+            }
+          }
+        }
+      }
+    });
+
+  } catch (error) {
+    console.error("Dashboard initialization failed:", error);
+    uiLoading.style.display = 'none';
+    uiError.style.display = 'block';
+    uiError.innerText = error.message === 'Failed to fetch' 
+      ? 'Network error: Could not reach the GAMS API. Please check your connection or CORS settings.' 
+      : `Error loading visualization: ${error.message}`;
+  }
+})();
 </script>
