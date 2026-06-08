@@ -1,9 +1,5 @@
-{% from 'parents/base/i18n.j2' import enable_i18en_logic with context %}
-
 {# Definition of global variables / gams_frog variable #}
 <script>
-
-    // TODO move to template include? / macro?
     window.gams_frog = {
         "_root_path": "{{context._root_path}}",
         "_template_name": "{{context._template_name}}",
@@ -19,25 +15,15 @@
             "UI_VERSION": "{{context.env.UI_VERSION}}"
         },
         "assetMapping": {{context.manifest}}
-
     }
 
     // utility function for gams-frog
     window.gams_frog.utils = {}
 
-    /*
-    * Checks if current build is being performed for production (build command was used)
-    *
-    */
     window.gams_frog.utils.isProduction = () => {
         return window.gams_frog.env.GAMS_FROG_MODE === "build";
     }
 
-    /**
-    * Maps asset / static filepaths to it's hashed production paths.
-    * E.g. de.json --> will be de.712393.json in production / build process.
-    * @return {String} Mapped path 
-    */
     window.gams_frog.utils.mapAsset = (filePath) => {
         let mappedFilePath = gams_frog.assetMapping[filePath];
         if (!mappedFilePath){
@@ -47,6 +33,13 @@
         return mappedFilePath;
     }
 
+
+    // init of i18n variables
+    window.gams_frog.i18n = {};
+    window.gams_frog.i18n.defaultISOLanguage = 'de';
 </script>
 
-{{ enable_i18en_logic('de') }}
+{#
+  i18n logic of gams_frog
+#}
+<script src="{{fn.asset('js/i18n/i18n.js')}}"></script>
