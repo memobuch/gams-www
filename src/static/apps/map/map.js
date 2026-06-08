@@ -49,13 +49,13 @@ MEMOR.initMap = function(options) {
         ui: Object.assign({}, DEFAULT_UI, options.ui || {})
     };
 
-    console.log('MEMOR.initMap called with:', {
-        geoJsonUrl: CONFIG.geoJsonUrl,
-        personBaseUrl: CONFIG.personBaseUrl || '(not set — person links disabled)',
-        mode: CONFIG.mode,
-        mapCenter: CONFIG.mapCenter,
-        mapZoom: CONFIG.mapZoom
-    });
+    // console.log('MEMOR.initMap called with:', {
+    //     geoJsonUrl: CONFIG.geoJsonUrl,
+    //     personBaseUrl: CONFIG.personBaseUrl || '(not set — person links disabled)',
+    //     mode: CONFIG.mode,
+    //     mapCenter: CONFIG.mapCenter,
+    //     mapZoom: CONFIG.mapZoom
+    // });
 
     // ===== State =====
     const state = {
@@ -159,7 +159,7 @@ MEMOR.initMap = function(options) {
 
     // ===== Initialization =====
     function init() {
-        console.log(`Initializing MEMOR Map (v8.0.0, mode="${CONFIG.mode}")...`);
+        //console.log(`Initializing MEMOR Map (v8.0.0, mode="${CONFIG.mode}")...`);
         applyStaticUIText();
         initializeMap();
         loadGeoJSONData();
@@ -269,7 +269,7 @@ MEMOR.initMap = function(options) {
 
     // ===== Vocabulary Processing =====
     function processVocabulary() {
-        console.log('Processing vocabulary from data...');
+        //console.log('Processing vocabulary from data...');
 
         if (!state.geojsonData.vocab) {
             console.error('No vocab found in GeoJSON data!');
@@ -280,14 +280,14 @@ MEMOR.initMap = function(options) {
 
         // Build event type lookups
         state.eventTypeKeys = new Set(Object.keys(state.vocab.event_types || {}));
-        console.log('Event types from vocab:', Array.from(state.eventTypeKeys));
+        //console.log('Event types from vocab:', Array.from(state.eventTypeKeys));
 
         // Build victim category lookups
         state.victimCategoryKeys = new Set(Object.keys(state.vocab.victim_category_types || {}));
-        console.log('Victim category types from vocab:', Array.from(state.victimCategoryKeys));
+        //console.log('Victim category types from vocab:', Array.from(state.victimCategoryKeys));
 
         // Log active mode
-        console.log(`Active mode: "${CONFIG.mode}" → "${getEventTypeLabel(CONFIG.mode)}"`);
+        //console.log(`Active mode: "${CONFIG.mode}" → "${getEventTypeLabel(CONFIG.mode)}"`);
     }
 
     /**
@@ -365,8 +365,8 @@ MEMOR.initMap = function(options) {
             }
 
             state.geojsonData = await response.json();
-            console.log('Loaded GeoJSON:', state.geojsonData.metadata);
-            console.log('Total features:', state.geojsonData.features.length);
+            //console.log('Loaded GeoJSON:', state.geojsonData.metadata);
+            //console.log('Total features:', state.geojsonData.features.length);
 
             // Process vocabulary FIRST
             processVocabulary();
@@ -434,7 +434,7 @@ MEMOR.initMap = function(options) {
             }
         });
 
-        console.log(`Found victim categories in "${CONFIG.mode}" data:`, Array.from(state.allVictimCategories));
+        //console.log(`Found victim categories in "${CONFIG.mode}" data:`, Array.from(state.allVictimCategories));
     }
 
     // ===== Create Point Markers =====
@@ -504,7 +504,7 @@ MEMOR.initMap = function(options) {
             }
         });
 
-        console.log(`Created ${state.allPointMarkers.length} markers for mode "${CONFIG.mode}"`);
+        //console.log(`Created ${state.allPointMarkers.length} markers for mode "${CONFIG.mode}"`);
     }
 
     // ===== Render Markers =====
@@ -517,7 +517,7 @@ MEMOR.initMap = function(options) {
             return item.victimCategories.some(cat => state.activeVictimCategories.has(cat));
         });
 
-        console.log(`Rendering ${filteredMarkers.length} markers`);
+        //console.log(`Rendering ${filteredMarkers.length} markers`);
 
         filteredMarkers.forEach(item => {
             state.markerCluster.addLayer(item.marker);
