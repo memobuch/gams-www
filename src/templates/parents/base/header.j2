@@ -1,0 +1,28 @@
+<header class="bg-light">
+  <div class="container-fluid px-4">
+    <div class="d-flex align-items-center justify-content-between py-1 gap-3">
+
+      <a href="{{context._root_path}}" class="flex-shrink-0">
+        <img width="120"
+             src="{{fn.asset('img/main_logo.jpg')}}"
+             alt="MEMOR Digitales Gedenkbuch – Logo">
+      </a>
+
+      <div class="flex-grow-1 d-none d-md-block">
+        <div class="mt-xl-4 ps-3 ps-md-4">
+          <h1 data-i18n="header.title" class="h1">
+            Das Digitale Gedenkbuch der Stadt Graz
+          </h1>
+          <small data-i18n="header.description">
+            MEMOR ist ein digitales Denkmal, das sich der Dokumentation und Visualisierung der Grazer NS-Opfer widmet.
+          </small>
+        </div>
+      </div>
+      {#  
+      <div class="text-end flex-shrink-0">
+        {% include "pages/pwa.j2" %}
+      </div>
+      #} 
+    </div>
+  </div>
+</header>
