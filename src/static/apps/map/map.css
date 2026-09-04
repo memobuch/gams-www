@@ -3,6 +3,10 @@
    Version 7.0 - Environment-Aware Configuration
    =================================== */
 
+.leaflet-tile-pane {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
 
 /* ===== Controls Panel ===== */
 .controls-panel {
